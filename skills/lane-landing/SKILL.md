@@ -32,16 +32,16 @@ Present the plan as an `escalating-to-user` ledger worded so "yes" approves it, 
 
 A ticket is ready once its blockers have landed. It may start sooner, stacked on its in-lane blocker, once the blocker has passed review. Keep one ticket building per lane, up to the lane cap; a ticket stops building once it has passed review.
 
-For each ready ticket, spawn a fresh implementer in its own worktree on a new branch `<ticket>-<slug>`, cut from the default branch, or from its blocker's branch when stacking, where its PR targets that branch. Brief it with pointers to the ticket, its seams, and the lane plan. It runs `landing`'s **Start** and **Build**, ending there even on a branch with an open PR, and reports its branch. It fixes the findings and CI failures you send it and reports each fix, holding every push until you tell it that diff passed review; then it runs **Open the PR**. It never merges. It brings you the decisions it would escalate, and you make the call.
+For each ready ticket, spawn a fresh implementer in its own worktree on a new branch `<ticket>-<slug>`, cut from the default branch, or from its blocker's branch when stacking, where its PR targets that branch. Brief it with pointers to the ticket, its seams, and the lane plan. It runs `landing`'s **Start** and **Build**, ending there even on a branch with an open PR, and reports its branch. It fixes the findings and CI failures you send it and reports each fix, holding every push until you tell it that diff passed review; then it runs **Open the PR**, leaving the review report to you. It never merges. It brings you the decisions it would escalate, and you make the call.
 
-Run `landing`'s **Review** on each reported branch and fix yourself, and **Pass CI** and **Merge** on each PR, sending blocking findings and CI failures to its implementer. Release a stacked ticket to **Open the PR** once its blocker's PR is open. Hold new tickets while a check is red on the default branch, until it is green.
+Run `landing`'s **Review** yourself on each branch and each fix an implementer reports, posting each passing report once the push lands, and **Pass CI** and **Merge** on each PR, sending blocking findings and CI failures to its implementer. Release a stacked ticket to **Open the PR** once its blocker's PR is open. Hold new tickets while a check is red on the default branch, until it is green.
 
 Restack a child before merging the PR it stacks on, waiting until the child's implementer is idle and working in the child's worktree:
 
 1. Record the tip of the PR's branch.
 2. Retarget the child: `gh pr edit <child> --base <default>`.
 3. Merge the PR.
-4. Rebase the child: `git fetch`, then `git rebase --onto origin/<default> <tip>`. A rebase with hand-resolved conflicts goes through **Review**. Then push with `--force-with-lease`.
+4. Rebase the child: `git fetch`, then `git rebase --onto origin/<default> <tip>`; take a rebase with hand-resolved conflicts through **Review**; then push with `--force-with-lease`.
 
 When a branch with a child stacked on it gains fix commits, rebase the child onto it from the old tip the same way.
 
