@@ -73,7 +73,7 @@ REST (below 28): `GET /repos/<owner>/<repo>/issues/<n>/comments`. Order: **Unver
 
 - List: `gt pr review comments <n>` (has a `Resolved` column; `--json` to filter unresolved; `--review <id>`). REST (below 28): `GET /repos/<owner>/<repo>/pulls/<n>/reviews` for review ids, then `GET /repos/<owner>/<repo>/pulls/<n>/reviews/<id>/comments` for each; a comment with a non-empty `.resolver` is resolved. **Unverified**: check the API page before first use (the research read this on Forgejo).
 - Reply: `gt pr review reply <n> <comment-id> -b "…"`. REST (below 28): `POST /repos/<owner>/<repo>/pulls/<n>/comments/<id>/replies`. **Unverified**: check the API page before first use; if missing, **Unsupported** → a top-level comment linking the thread.
-- Resolve: `gt pr review resolve <n> <comment-id>` (`unresolve` reverses). REST (below 28): `POST /repos/<owner>/<repo>/pulls/comments/<id>/resolve`. **Unverified**: check the API page before first use; if missing, **Unsupported** → reply and leave it open; the thread counts as cleared once this identity's reply is newer than its last comment.
+- Resolve: `gt pr review resolve <n> <comment-id>` (`unresolve` reverses). REST (below 28): `POST /repos/<owner>/<repo>/pulls/comments/<id>/resolve`. **Unverified**: check the API page before first use; if missing, **Unsupported** → reply and leave it open; the thread counts as cleared once this identity's reply is newer than the thread's last comment by anyone else.
 
 ## Blocking verdicts
 

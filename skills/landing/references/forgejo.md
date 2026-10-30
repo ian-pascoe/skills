@@ -56,7 +56,7 @@ Every call below is `curl -sS -H "Authorization: token $FORGEJO_TOKEN" -H "Conte
 
 - List unresolved: `API repos/<owner>/<repo>/pulls/<n>/reviews` for review ids, then `API repos/<owner>/<repo>/pulls/<n>/reviews/<id>/comments` for each. A comment with a non-empty `.resolver` is resolved. **Unverified**: check the API page for how comments group into threads before first use.
 - Reply: **Unsupported** → post a top-level comment (see Comment) that links the thread's comment (`.html_url`).
-- Resolve: **Unsupported** → same linking comment. A thread counts as cleared once this identity's linking comment is newer than the thread's last comment.
+- Resolve: **Unsupported** → same linking comment. A thread counts as cleared once this identity's linking comment is newer than the thread's last comment by anyone else.
 
 ## Blocking verdicts
 
