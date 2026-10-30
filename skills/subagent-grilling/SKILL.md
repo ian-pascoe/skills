@@ -15,13 +15,13 @@ Spawn a persistent subagent you can send round after round. It shares none of yo
 
 - The goal and the plan as it stands, with the decisions and constraints the user has already settled.
 - Paths to the files, docs, and code it bears on.
-- Its role: answering a design interview on the user's behalf under the `escalating-to-user` skill. Answer every question in a round, numbered to match, with a decision, a one-line why, and the strongest alternative rejected. Flag an answer that passes the escalation tests as **ESCALATE**, keeping its recommendation. Flag an answer resting on a load-bearing public fact as **RESEARCH**, naming the fact it assumed.
+- Its role: answering a design interview on the user's behalf under the `escalating-to-user` skill. Answer every question in a round, numbered to match, with a decision, a one-line why, and the strongest alternative rejected. Flag an answer that passes the escalation tests as **ESCALATE**, keeping its recommendation. Flag an answer whose load-bearing decision rests on a public fact as **RESEARCH**, naming the fact it assumed and leaving the lookup to you.
 
 ## Run the rounds
 
 Send each round to the interviewee in place of the user. Challenge an answer that is thin or clashes with what the user has said; the challenge joins the next round.
 
-Settle each **RESEARCH** flag, and any load-bearing public fact you spot yourself, with the `research` skill, and put its findings to the interviewee in the next round; the findings file is the decision's artifact.
+Settle each **RESEARCH** flag, and any public fact you spot a load-bearing decision resting on, with the `research` skill, and put its findings to the interviewee in the next round; the findings file is the decision's artifact.
 
 The escalation call is yours, since you hold the user's context: run each answer through `escalating-to-user`'s tests, whether flagged or not. An escalated answer becomes your provisional recommendation; tell the interviewee it is provisional.
 
