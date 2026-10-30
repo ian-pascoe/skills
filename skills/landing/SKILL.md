@@ -9,7 +9,7 @@ Land the **change** the user approved: a ticket they name, or the plan just sett
 
 If the user names a ticket, fetch it from the issue tracker and state its title. Otherwise the spec is the plan settled in the conversation, or the PR's `## Plan` on a resumed PR: land it without filing a ticket.
 
-Find the **code host**, the service holding the remote the branch pushes to (its push remote, else `origin`), and load its reference from `references/`; every host command below comes from the **code host's reference**, under the heading named. Take the code host the tracker doc (`docs/agents/issue-tracker.md`) names, if it names one, else the remote's hostname from this table:
+Find the **code host**, the service holding the remote the branch pushes to (its push remote, else `origin`), and load its reference from `references/`; every host command below comes from the **code host's reference**, under the heading in parentheses, like (**Checks**). Take the code host the tracker doc (`docs/agents/issue-tracker.md`) names, if it names one, else the remote's hostname from this table:
 
 | Hostname                                                   | Reference         |
 | ---------------------------------------------------------- | ----------------- |
@@ -21,7 +21,7 @@ Find the **code host**, the service holding the remote the branch pushes to (its
 | `gitea.com`                                                | `gitea.md`        |
 | `git.cafe`                                                 | `gitcafe.md`      |
 
-For any other hostname, probe in order: `https://<host>/api/forgejo/v1/version` answers, Forgejo; `https://<host>/api/v1/version` answers, Gitea; otherwise the host whose CLI (`gh`, `glab`, `cafe`) recognises the repo. Escalate when none does, or more than one. Then check, under **Detect & auth**, that the host's tool or token works and that you can push to the repo itself, or learn it from the first push where the host can't tell; branches go there, never to a fork. With no remote, a host or edition the references don't cover, missing auth, or no push access, stop and say what's missing. Run **Bypass check**, and note in the ledger when the rules wouldn't bind you.
+For any other hostname, probe in order: `https://<host>/api/forgejo/v1/version` answers, Forgejo; `https://<host>/api/v1/version` answers, Gitea; otherwise the host whose CLI (`gh`, `glab`, `cafe`) recognises the repo. Escalate when none does, or more than one. Then check that the host's tool or token works and that you can push to the repo itself, or learn it from the first push where the host can't tell (**Detect & auth**); branches go there, never to a fork. With no remote, a host or edition the references don't cover, missing auth, or no push access, stop and say what's missing. Note in the ledger when the rules wouldn't bind you (**Bypass check**).
 
 Work in the current checkout. If HEAD is detached or on the default branch, branch from the up-to-date default branch (**Default branch**) as `<ticket>-<slug>`, or `<slug>` without a ticket; otherwise keep the current branch. If the branch already has an open PR (**Find PRs**), go to **Pass checks** if the latest review report on the PR (**List comments**, or its body's `## Review`) covers its current diff (it names the current head, or `git range-diff` shows only `=` against the head it names), otherwise to **Review**.
 
@@ -33,13 +33,13 @@ Typecheck and run single test files as you go, and the full suite once at the en
 
 ## Review
 
-Review every diff before the push that carries it, so checks run only on reviewed code; every later fix comes back through this section. The PR's **target** is the default branch, or the branch a stacked change stacks on. Fetch, then run `code-review` with `origin/<target>` as the fixed point. Blocking findings are every Spec finding and every hard violation of a documented standard; baseline smells are advisory, so fix the ones you agree with and list the rest in the PR. Clear each blocker by fixing it, or by dismissing it with a reason recorded as a decision, escalating a dismissal only the user can judge. Review again after fixes, until no blockers remain.
+Review every diff before the push that carries it, so checks run only on reviewed code; every later fix comes back through this section. The PR's **target** is the default branch, or the branch a stacked change stacks on. Fetch, then run `code-review` with `origin/<target>` as the fixed point, writing `git diff origin/<target>...HEAD` to a file and giving its path to both reviewers, so they review the diff even without a shell. Blocking findings are every Spec finding and every hard violation of a documented standard; baseline smells are advisory, so fix the ones you agree with and list the rest in the PR. Clear each blocker by fixing it, or by dismissing it with a reason recorded as a decision, escalating a dismissal only the user can judge. Review again after fixes, until no blockers remain.
 
 Post each passing report as a **review report**: a top-level comment the host doesn't count as an open thread (**Comment**), or where the host has none, a `## Review` section of the PR body (**Edit PR body**), naming the head commit it reviewed, with its dismissals and their reasons, so a later run can tell which diff was reviewed; the first waits for **Open the PR**.
 
 ## Open the PR
 
-Push, with `--force-with-lease` after a rebase. If the branch has no PR yet, open one against its target (**Open PR**), writing its body with `pr`. When the tracker is the code host, add its closing keyword for each ticket (**Closing tickets**); without a ticket, add the settled plan under `## Plan`. Then post the review report.
+Push the head the review report names, not the branch: `git push origin <reviewed-sha>:refs/heads/<branch>`, with `--force-with-lease` after a rebase, so only reviewed commits go up. If the branch has no PR yet, open one against its target (**Open PR**), writing its body with `pr`. When the tracker is the code host, add its closing keyword for each ticket (**Closing tickets**); without a ticket, add the settled plan under `## Plan`. Then post the review report.
 
 ## Pass checks
 
@@ -64,7 +64,7 @@ The code host's **merge rules** gate every merge: merge through them as they sta
 
 Wait while checks are pending; if anything else blocks, hold the PR and escalate.
 
-Merge with **Merge**, passing the method explicitly: squash, else a merge commit, else rebase, as the repo allows (**Merge methods & merge queue**). Pin the merge to the reviewed head; where the host can't, re-read the head first and go back to **Review** if it moved. Where the rules require a **merge queue**, this merge enters it: that is the host's gate, entered once landing's own gates pass.
+Merge (**Merge**), passing the method explicitly: squash, else a merge commit, else rebase, as the repo allows (**Merge methods & merge queue**). Pin the merge to the reviewed head; where the host can't, re-read the head first and go back to **Review** if it moved. Where the rules require a **merge queue**, this merge enters it: that is the host's gate, entered once landing's own gates pass.
 
 Then read the PR back (**Read back**):
 

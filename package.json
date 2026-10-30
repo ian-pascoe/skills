@@ -9,8 +9,9 @@
     "format:check": "oxfmt --check",
     "lint": "oxlint",
     "typecheck": "tsrs",
-    "verify": "bun run format:check",
-    "version": "changeset version && bun run format"
+    "verify": "bun run format:check && bun run lint && bun run typecheck && bun test && bun run check:references",
+    "version": "changeset version && bun run format",
+    "check:references": "bun scripts/check-references.ts"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^1.0.1",
