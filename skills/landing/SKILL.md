@@ -25,7 +25,7 @@ Post each passing report as a plain PR comment (`gh pr comment`) naming the head
 
 ## Open the PR
 
-Push. If the branch has no PR yet, open one against its target, writing its body with `pr`. Add `Closes #<n>` for each ticket; without one, add the settled plan under `## Plan`. Then post the review report.
+Push, with `--force-with-lease` after a rebase. If the branch has no PR yet, open one against its target, writing its body with `pr`. Add `Closes #<n>` for each ticket; without one, add the settled plan under `## Plan`. Then post the review report.
 
 ## Pass CI
 
