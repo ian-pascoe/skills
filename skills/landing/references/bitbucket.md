@@ -4,7 +4,7 @@
 - **Tool:** REST via curl (no official Bitbucket CLI; `acli` has no Bitbucket commands), checked 2026-10-30
 - **Exercised:** not yet
 - **Sources:** https://api.bitbucket.org/swagger.json, https://developer.atlassian.com/cloud/bitbucket/oauth-2, https://developer.atlassian.com/cloud/bitbucket/rest/intro/#filtering, https://support.atlassian.com/bitbucket-cloud/docs/suggest-or-require-checks-before-a-merge/, https://support.atlassian.com/bitbucket-cloud/docs/enable-an-issue-tracker/, https://developer.atlassian.com/cloud/acli/reference/commands/
-- **Placeholders:** <n> PR number, <b> PR branch, <t> target branch, <sha> reviewed head, <ticket> ticket number, <workspace>/<repo> repo
+- **Placeholders:** `<n>` PR number, `<b>` PR branch, `<t>` target branch, `<sha>` reviewed head, `<ticket>` ticket number, `<workspace>/<repo>` repo
 
 Base `https://api.bitbucket.org/2.0`. Every call below is `curl -u "$BITBUCKET_EMAIL:$BITBUCKET_API_TOKEN" …`; write `AUTH` for that prefix. Send JSON with `-H 'Content-Type: application/json'`.
 
@@ -130,4 +130,3 @@ No PR-body closing keywords are confirmed for Bitbucket Cloud. **Unverified**: c
 ## Quirks
 
 - Lists are paginated: follow `.next`.
-- No native stacked PRs.

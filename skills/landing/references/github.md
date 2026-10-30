@@ -4,7 +4,7 @@
 - **Tool:** `gh` 2.103.3, checked 2026-10-30
 - **Exercised:** partly: Open PR, Comment, Checks, and Merge by `landing` since 0.2.0; the read-only commands checked against `gh` 2.103.3 on 2026-10-30
 - **Sources:** https://cli.github.com/manual, https://docs.github.com/en/graphql/reference/pulls, https://docs.github.com/en/rest/repos/rules, https://docs.github.com/en/rest/branches/branch-protection, https://docs.github.com/en/rest/issues/comments, https://docs.github.com/en/rest/pulls/comments, https://docs.github.com/en/rest/pulls/pulls, https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/linking-a-pull-request-to-an-issue, https://github.com/cli/cli
-- **Placeholders:** <n> PR number, <b> PR branch, <t> target branch, <sha> reviewed head, <ticket> ticket number, <owner>/<repo> repo
+- **Placeholders:** `<n>` PR number, `<b>` PR branch, `<t>` target branch, `<sha>` reviewed head, `<ticket>` ticket number, `<owner>/<repo>` repo
 
 ## Detect & auth
 

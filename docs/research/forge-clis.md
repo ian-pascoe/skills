@@ -371,7 +371,7 @@ Run against `ian-pascoe/skills` with `gh` 2.103.3, for `github.md` entries the p
 
 - `gh repo view --json viewerPermission,squashMergeAllowed,mergeCommitAllowed,rebaseMergeAllowed` returns all four fields (`viewerPermission` e.g. `ADMIN`).
 - `gh pr edit --help` lists `-F, --body-file file`.
-- `gh run list --help` lists `-c, --commit SHA`.
+- `gh run list --help` lists `-c, --commit SHA`; `gh run list --json databaseId,name,status,conclusion` returns those fields.
 - `gh pr list --help` lists `-S, --search query`, using GitHub search syntax (so `in:body` applies).
 - `gh pr view <n> --json closingIssuesReferences` is a valid field.
 - `gh api repos/<owner>/<repo>/commits/<sha>/check-runs` returns `check_runs[]` with `name`, `status`, `conclusion`.

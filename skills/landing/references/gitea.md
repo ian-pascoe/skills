@@ -1,10 +1,10 @@
 # Gitea
 
-- **Hosts:** Gitea instances (gitea.com or self-hosted). Hostnames don't identify it: probe the API (see Detect & auth). Forgejo and Codeberg are a different host: use `forgejo.md`.
+- **Hosts:** Gitea instances (gitea.com or self-hosted). `gitea.com` is known; other hostnames need the API probe (see Detect & auth). Forgejo and Codeberg are a different host: use `forgejo.md`.
 - **Tool:** `gt` 0.2.0 on Gitea 28+; REST via curl with `GITEA_TOKEN` below 28, checked 2026-10-30
 - **Exercised:** not yet
 - **Sources:** https://gitea.com/gitea/cli, https://gitea.com/gitea/cli/src/branch/main/internal/app/, https://gitea.com/swagger.v1.json, https://docs.gitea.com/usage/access-control/protected-branches, https://docs.gitea.com/usage/automatically-linked-references
-- **Placeholders:** <n> PR number, <b> PR branch, <t> target branch, <sha> reviewed head, <ticket> ticket number, <owner>/<repo> repo, <host> instance hostname
+- **Placeholders:** `<n>` PR number, `<b>` PR branch, `<t>` target branch, `<sha>` reviewed head, `<ticket>` ticket number, `<owner>/<repo>` repo, `<host>` instance hostname
 
 ## Detect & auth
 
@@ -72,8 +72,8 @@ REST (below 28): `GET /repos/<owner>/<repo>/issues/<n>/comments`. Order: **Unver
 ## Review threads
 
 - List: `gt pr review comments <n>` (has a `Resolved` column; `--json` to filter unresolved; `--review <id>`). REST (below 28): `GET /repos/<owner>/<repo>/pulls/<n>/reviews` for review ids, then `GET /repos/<owner>/<repo>/pulls/<n>/reviews/<id>/comments` for each; a comment with a non-empty `.resolver` is resolved. **Unverified**: check the API page before first use (the research read this on Forgejo).
-- Reply: `gt pr review reply <n> <comment-id> -b "…"`. REST (below 28): `POST /repos/<owner>/<repo>/pulls/<n>/comments/<id>/replies`.
-- Resolve: `gt pr review resolve <n> <comment-id>` (`unresolve` reverses). REST (below 28): `POST /repos/<owner>/<repo>/pulls/comments/<id>/resolve`.
+- Reply: `gt pr review reply <n> <comment-id> -b "…"`. REST (below 28): `POST /repos/<owner>/<repo>/pulls/<n>/comments/<id>/replies`. **Unverified**: check the API page before first use; if missing, **Unsupported** → a top-level comment linking the thread.
+- Resolve: `gt pr review resolve <n> <comment-id>` (`unresolve` reverses). REST (below 28): `POST /repos/<owner>/<repo>/pulls/comments/<id>/resolve`. **Unverified**: check the API page before first use; if missing, **Unsupported** → reply and leave it open.
 
 ## Blocking verdicts
 
@@ -90,7 +90,7 @@ REST (below 28): `GET /repos/<owner>/<repo>/pulls/<n>/reviews`; `state` is `APPR
 
 ## Bypass check
 
-The only way to skip protections is `force_merge: true` on the merge API call. Never send it. `gt` never sends it, so an admin token is still gated through `gt`.
+The only way to skip protections is `force_merge: true` on the merge API call. `gt` never sends it, so an admin token is still gated through `gt`.
 
 - Instance admin always skips when `force_merge` is sent. Repo admin skips unless the rule has `apply_to_admins` (default `false`; the setting "Administrators must follow branch protection rules"). Read it: `GET /repos/<owner>/<repo>/branch_protections/<t>` (see Approvals & readiness for access caveat).
 - Whether this identity is an admin: **Unverified**: check `gt api user` output (REST below 28: `GET /user`) or the API page before first use.
@@ -148,4 +148,4 @@ Whether keywords fire only when the PR targets the default branch: **Unverified*
 
 ## Quirks
 
-- `tea` is the legacy CLI: don't use it.
+- `tea`, the legacy CLI, is being archived; `gt` and REST replace it.

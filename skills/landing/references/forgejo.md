@@ -4,7 +4,7 @@
 - **Tool:** REST via curl (`FORGEJO_TOKEN`), checked 2026-10-30
 - **Exercised:** not yet
 - **Sources:** https://codeberg.org/swagger.v1.json, https://codeberg.org/forgejo/forgejo/raw/branch/forgejo/services/pull/check.go, https://codeberg.org/forgejo/forgejo (`routers/api/v1/repo/pull.go`, `models/git/protected_branch.go`), https://forgejo.org/docs/v9.0/user/versions, https://forgejo.org/docs/latest/user/actions/, https://forgejo.org/docs/latest/user/linked-references/
-- **Placeholders:** <n> PR number, <b> PR branch, <t> target branch, <sha> reviewed head, <ticket> ticket number, <owner>/<repo> repo, <host> instance hostname
+- **Placeholders:** `<n>` PR number, `<b>` PR branch, `<t>` target branch, `<sha>` reviewed head, `<ticket>` ticket number, `<owner>/<repo>` repo, `<host>` instance hostname
 
 Every call below is `curl -sS -H "Authorization: token $FORGEJO_TOKEN" -H "Content-Type: application/json" "https://<host>/api/v1/<path>"`; shown as `API <path>`, with `-X <verb>` and `-d` added where stated. **Unverified**: check the token header form on the API page before first use.
 
@@ -70,13 +70,13 @@ Every call below is `curl -sS -H "Authorization: token $FORGEJO_TOKEN" -H "Conte
 
 ## Bypass check
 
-The only way to skip protections is `force_merge: true` on the merge call; never pass it. Admins are gated unless `force_merge` is sent: an instance admin always skips with it, and a repo admin skips unless the rule has `apply_to_admins`. Read `.apply_to_admins` from `API repos/<owner>/<repo>/branch_protections/<t>` to see whether this identity's admin rights could matter. No other bypass read exists in the sources.
+The only way to skip protections is `force_merge: true` on the merge call. Admins are gated unless `force_merge` is sent: an instance admin always skips with it, and a repo admin skips unless the rule has `apply_to_admins`. Read `.apply_to_admins` from `API repos/<owner>/<repo>/branch_protections/<t>` to see whether this identity's admin rights could matter. No other bypass read exists in the sources.
 
 ## Merge methods & merge queue
 
-- Methods (`Do` values): `merge` = merge commit; `squash` = squash; `rebase` and `rebase-merge` = rebase; `fast-forward-only` = rebase. `manually-merged` marks the PR merged without merging; never use it.
+- Methods (`Do` values): `merge` = merge commit; `squash` = squash; `rebase` and `rebase-merge` = rebase; `fast-forward-only` = rebase. `manually-merged` marks the PR merged without merging.
 - Which are allowed: **Unverified**: check `API repos/<owner>/<repo>` for `allow_merge_commits`, `allow_squash_merge`, `allow_rebase`, `allow_rebase_explicit`, `allow_fast_forward_only_merge` (API page) before first use.
-- Merge queue: **Unsupported** → none in the sources. `merge_when_checks_succeed` schedules a later merge; it is not a queue and is never used.
+- Merge queue: **Unsupported** → none in the sources. `merge_when_checks_succeed` schedules a later merge; it is not a queue.
 
 ## Merge
 

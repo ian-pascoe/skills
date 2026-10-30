@@ -4,7 +4,7 @@
 - **Tool:** `cafe` 0.12.0, checked 2026-10-30
 - **Exercised:** not yet
 - **Sources:** https://git.cafe/docs/index.md, https://git.cafe/docs/reference/cli.md, https://git.cafe/docs/reference/api.md, https://git.cafe/docs/getting-started/cli.md, https://git.cafe/docs/pull-requests/merge.md, https://git.cafe/docs/repositories/repository-rulesets.md, https://git.cafe/docs/ci/actions.md, https://git.cafe/docs/ci/buildkite.md, https://git.cafe/docs/issues/issues.md, https://git.cafe/api/openapi/json
-- **Placeholders:** <n> PR number, <b> PR branch, <t> target branch, <sha> reviewed head, <ticket> ticket number, <owner>/<repo> repo
+- **Placeholders:** `<n>` PR number, `<b>` PR branch, `<t>` target branch, `<sha>` reviewed head, `<ticket>` ticket number, `<owner>/<repo>` repo
 
 Global flags: `--repo/-R <owner>/<repo>`, `--host`, `--json`, `--yes`, `--no-input`. Pass `--repo` outside a clone. With `--json`, results are in `.data`. Never use `cafe stack` commands: PRs are plain PRs with `--base`.
 
@@ -111,12 +111,8 @@ Compute readiness yourself. Do not trust `cafe pr ready <n>` (it prints "Mergeab
 - Always pass `--strategy` (`merge|squash|rebase|fast-forward`). Without it the first method the PR status allows is used.
 - Head pin: implicit. The API body is `{requestId, expectedVersion, headOid, baseOid, strategy}`; the CLI stops with a CONFLICT if head or target changed.
 - Merges are async. `pr merge` waits 30 s, then reports an operation ID. Don't blind-retry (`MERGE_IN_PROGRESS`); follow it: `cafe pr merge <n> --operation <id> --wait`.
-
-- No bypass or auto-merge flag exists on `pr merge` (only `--strategy`, `--operation`, `--wait`).
+- `pr merge` has no bypass or auto-merge flag; its only flags are `--strategy`, `--operation`, `--wait`.
 - A bypass actor skips rules on this call (see Bypass check).
-- A stack member can't merge singly; it needs `cafe stack merge`, which is not used.
-
-Never pass any flag beyond those three.
 
 ## Read back
 

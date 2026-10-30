@@ -11,6 +11,6 @@
 
 ## Consequences
 
-- Entering a merge queue that the merge rules require is not "queuing a merge for later". Landing enters it only once its own gates pass, then waits for the result.
+- Entering a merge queue that the merge rules require is not "queuing a merge for later". Landing enters it only once its own gates pass, then waits for the result. A queue the host lets some identities skip, like a GitLab merge train with `allow_bypass`, still counts as required: skipping it is the bypass.
 - Landing's own gates (a review report for the current head, every check green, no unresolved review thread or blocking verdict, the approvals the rules require) hold on every host. Some hosts don't enforce their rules on every identity: an admin token, a GitCafe bypass actor, or Bitbucket off Premium, whose merge checks only warn.
 - A host or edition without a reference (Bitbucket Data Center, Azure DevOps Server) stops landing at Start. Adding one is a new reference plus a row in Start's hostname table.

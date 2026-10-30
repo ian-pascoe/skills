@@ -4,7 +4,7 @@
 - **Tool:** `glab` (docs for GitLab 19.x; latest release seen v1.126.0), falling back to `glab api`; checked 2026-10-30
 - **Exercised:** not yet
 - **Sources:** https://docs.gitlab.com/cli/, https://gitlab.com/gitlab-org/cli, https://docs.gitlab.com/api/merge_requests/, https://docs.gitlab.com/api/projects/, https://docs.gitlab.com/api/discussions/, https://docs.gitlab.com/api/notes/, https://docs.gitlab.com/api/merge_request_approvals/, https://docs.gitlab.com/ci/pipelines/merge_trains/, https://docs.gitlab.com/user/project/issues/managing_issues/
-- **Placeholders:** <n> PR number, <b> PR branch, <t> target branch, <sha> reviewed head, <ticket> ticket number, <owner>/<repo> repo
+- **Placeholders:** `<n>` PR number, `<b>` PR branch, `<t>` target branch, `<sha>` reviewed head, `<ticket>` ticket number, `<owner>/<repo>` repo
 
 `glab api` accepts `:id` (current project) and `:fullpath` placeholders.
 
