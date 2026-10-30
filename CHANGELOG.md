@@ -1,5 +1,11 @@
 # @ian-pascoe/skills
 
+## 0.2.0
+
+### Minor Changes
+
+- [#2](https://github.com/ian-pascoe/skills/pull/2) [`ffaa657`](https://github.com/ian-pascoe/skills/commit/ffaa657e4338e631787a11829e89a1f212e4a8bc) Thanks [@ian-pascoe](https://github.com/ian-pascoe)! - Add `landing`, which builds a change, passes it through code-review before opening its PR, and merges it once CI passes, and `lane-landing`, which lands a parent issue's tickets or a list in parallel lanes of implementer subagents after you approve the lane plan. `land` and `land-tickets` are wrappers you invoke to run them. `landing` needs mattpocock's `tdd` (with the `codebase-design` it consults), `code-review`, and `pr` skills installed.
+
 ## 0.1.0
 
 ### Minor Changes
