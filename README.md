@@ -21,7 +21,7 @@ Skills here may depend on each other; when installing single skills with `--skil
 | [`subagent-grilling`](skills/subagent-grilling/SKILL.md)               | agent or user | Grills a strong-model subagent down the whole design tree in your place, after confirming its model with you. | [`grilling`](#grilling), [`research`](#research), `escalating-to-user`, [persistent subagents](#persistent-subagents) |
 | [`grill-subagent`](skills/grill-subagent/SKILL.md)                     | user          | Runs `subagent-grilling`.                                                                                     | `subagent-grilling`                                                                                                   |
 | [`grill-subagent-with-docs`](skills/grill-subagent-with-docs/SKILL.md) | user          | `subagent-grilling`, writing the glossary and ADRs as decisions settle.                                       | `subagent-grilling`, [`domain-modeling`](#domain-modeling)                                                            |
-| [`landing`](skills/landing/SKILL.md)                                   | agent or user | Builds a change, reviews it, opens its PR, and merges it once CI passes.                                      | [`tdd`](#tdd), [`code-review`](#code-review), [`pr`](#pr), `escalating-to-user`, [GitHub](#github)                    |
+| [`landing`](skills/landing/SKILL.md)                                   | agent or user | Builds a change, reviews it, opens its PR, and merges it once its checks pass.                                | [`tdd`](#tdd), [`code-review`](#code-review), [`pr`](#pr), `escalating-to-user`, [a code host](#code-host)            |
 | [`land`](skills/land/SKILL.md)                                         | user          | Runs `landing`.                                                                                               | `landing`                                                                                                             |
 | [`lane-landing`](skills/lane-landing/SKILL.md)                         | agent or user | Lands a parent issue's tickets, or a list, in parallel lanes of subagents, pausing once to approve the plan.  | `landing`, `escalating-to-user`, [persistent subagents](#persistent-subagents)                                        |
 | [`land-tickets`](skills/land-tickets/SKILL.md)                         | user          | Runs `lane-landing`.                                                                                          | `lane-landing`                                                                                                        |
@@ -58,9 +58,21 @@ npx skills@latest add mattpocock/skills --skill grilling research domain-modelin
 
 [Source](https://github.com/mattpocock/skills/tree/main/skills/engineering/pr). The PR body template `landing` writes with.
 
-### GitHub
+### Code host
 
-`landing` opens, reviews, and merges PRs with the [`gh`](https://cli.github.com) CLI, so it needs a GitHub repo and an authenticated `gh`.
+`landing` opens, reviews, and merges PRs on the repo's code host, so it needs a remote it can push to and, for that host, one of:
+
+| Code host                      | Needs                                                                                                                  |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
+| GitHub (and Enterprise)        | an authenticated [`gh`](https://cli.github.com)                                                                        |
+| GitLab (.com and self-managed) | an authenticated [`glab`](https://gitlab.com/gitlab-org/cli)                                                           |
+| Bitbucket Cloud                | `curl`, `jq`, and `BITBUCKET_EMAIL` plus `BITBUCKET_API_TOKEN` (an Atlassian API token)                                |
+| Azure DevOps Services          | `az` with the `azure-devops` extension, logged in                                                                      |
+| Gitea                          | an authenticated [`gt`](https://gitea.com/gitea/cli) on Gitea 28 or newer; below that, `curl`, `jq`, and `GITEA_TOKEN` |
+| Forgejo, Codeberg              | `curl`, `jq`, and `FORGEJO_TOKEN`                                                                                      |
+| [GitCafe](https://git.cafe)    | an authenticated `cafe` ([`@gitcafe/cli`](https://git.cafe/docs/getting-started/cli.md))                               |
+
+Each host's commands live in [`skills/landing/references/`](skills/landing/references). They were researched from primary sources ([findings](docs/research/forge-clis.md)), but only GitHub's have been exercised; the others are researched, not exercised. Bitbucket Data Center and Azure DevOps Server aren't covered.
 
 ### Persistent subagents
 
