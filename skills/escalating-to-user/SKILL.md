@@ -9,7 +9,7 @@ Make the user's decisions for them and hand back only the few that truly need th
 
 Decide everything yourself except a decision that passes **both** tests:
 
-1. **User-held or split**: it turns on something only the user holds (a preference, priority, constraint, or fact outside the environment), or two answers are genuinely defensible.
+1. **User-held or split**: it turns on something only the user holds (a preference, priority, constraint, or fact you can't look up), or two answers are genuinely defensible. Facts you can look up, public ones included (library APIs, vendor limits, specs), are yours to find.
 2. **Load-bearing**: the choice reshapes much of the work after it or is costly to reverse.
 
 A decision that fails either test is yours: make the call and record it with a rationale and the strongest alternative you rejected.
