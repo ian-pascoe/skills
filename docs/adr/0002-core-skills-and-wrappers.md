@@ -1,0 +1,3 @@
+# Core skills and wrappers
+
+Each behaviour lives in a core skill that agents and other skills can start (`escalating-to-user`, `internal-grilling`, `subagent-grilling`), and users get thin wrappers they invoke themselves (`grill-yourself`, `grill-subagent`, and their `-with-docs` variants), rather than one skill with modes. Core skills stay composable and model-invoked; wrappers give users short commands and add pairings like `domain-modeling` without loading them into every run. Wrapper names are what users type, so renaming or removing one is a breaking change, and the one-line wrappers are deliberate, not clutter to merge away.
