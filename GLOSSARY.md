@@ -57,7 +57,7 @@ A unit of work tracked on the repo's issue tracker.
 _Avoid_: issue (except for the tracker's own object), task
 
 **Land**:
-Take an approved change through building, review, a PR, and CI onto the default branch.
+Take an approved change through building, review, a PR, and checks onto the default branch.
 _Avoid_: ship, release, deliver
 
 **Landed**:
@@ -75,3 +75,33 @@ _Avoid_: worker, agent, builder, coder
 **Orchestrator**:
 The agent that plans the lanes, dispatches implementers, reviews every ticket's branch, and restacks and merges every PR.
 _Avoid_: coordinator, manager, lead
+
+## Code hosts
+
+**Code host**:
+The service holding the repo's remote, its PRs, its checks, and the rules that gate a merge.
+_Avoid_: forge, git host, provider, platform
+
+**PR**:
+A code host's request to merge one branch into another, whatever the host calls it.
+_Avoid_: merge request, MR (except in a host's own commands)
+
+**Checks**:
+The results a code host reports on a PR's head commit, from CI or any other status, that its merge rules can require.
+_Avoid_: CI, pipeline, build, status
+
+**Merge rules**:
+The code host's conditions that must hold before a PR can merge, such as required checks, approvals, and resolved threads.
+_Avoid_: branch protection, policies, rulesets
+
+**Merge queue**:
+A code host's line of PRs, required by its merge rules, that re-checks each PR against the latest target before merging it.
+_Avoid_: merge train
+
+**Review thread**:
+A discussion on a PR that the code host can mark resolved, or that its merge rules can count against a merge.
+_Avoid_: comment, conversation, discussion, task
+
+**Review report**:
+The passing code-review result posted on a PR, naming the head commit it reviewed.
+_Avoid_: review comment, review summary

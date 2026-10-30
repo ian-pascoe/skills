@@ -1,15 +1,29 @@
 ---
 name: landing
-description: Land a change by building it, passing code-review, opening its PR, and merging it once CI passes. Use when the user asks for a change to be landed or merged, not just implemented.
+description: Land a change by building it, passing code-review, opening its PR, and merging it once its checks pass. Use when the user asks for a change to be landed or merged, not just implemented.
 ---
 
-Land the **change** the user approved: a ticket they name, or the plan just settled in the conversation. It is landed when its PR is merged into the default branch and its tickets are closed. Run the `tdd`, `code-review`, and `pr` skills where named, and decide along the way under `escalating-to-user`; each holds except where this skill overrides it. Each round of fixes, for review or CI, is one cycle; after three cycles, hold the change and escalate.
+Land the **change** the user approved: a ticket they name, or the plan just settled in the conversation. It is landed when its PR is merged into the default branch and its tickets are closed. Run the `tdd`, `code-review`, and `pr` skills where named, and decide along the way under `escalating-to-user`; each holds except where this skill overrides it. Each round of fixes, for review or checks, is one cycle; after three cycles, hold the change and escalate.
 
 ## Start
 
-If the user names a ticket, fetch it from the issue tracker and state its title. Otherwise the spec is the plan settled in the conversation, or the PR body's `## Plan` on a resumed PR: land it without filing a ticket.
+If the user names a ticket, fetch it from the issue tracker and state its title. Otherwise the spec is the plan settled in the conversation, or the PR's `## Plan` on a resumed PR: land it without filing a ticket.
 
-Work in the current checkout. If HEAD is detached or on the default branch, branch from the up-to-date default branch as `<ticket>-<slug>`, or `<slug>` without a ticket; otherwise keep the current branch. If the branch already has an open PR, go to **Pass CI** if the latest review report on the PR covers its current diff (it names the current head, or `git range-diff` shows only `=` against the head it names), otherwise to **Review**.
+Find the **code host**, the service holding the remote the branch pushes to (its push remote, else `origin`), and load its reference from `references/`; every host command below comes from the **code host's reference**, under the heading named. Take the code host the tracker doc (`docs/agents/issue-tracker.md`) names, if it names one, else the remote's hostname from this table:
+
+| Hostname                                                   | Reference         |
+| ---------------------------------------------------------- | ----------------- |
+| `github.com`, `*.ghe.com`                                  | `github.md`       |
+| `gitlab.com`                                               | `gitlab.md`       |
+| `bitbucket.org`                                            | `bitbucket.md`    |
+| `dev.azure.com`, `ssh.dev.azure.com`, `*.visualstudio.com` | `azure-devops.md` |
+| `codeberg.org`                                             | `forgejo.md`      |
+| `gitea.com`                                                | `gitea.md`        |
+| `git.cafe`                                                 | `gitcafe.md`      |
+
+For any other hostname, probe in order: `https://<host>/api/forgejo/v1/version` answers, Forgejo; `https://<host>/api/v1/version` answers, Gitea; otherwise the host whose CLI (`gh`, `glab`, `cafe`) recognises the repo. Escalate when none does, or more than one. Then check, under **Detect & auth**, that the host's tool or token works and that you can push to the repo itself, or learn it from the first push where the host can't tell; branches go there, never to a fork. With no remote, a host or edition the references don't cover, missing auth, or no push access, stop and say what's missing. Run **Bypass check**, and note in the ledger when the rules wouldn't bind you.
+
+Work in the current checkout. If HEAD is detached or on the default branch, branch from the up-to-date default branch (**Default branch**) as `<ticket>-<slug>`, or `<slug>` without a ticket; otherwise keep the current branch. If the branch already has an open PR (**Find PRs**), go to **Pass checks** if the latest review report on the PR (**List comments**, or its body's `## Review`) covers its current diff (it names the current head, or `git range-diff` shows only `=` against the head it names), otherwise to **Review**.
 
 ## Build
 
@@ -19,27 +33,44 @@ Typecheck and run single test files as you go, and the full suite once at the en
 
 ## Review
 
-Review every diff before the push that carries it, so CI runs only on reviewed code; every later fix comes back through this section. The PR's **target** is the default branch, or the branch a stacked change stacks on. Fetch, then run `code-review` with `origin/<target>` as the fixed point. Blocking findings are every Spec finding and every hard violation of a documented standard; baseline smells are advisory, so fix the ones you agree with and list the rest in the PR. Clear each blocker by fixing it, or by dismissing it with a reason recorded as a decision, escalating a dismissal only the user can judge. Review again after fixes, until no blockers remain.
+Review every diff before the push that carries it, so checks run only on reviewed code; every later fix comes back through this section. The PR's **target** is the default branch, or the branch a stacked change stacks on. Fetch, then run `code-review` with `origin/<target>` as the fixed point. Blocking findings are every Spec finding and every hard violation of a documented standard; baseline smells are advisory, so fix the ones you agree with and list the rest in the PR. Clear each blocker by fixing it, or by dismissing it with a reason recorded as a decision, escalating a dismissal only the user can judge. Review again after fixes, until no blockers remain.
 
-Post each passing report as a plain PR comment (`gh pr comment`) naming the head commit it reviewed, with its dismissals and their reasons, so a later run can tell which diff was reviewed; the first waits for **Open the PR**.
+Post each passing report as a **review report**: a top-level comment the host doesn't count as an open thread (**Comment**), or where the host has none, a `## Review` section of the PR body (**Edit PR body**), naming the head commit it reviewed, with its dismissals and their reasons, so a later run can tell which diff was reviewed; the first waits for **Open the PR**.
 
 ## Open the PR
 
-Push, with `--force-with-lease` after a rebase. If the branch has no PR yet, open one against its target, writing its body with `pr`. Add `Closes #<n>` for each ticket; without one, add the settled plan under `## Plan`. Then post the review report.
+Push, with `--force-with-lease` after a rebase. If the branch has no PR yet, open one against its target (**Open PR**), writing its body with `pr`. When the tracker is the code host, add its closing keyword for each ticket (**Closing tickets**); without a ticket, add the settled plan under `## Plan`. Then post the review report.
 
-## Pass CI
+## Pass checks
 
-The PR is ready to merge once its current diff has passed review and its current head has passed CI.
+The PR is ready to merge once its current diff has passed review and its current head has passed its checks.
 
-**CI.** Wait with `gh pr checks --watch`. On a failure, read the logs: rerun once if it looks flaky, otherwise fix it and take the fix through **Review** and **Open the PR**. If the same check is red on the default branch too, it isn't this change's to fix: escalate. With no CI configured, treat it as green and say so.
+**Checks.** Wait on the PR's checks (**Checks**), polling every 30 s where the host has no watch command. When no check has changed state for 60 minutes, escalate and keep waiting. The PR has no checks only when the merge rules require none, the repo has no workflow config for the host, and nothing has reported 2 minutes after the push; say so in the ledger. On a failure, read the logs: rerun once if it looks flaky, otherwise fix it and take the fix through **Review** and **Open the PR**. A fresh run counts as the rerun only if it reports to the PR's check; where the host can't start one, the failure is real. If the same check is red on the default branch's head too, it isn't this change's to fix: escalate.
 
-**Review threads.** Treat every unresolved review thread as a finding: act on the user's, fix a bot's or dismiss it with a reply, and fix another person's when you agree, taking each fix through **Review** and **Open the PR**. Resolve a thread (GraphQL `resolveReviewThread`) once it is fixed or a bot's is answered. Leave a person's thread you disagree with open, and escalate.
+**Review threads.** Treat every unresolved review thread and every reviewer's blocking verdict, such as changes requested (**Review threads**, **Blocking verdicts**), as a finding: act on the user's, fix a bot's or dismiss it with a reply, and fix another person's when you agree, taking each fix through **Review** and **Open the PR**. Resolve a thread once it is fixed or a bot's is answered; where the host can't, its reference says what clears a thread instead, and the ledger lists the threads left open. Leave a person's thread you disagree with open, and escalate.
 
-**Freshness.** If the default branch has moved since CI ran, rebase onto it, push with `--force-with-lease`, and wait for CI again; a rebase is not a fix cycle. A rebase that leaves the diff unchanged (`git range-diff` shows only `=`) keeps the review; one with hand-resolved conflicts goes through **Review** first.
+**Freshness.** If the default branch has moved since the checks ran, rebase onto it, push with `--force-with-lease`, and wait for the checks again; a rebase is not a fix cycle. A rebase that leaves the diff unchanged (`git range-diff` shows only `=`) keeps the review; one with hand-resolved conflicts goes through **Review** first.
 
 ## Merge
 
-Hold a PR whose merge rests on a provisional answer until the user confirms that answer. Merge the rest with `gh pr merge --delete-branch` and the method the repo allows, preferring squash, so the repo's own rules gate it: never `--admin` or `--auto`. If anything other than pending checks blocks the merge, hold the PR and escalate. Merge only this run's PRs: those it opened or resumed.
+Hold a PR whose merge rests on a provisional answer until the user confirms that answer. Merge only this run's PRs: those it opened or resumed.
+
+The code host's **merge rules** gate every merge: merge through them as they stand, and leave enabling auto-merge, bypassing, and changing the rules to the user. Landing's own gates hold on every host, even where the rules wouldn't bind you. Just before merging, re-read the PR and confirm:
+
+- a review report names its current head;
+- every check on that head is green;
+- no review thread is unresolved and no blocking verdict stands;
+- it has the approvals the rules require, and the host's readiness check shows nothing blocking but pending checks (**Approvals & readiness**).
+
+Wait while checks are pending; if anything else blocks, hold the PR and escalate.
+
+Merge with **Merge**, passing the method explicitly: squash, else a merge commit, else rebase, as the repo allows (**Merge methods & merge queue**). Pin the merge to the reviewed head; where the host can't, re-read the head first and go back to **Review** if it moved. Where the rules require a **merge queue**, this merge enters it: that is the host's gate, entered once landing's own gates pass.
+
+Then read the PR back (**Read back**):
+
+- **Merged**: confirm the merged head is the reviewed one, escalating if not. Delete the branch if the merge didn't (**Delete branch**). Check each ticket is closed, and close any still open through the tracker doc.
+- **In a required merge queue**: wait as for checks. Ejected for another PR's failure, re-enqueue once, which counts as the rerun; ejected for its own, handle it as a failed check.
+- **Anything else**, such as auto-merge switched on or a merge still pending: cancel any auto-merge, hold the PR, and escalate.
 
 ## Present the ledger
 
