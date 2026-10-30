@@ -4,6 +4,7 @@
 - **Tool:** `cafe` 0.12.0, checked 2026-10-30
 - **Exercised:** not yet
 - **Sources:** https://git.cafe/docs/index.md, https://git.cafe/docs/reference/cli.md, https://git.cafe/docs/reference/api.md, https://git.cafe/docs/getting-started/cli.md, https://git.cafe/docs/pull-requests/merge.md, https://git.cafe/docs/repositories/repository-rulesets.md, https://git.cafe/docs/ci/actions.md, https://git.cafe/docs/ci/buildkite.md, https://git.cafe/docs/issues/issues.md, https://git.cafe/api/openapi/json
+- **Placeholders:** <n> PR number, <b> PR branch, <t> target branch, <sha> reviewed head, <ticket> ticket number, <owner>/<repo> repo
 
 Global flags: `--repo/-R <owner>/<repo>`, `--host`, `--json`, `--yes`, `--no-input`. Pass `--repo` outside a clone. With `--json`, results are in `.data`. Never use `cafe stack` commands: PRs are plain PRs with `--base`.
 
@@ -88,13 +89,14 @@ Compute readiness yourself. Do not trust `cafe pr ready <n>` (it prints "Mergeab
 1. Required approvals: the "Require pull request" rule in `cafe repo ruleset effective <t> --json`.
 2. Current approvals: `cafe pr reviews <n>`.
 3. Checks: `cafe pr checks <n>`.
-4. Why blocked: `cafe pr status <n> --json` → `.merge`: `state` (`blocked|requires-native-check`), `permitted`, `strategies[]`, `conflicts` (`unknown|pending|none|conflicting`), `blockers[{code,message}]`, `reasons[]` (e.g. `draft`, `changes-requested`, `merge-permission-required`, `native-operation-pending`, `provider-merge-pending`, `head-unobserved`), `verdict`. `conflicts` of `unknown` or `pending` = wait. Treat `.merge.permitted: false` or any `blockers` as not ready.
+4. All other rules: every rule in `cafe repo ruleset effective <t> --json` must be met by the PR, not only approvals and checks. Any unmet rule → hold.
+5. Why blocked: `cafe pr status <n> --json` → `.merge`: `state` (`blocked|requires-native-check`), `permitted`, `strategies[]`, `conflicts` (`unknown|pending|none|conflicting`), `blockers[{code,message}]`, `reasons[]` (e.g. `draft`, `changes-requested`, `merge-permission-required`, `native-operation-pending`, `provider-merge-pending`, `head-unobserved`), `verdict`. `conflicts` of `unknown` or `pending` = wait. Treat `.merge.permitted: false` or any `blockers` as not ready.
 
 ## Bypass check
 
-`cafe repo ruleset effective <t> --json`. The evaluated rules tell any reader whether they may bypass. Bypass actors with mode `always` or `pull_request` skip the rules on `cafe pr merge`, and `pr merge` has no flag to refuse that.
+`cafe repo ruleset effective <t> --json`. The evaluated rules tell any reader whether they may bypass. Bypass actors with mode `always` or `pull_request` skip every rule on `cafe pr merge`, silently, and `pr merge` has no flag to refuse that. So every rule in that output must be met by the PR, not only approvals and checks; any unmet rule → hold.
 
-**Unverified**: check the output of `cafe repo ruleset effective <t> --json` before first use; the field that signals "you may bypass" is not confirmed (the schema lists `bypassActors`, visible to admins). If it says you can bypass, do the approvals and checks gating from Approvals & readiness yourself; the server won't.
+**Unverified**: check the output of `cafe repo ruleset effective <t> --json` before first use; the field that signals "you may bypass" is not confirmed (the schema lists `bypassActors`, visible to admins). If it says you can bypass, check every rule in the effective set against the PR yourself (Approvals & readiness); the server won't.
 
 ## Merge methods & merge queue
 
@@ -110,12 +112,11 @@ Compute readiness yourself. Do not trust `cafe pr ready <n>` (it prints "Mergeab
 - Head pin: implicit. The API body is `{requestId, expectedVersion, headOid, baseOid, strategy}`; the CLI stops with a CONFLICT if head or target changed.
 - Merges are async. `pr merge` waits 30 s, then reports an operation ID. Don't blind-retry (`MERGE_IN_PROGRESS`); follow it: `cafe pr merge <n> --operation <id> --wait`.
 
-Flags and defaults to avoid:
-
 - No bypass or auto-merge flag exists on `pr merge` (only `--strategy`, `--operation`, `--wait`).
-- Omitting `--strategy` lets the host pick the method.
 - A bypass actor skips rules on this call (see Bypass check).
 - A stack member can't merge singly; it needs `cafe stack merge`, which is not used.
+
+Never pass any flag beyond those three.
 
 ## Read back
 
@@ -131,7 +132,7 @@ Also `cafe pr view <n>` → `state` is `merged`. No auto-merge exists, so there 
 
 ## Delete branch
 
-No flag on `pr merge`. The repo setting "Automatically delete head branches" deletes it on merge. If the setting is off, delete it after merge via the API. **Unverified**: check https://git.cafe/api/openapi/json for the branch-delete endpoint before first use. "Already gone" is fine.
+**Unsupported** on `pr merge` → the repo setting "Automatically delete head branches" deletes it on merge. If the setting is off, delete it after merge via the API. **Unverified**: check https://git.cafe/api/openapi/json for the branch-delete endpoint before first use. Already gone counts as deleted.
 
 ## Retarget
 
@@ -148,5 +149,4 @@ No flag on `pr merge`. The repo setting "Automatically delete head branches" del
 - Output is results only; use `--json` only when you need IDs or OIDs.
 - 401 → relay the login request to the user; 403 → missing scope or role; retry only when `retryable: true`.
 - Destructive commands need `--yes`, and only when the user asked.
-- Mirrored-from-GitHub repos: GitCafe writes comments and merges through to GitHub, and GitHub performs the merge. GitHub's rules apply.
 - Attachment uploads need the `repo attachments/write` token scope.

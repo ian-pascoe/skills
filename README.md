@@ -72,7 +72,7 @@ npx skills@latest add mattpocock/skills --skill grilling research domain-modelin
 | Forgejo, Codeberg              | `curl`, `jq`, and `FORGEJO_TOKEN`                                                                                      |
 | [GitCafe](https://git.cafe)    | an authenticated `cafe` ([`@gitcafe/cli`](https://git.cafe/docs/getting-started/cli.md))                               |
 
-Each host's commands live in [`skills/landing/references/`](skills/landing/references). They were researched from primary sources ([findings](docs/research/forge-clis.md)), but only GitHub's have been exercised; the others are researched, not exercised. Bitbucket Data Center and Azure DevOps Server aren't covered.
+Each host's commands live in [`skills/landing/references/`](skills/landing/references). They were researched from primary sources ([findings](docs/research/forge-clis.md)), and only GitHub's have been exercised so far. Bitbucket Data Center and Azure DevOps Server aren't covered.
 
 ### Persistent subagents
 

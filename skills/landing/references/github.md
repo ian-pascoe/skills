@@ -4,6 +4,7 @@
 - **Tool:** `gh` 2.103.3, checked 2026-10-30
 - **Exercised:** partly: Open PR, Comment, Checks, and Merge by `landing` since 0.2.0; the read-only commands checked against `gh` 2.103.3 on 2026-10-30
 - **Sources:** https://cli.github.com/manual, https://docs.github.com/en/graphql/reference/pulls, https://docs.github.com/en/rest/repos/rules, https://docs.github.com/en/rest/branches/branch-protection, https://docs.github.com/en/rest/issues/comments, https://docs.github.com/en/rest/pulls/comments, https://docs.github.com/en/rest/pulls/pulls, https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/linking-a-pull-request-to-an-issue, https://github.com/cli/cli
+- **Placeholders:** <n> PR number, <b> PR branch, <t> target branch, <sha> reviewed head, <ticket> ticket number, <owner>/<repo> repo
 
 ## Detect & auth
 
@@ -23,7 +24,7 @@
 ## Find PRs
 
 - Open PR for `<b>`: `gh pr list --head <b> --state open --json number,author,baseRefName,headRefOid,url`. `--head` does not accept `<owner>:<branch>`.
-- Avoid bare `gh pr view` to find the PR: whether it returns a merged or closed PR for the branch is unverified.
+- Avoid bare `gh pr view` to find the PR: it may return a merged or closed PR for the branch. **Unverified**: check `gh pr view --help` before first use.
 - PRs that close `<ticket>`: `gh pr list --state open --search "<ticket> in:body" --json number,title,body,baseRefName,closingIssuesReferences`, then keep those whose `closingIssuesReferences` has `<ticket>`, or whose body has a closing keyword + `#<ticket>`.
 
 ## Open PR
@@ -55,7 +56,7 @@ REST: `gh api repos/<owner>/<repo>/issues/<n>/comments`. Ordered oldest first, s
 
 ## Review threads
 
-GraphQL only. No `gh pr` subcommand, no REST resolve.
+GraphQL through `gh api graphql`: `gh pr` has no thread subcommand, and REST has no resolve.
 
 - List (keep `isResolved == false`; paginate with `pageInfo` past 100):
   `gh api graphql -f query='query($o:String!,$r:String!,$n:Int!){repository(owner:$o,name:$r){pullRequest(number:$n){reviewThreads(first:100){nodes{id isResolved isOutdated comments(first:20){nodes{databaseId author{login} body path line}}}}}}}' -f o=<owner> -f r=<repo> -F n=<n>`
@@ -68,7 +69,7 @@ GraphQL only. No `gh pr` subcommand, no REST resolve.
 
 ## Approvals & readiness
 
-- Required approvals: classic protection `gh api repos/<owner>/<repo>/branches/<t>/protection` → `required_pull_request_reviews.required_approving_review_count` (needs admin). Rulesets: the `pull_request` rule in `gh api repos/<owner>/<repo>/rules/branches/<t>`; the parameter name is unverified, so read the rule's `parameters` and look for the approval count.
+- Required approvals: classic protection `gh api repos/<owner>/<repo>/branches/<t>/protection` → `required_pull_request_reviews.required_approving_review_count` (needs admin). Rulesets: the `pull_request` rule in `gh api repos/<owner>/<repo>/rules/branches/<t>`; read the rule's `parameters` and look for the approval count. **Unverified**: check the rules API page before first use (the parameter name).
 - Current approvals: `latestReviews` with `state == APPROVED` from `gh pr view <n> --json latestReviews`.
 - Mergeable now: `gh pr view <n> --json mergeStateStatus,mergeable,reviewDecision,latestReviews,statusCheckRollup,isDraft`.
 - `mergeStateStatus`: `CLEAN`, `HAS_HOOKS`, `UNSTABLE` (non-passing non-required status), `BLOCKED`, `BEHIND`, `DIRTY`, `DRAFT`, `UNKNOWN`.
@@ -100,7 +101,7 @@ Never pass:
 - `--admin`: bypasses unmet requirements, and with a merge queue skips the queue.
 - `--auto`: merges later, once requirements are met.
 
-With a required merge queue, a plain `gh pr merge` enqueues instead of merging: with no strategy needed, it enables auto-merge if required checks haven't passed, or adds the PR to the queue if they have. Entering the queue after review and checks pass is allowed. Read back; don't assume merged.
+With a required merge queue, a plain `gh pr merge` enqueues instead of merging: with no strategy needed, it enables auto-merge if required checks haven't passed, or adds the PR to the queue if they have. Read back; don't assume merged.
 
 ## Read back
 
@@ -115,7 +116,7 @@ With a required merge queue, a plain `gh pr merge` enqueues instead of merging: 
 
 ## Delete branch
 
-Done by `--delete-branch` on merge. It also deletes the local branch. "Already gone" is fine.
+Done by `--delete-branch` on merge. It also deletes the local branch. Already gone counts as deleted.
 
 ## Retarget
 
@@ -131,5 +132,4 @@ Done by `--delete-branch` on merge. It also deletes the local branch. "Already g
 - `gh pr checks` exits 1 when the PR has no checks at all. Right after a push checks may not be registered yet; tell "no checks reported" apart from "failed".
 - `gh run watch` fails with fine-grained PATs (needs `checks:read`). Use `gh pr checks --watch`.
 - Don't merge via REST `PUT /pulls/<n>/merge`: it doesn't support merge queues or stacked PRs. Use `gh pr merge`.
-- Review-thread resolution is GraphQL only. Keep a canned query.
-- Stacked PRs (`gh stack`): `gh stack merge` is all-or-nothing, can't bypass requirements, and queues when a merge queue is on, ignoring method flags. Its maturity is unverified.
+- Stacked PRs (`gh stack`): `gh stack merge` is all-or-nothing, can't bypass requirements, and queues when a merge queue is on, ignoring method flags. Its maturity: **Unverified**: check `gh stack --help` before first use.

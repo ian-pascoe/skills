@@ -4,12 +4,13 @@
 - **Tool:** REST via curl (no official Bitbucket CLI; `acli` has no Bitbucket commands), checked 2026-10-30
 - **Exercised:** not yet
 - **Sources:** https://api.bitbucket.org/swagger.json, https://developer.atlassian.com/cloud/bitbucket/oauth-2, https://developer.atlassian.com/cloud/bitbucket/rest/intro/#filtering, https://support.atlassian.com/bitbucket-cloud/docs/suggest-or-require-checks-before-a-merge/, https://support.atlassian.com/bitbucket-cloud/docs/enable-an-issue-tracker/, https://developer.atlassian.com/cloud/acli/reference/commands/
+- **Placeholders:** <n> PR number, <b> PR branch, <t> target branch, <sha> reviewed head, <ticket> ticket number, <workspace>/<repo> repo
 
-Placeholders: `W` workspace, `R` repo slug, `<n>` PR id. Base `https://api.bitbucket.org/2.0`. Every call below is `curl -u "$BITBUCKET_EMAIL:$BITBUCKET_API_TOKEN" …`; write `AUTH` for that prefix. Send JSON with `-H 'Content-Type: application/json'`.
+Base `https://api.bitbucket.org/2.0`. Every call below is `curl -u "$BITBUCKET_EMAIL:$BITBUCKET_API_TOKEN" …`; write `AUTH` for that prefix. Send JSON with `-H 'Content-Type: application/json'`.
 
 ## Detect & auth
 
-- Remote host `bitbucket.org` (`git@bitbucket.org:W/R.git` or `https://bitbucket.org/W/R.git`). Any other host is not covered.
+- Remote host `bitbucket.org` (`git@bitbucket.org:<workspace>/<repo>.git` or `https://bitbucket.org/<workspace>/<repo>.git`). Any other host is not covered.
 - Credentials: Basic auth, username = Atlassian email (`BITBUCKET_EMAIL`), password = API token (`BITBUCKET_API_TOKEN`). App passwords are deprecated. Token scopes needed: `pullrequest`, `pullrequest:write`, `pipeline`, `pipeline:write`, `repository:write`.
 - Auth check: `AUTH https://api.bitbucket.org/2.0/user` (200 = ok).
 - Push access: no permission query read. Learned from the first push.
@@ -20,23 +21,23 @@ Placeholders: `W` workspace, `R` repo slug, `<n>` PR id. Base `https://api.bitbu
 
 ## Default branch
 
-`AUTH https://api.bitbucket.org/2.0/repositories/W/R` → `.mainbranch.name`
+`AUTH https://api.bitbucket.org/2.0/repositories/<workspace>/<repo>` → `.mainbranch.name`
 
 ## Find PRs
 
-- Open PR for `<b>`: `AUTH -G "https://api.bitbucket.org/2.0/repositories/W/R/pullrequests" --data-urlencode 'state=OPEN' --data-urlencode 'q=source.branch.name="<b>"'` → `.values[]`: `.id`, `.author`, `.source.commit.hash` (head), `.destination.branch.name` (base). The `q` syntax is **Unverified**: check https://developer.atlassian.com/cloud/bitbucket/rest/intro/#filtering before first use; fallback: list `state=OPEN` and filter `.source.branch.name` client-side.
-- PRs for a commit: `GET /repositories/W/R/commit/<sha>/pullrequests`.
+- Open PR for `<b>`: `AUTH -G "https://api.bitbucket.org/2.0/repositories/<workspace>/<repo>/pullrequests" --data-urlencode 'state=OPEN' --data-urlencode 'q=source.branch.name="<b>"'` → `.values[]`: `.id`, `.author`, `.source.commit.hash` (head), `.destination.branch.name` (base). The `q` syntax is **Unverified**: check https://developer.atlassian.com/cloud/bitbucket/rest/intro/#filtering before first use; fallback: list `state=OPEN` and filter `.source.branch.name` client-side.
+- PRs for a commit: `GET /repositories/<workspace>/<repo>/commit/<sha>/pullrequests`.
 - PRs that close `<ticket>`: no verified closing keywords (see Closing tickets). Search PR bodies: list `state=OPEN` and grep `.description` for the closing keyword + `<ticket>`.
 
 ## Open PR
 
-`jq -n --rawfile d body.md --arg t "<title>" --arg s "<b>" --arg d2 "<t>" '{title:$t,description:$d,source:{branch:{name:$s}},destination:{branch:{name:$d2}},close_source_branch:true}' | AUTH -H 'Content-Type: application/json' -d @- https://api.bitbucket.org/2.0/repositories/W/R/pullrequests`
+`jq -n --rawfile d body.md --arg t "<title>" --arg s "<b>" --arg d2 "<t>" '{title:$t,description:$d,source:{branch:{name:$s}},destination:{branch:{name:$d2}},close_source_branch:true}' | AUTH -H 'Content-Type: application/json' -d @- https://api.bitbucket.org/2.0/repositories/<workspace>/<repo>/pullrequests`
 
-`POST /repositories/W/R/pullrequests`. `destination` defaults to the main branch if omitted; always pass `<t>`. Returns the PR with `.id`.
+`POST /repositories/<workspace>/<repo>/pullrequests`. `destination` defaults to the main branch if omitted; always pass `<t>`. Returns the PR with `.id`.
 
 ## Edit PR body
 
-`jq -n --rawfile d body.md '{description:$d}' | AUTH -X PUT -H 'Content-Type: application/json' -d @- https://api.bitbucket.org/2.0/repositories/W/R/pullrequests/<n>`
+`jq -n --rawfile d body.md '{description:$d}' | AUTH -X PUT -H 'Content-Type: application/json' -d @- https://api.bitbucket.org/2.0/repositories/<workspace>/<repo>/pullrequests/<n>`
 
 Only open PRs can be mutated. **Unverified**: check the PUT body shape in the API page before first use.
 
@@ -46,15 +47,15 @@ Only open PRs can be mutated. **Unverified**: check the PUT body shape in the AP
 
 ## List comments
 
-`AUTH "https://api.bitbucket.org/2.0/repositories/W/R/pullrequests/<n>/comments"` (paginated; follow `.next`). Oldest first by default (`sort` param). Returns global comments, inline comments, and replies: keep entries with no `inline` and no `parent`. Fields: `.user.display_name`, `.content.raw`, `.created_on`.
+`AUTH "https://api.bitbucket.org/2.0/repositories/<workspace>/<repo>/pullrequests/<n>/comments"` (paginated; follow `.next`). Oldest first by default (`sort` param). Returns global comments, inline comments, and replies: keep entries with no `inline` and no `parent`. Fields: `.user.display_name`, `.content.raw`, `.created_on`.
 
 ## Checks
 
-- Wait on PR checks: no blocking watch. Poll `GET /repositories/W/R/pullrequests/<n>/statuses`; each `.values[].state` is `SUCCESSFUL`, `FAILED`, `INPROGRESS`, or `STOPPED`. Pending = any `INPROGRESS`; pass = all `SUCCESSFUL`; fail = any `FAILED` or `STOPPED`. Statuses aggregate Pipelines and third parties; there is no single rollup beyond this.
-- Checks on a commit: **Unverified**: check the API page (`/repositories/W/R/commit/<sha>/statuses`) before first use.
+- Wait on PR checks: no blocking watch. Poll `GET /repositories/<workspace>/<repo>/pullrequests/<n>/statuses`; each `.values[].state` is `SUCCESSFUL`, `FAILED`, `INPROGRESS`, or `STOPPED`. Pending = any `INPROGRESS`; pass = all `SUCCESSFUL`; fail = any `FAILED` or `STOPPED`. Statuses aggregate Pipelines and third parties; there is no single rollup beyond this.
+- Checks on a commit: **Unverified**: check the API page (`/repositories/<workspace>/<repo>/commit/<sha>/statuses`) before first use.
 - CI config in the repo: **Unverified**: check the Bitbucket Pipelines docs for the config path before first use.
-- Failing job logs: `GET /repositories/W/R/pipelines/<uuid>/steps`, then `GET …/pipelines/<uuid>/steps/<step>/log` (supports `Range`).
-- Rerun failed: **Unsupported** → start a fresh pipeline: `AUTH -H 'Content-Type: application/json' -d '{"target":{"type":"pipeline_ref_target","ref_type":"branch","ref_name":"<b>"}}' https://api.bitbucket.org/2.0/repositories/W/R/pipelines` (needs `pipeline:write`). It may not report to the PR's check. Stop a pipeline: `POST …/pipelines/<uuid>/stopPipeline`.
+- Failing job logs: `GET /repositories/<workspace>/<repo>/pipelines/<uuid>/steps`, then `GET …/pipelines/<uuid>/steps/<step>/log` (supports `Range`).
+- Rerun failed: **Unsupported** → start a fresh pipeline: `AUTH -H 'Content-Type: application/json' -d '{"target":{"type":"pipeline_ref_target","ref_type":"branch","ref_name":"<b>"}}' https://api.bitbucket.org/2.0/repositories/<workspace>/<repo>/pipelines` (needs `pipeline:write`). It may not report to the PR's check. Stop a pipeline: `POST …/pipelines/<uuid>/stopPipeline`.
 
 ## Review threads
 
@@ -68,7 +69,7 @@ Only open PRs can be mutated. **Unverified**: check the PUT body shape in the AP
 
 ## Approvals & readiness
 
-- Required approvals: `GET /repositories/W/R/branch-restrictions`, entry with `kind` `require_approvals_to_merge` → `.value` (count). Related kinds: `require_default_reviewer_approvals_to_merge`, `require_passing_builds_to_merge`, `require_no_changes_requested`, `require_tasks_to_be_completed`, `require_all_comments_resolved`, `restrict_merges`, `enforce_merge_checks`.
+- Required approvals: `GET /repositories/<workspace>/<repo>/branch-restrictions`, entry with `kind` `require_approvals_to_merge` → `.value` (count). Related kinds: `require_default_reviewer_approvals_to_merge`, `require_passing_builds_to_merge`, `require_no_changes_requested`, `require_tasks_to_be_completed`, `require_all_comments_resolved`, `restrict_merges`, `enforce_merge_checks`.
 - Current approvals: count `.participants[]` with `.approved` true on the PR. The author's own approval doesn't count.
 - Readiness: `GET …/pullrequests/<n>/mergeability/checks` → `.values[]` of `{type, status, required, blocking}`. Types: `pullrequest_state_check`, `current_user_permission_check`, `git_mergeability_check` (`reason`: `clean`, `conflicts`, `merge_impossible`), `standard_merge_check` (one per branch restriction), `custom_pre_merge_check`, `custom_on_merge_check`, `merge_queue_check`.
 - Binding checks: every `standard_merge_check`, and any check with `required` or `blocking` true. Status: `PASSED` = ok, `PENDING` = wait, `FAILED` or `UNKNOWN` = hold. `SKIPPED` on a non-binding check is ignorable. `UNKNOWN` does not mean mergeable.
@@ -94,39 +95,39 @@ Allowed methods: **Unverified**: check the repo's branch-merge settings or API p
 
 ## Merge
 
-No pin; re-read `source.commit.hash` and `mergeability/checks` just before merging, and merge only if the hash equals `<sha>`.
+Head-SHA pin: **Unsupported** → re-read `source.commit.hash` and `mergeability/checks` just before merging, and merge only if the hash equals `<sha>`.
 
-`jq -n '{type:"pullrequest_merge_parameters",merge_strategy:"squash",close_source_branch:true}' | AUTH -H 'Content-Type: application/json' -d @- https://api.bitbucket.org/2.0/repositories/W/R/pullrequests/<n>/merge`
+`jq -n '{type:"pullrequest_merge_parameters",merge_strategy:"squash",close_source_branch:true}' | AUTH -H 'Content-Type: application/json' -d @- https://api.bitbucket.org/2.0/repositories/<workspace>/<repo>/pullrequests/<n>/merge`
 
 - Always pass `merge_strategy` and `close_source_branch` explicitly. Optional `message`.
-- Do not add `?async=true` (it can time out into a 202; plain merge can also return 202).
 - No bypass or auto-merge parameter exists in the merge API.
-- The UI-only "allow auto merge when builds pass" (`allow_auto_merge_when_builds_pass`) queues a merge for later: never use it.
+
+Never pass:
+
+- `?async=true`: it can time out into a 202 (a plain merge can also return 202).
+- `allow_auto_merge_when_builds_pass` (UI-only "allow auto merge when builds pass"): it queues a merge for later.
 
 ## Read back
 
 - 200 = merged. Confirm: `GET …/pullrequests/<n>` → `.state` = `MERGED`, `.merge_commit`.
 - 202 = queued (merge queue) or long-running. Poll the `Location` header: `GET …/pullrequests/<n>/merge/task-status/<task_id>` until it completes. The PR has `.queued` (boolean). Don't treat 202 as merged. In a required queue, 202 + `.queued` true = queued.
-- Auto-merge: UI only; not readable or cancellable by API. No dequeue endpoint found.
+- Auto-merge on or cancel: **Unsupported** → UI only; hand it to the user. Dequeue: **Unsupported** → no endpoint found; hand it to the user.
 
 ## Delete branch
 
-Set `close_source_branch: true` in the merge body (omitted = the value from PR creation, default false). Also set it on create. Already gone is fine.
+Set `close_source_branch: true` in the merge body (omitted = the value from PR creation, default false). Also set it on create. Already gone counts as deleted.
 
 ## Retarget
 
-`jq -n --arg t "<t>" '{destination:{branch:{name:$t}}}' | AUTH -X PUT -H 'Content-Type: application/json' -d @- https://api.bitbucket.org/2.0/repositories/W/R/pullrequests/<n>`
+`jq -n --arg t "<t>" '{destination:{branch:{name:$t}}}' | AUTH -X PUT -H 'Content-Type: application/json' -d @- https://api.bitbucket.org/2.0/repositories/<workspace>/<repo>/pullrequests/<n>`
 
-Only open PRs. The payload shape is inferred from the PR schema. **Unverified**: check the API page before first use.
+Only open PRs. **Unverified**: check the API page before first use (the payload shape is inferred from the PR schema).
 
 ## Closing tickets
 
-**Unverified**: no PR-body closing keywords are confirmed for Bitbucket Cloud. The Issues service moves issues via `<issue#> <command>` keywords in commit messages (https://support.atlassian.com/bitbucket-cloud/docs/enable-an-issue-tracker/); exact keywords and whether they fire only on the default branch are unconfirmed. Jira keys link through the Jira integration, not keywords. Check the Atlassian docs before first use; otherwise close `<ticket>` manually after merge.
+No PR-body closing keywords are confirmed for Bitbucket Cloud. **Unverified**: check the Atlassian docs before first use. The Issues service moves issues via `<issue#> <command>` keywords in commit messages (https://support.atlassian.com/bitbucket-cloud/docs/enable-an-issue-tracker/); the exact keywords and whether they fire only on the default branch are unconfirmed. Jira keys link through the Jira integration, not keywords. Otherwise close `<ticket>` manually after merge.
 
 ## Quirks
 
-- No official CLI: don't use community CLIs.
-- Merge checks are advisory off Premium (see Approvals & readiness).
 - Lists are paginated: follow `.next`.
-- `UNKNOWN` check status is not mergeable.
 - No native stacked PRs.

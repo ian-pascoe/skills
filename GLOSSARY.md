@@ -96,7 +96,7 @@ _Avoid_: branch protection, policies, rulesets
 
 **Merge queue**:
 A code host's line of PRs, required by its merge rules, that re-checks each PR against the latest target before merging it.
-_Avoid_: merge train, auto-merge
+_Avoid_: merge train
 
 **Review thread**:
 A discussion on a PR that the code host can mark resolved, or that its merge rules can count against a merge.

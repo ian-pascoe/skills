@@ -364,3 +364,14 @@ Closed or corrected, with sources inline above:
 - **Q9 Forgejo REST.** Reply to review thread: no endpoint. Top-level comment: `POST /issues/{index}/comments`. Head pin: `head_commit_id` is honoured server-side (not exposed by `fj`). Actions rerun: none via REST, UI only per Forgejo docs.
 - **Q10 GitCafe.** CI = `.github/workflows/` Actions-compatible workflows (+ Buildkite via integration); default branch = `defaultBranch` in repo details; bypass actors do skip rules via `cafe pr merge` when in `pull_request` or `always` mode.
 - **Side findings:** `gt` can't be used for Forgejo; `gh pr merge` treats `UNSTABLE` as mergeable; Bitbucket has UI-only auto-merge (`allow_auto_merge_when_builds_pass`); Forgejo swagger names the merge field `Do` (capital); GitHub `viewerCanMergeAsAdmin` gives a direct read of bypass ability.
+
+## 10. Local `gh` checks (2026-10-30)
+
+Run against `ian-pascoe/skills` with `gh` 2.103.3, for `github.md` entries the passes above didn't cover:
+
+- `gh repo view --json viewerPermission,squashMergeAllowed,mergeCommitAllowed,rebaseMergeAllowed` returns all four fields (`viewerPermission` e.g. `ADMIN`).
+- `gh pr edit --help` lists `-F, --body-file file`.
+- `gh run list --help` lists `-c, --commit SHA`.
+- `gh pr list --help` lists `-S, --search query`, using GitHub search syntax (so `in:body` applies).
+- `gh pr view <n> --json closingIssuesReferences` is a valid field.
+- `gh api repos/<owner>/<repo>/commits/<sha>/check-runs` returns `check_runs[]` with `name`, `status`, `conclusion`.
