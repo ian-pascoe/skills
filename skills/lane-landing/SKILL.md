@@ -32,9 +32,9 @@ Present the plan as an `escalating-to-user` ledger worded so "yes" approves it, 
 
 A ticket is ready once its blockers have landed. It may start sooner, stacked on its in-lane blocker, once the blocker's PR has passed review. Keep one ticket building per lane, up to the lane cap; a ticket stops building once its PR has passed review.
 
-For each ready ticket, spawn a fresh implementer in its own worktree on a new branch `<ticket>-<slug>`, cut from the default branch, or from its blocker's branch when stacking, where its PR targets that branch. Brief it with pointers to the ticket, its seams, and the lane plan. It runs `landing` from **Start** through **Open the PR**, stopping once its PR is open, reports the PR, then fixes the findings you send it; it never merges. It brings you the decisions it would escalate, and you make the call.
+For each ready ticket, spawn a fresh implementer in its own worktree on a new branch `<ticket>-<slug>`, cut from the default branch, or from its blocker's branch when stacking, where its PR targets that branch. Brief it with pointers to the ticket, its seams, and the lane plan. It runs `landing` from **Start** through **Open the PR**, ending there even on a branch with an open PR, reports the PR, then fixes the findings you send it; it never merges. It brings you the decisions it would escalate, and you make the call.
 
-Run **Pass the gates** and **Merge** from `landing` on each PR yourself, sending blocking findings and CI failures to its implementer. While a check is red on the default branch, start no new tickets.
+Run **Pass the gates** and **Merge** from `landing` on each PR yourself, sending blocking findings and CI failures to its implementer. Hold new tickets while a check is red on the default branch, until it is green.
 
 Restack a child before merging the PR it stacks on, waiting until the child's implementer is idle and working in the child's worktree:
 

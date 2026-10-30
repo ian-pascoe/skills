@@ -7,7 +7,7 @@ Land the **change** the user approved: a ticket they name, or the plan just sett
 
 ## Start
 
-If the user names a ticket, fetch it from the issue tracker and state its title. Otherwise the spec is the plan settled in the conversation, which the PR body carries in place of a ticket.
+If the user names a ticket, fetch it from the issue tracker and state its title. Otherwise the spec is the plan settled in the conversation: land it without filing a ticket, and let the PR body carry it.
 
 Work in the current checkout. If HEAD is detached or on the default branch, branch from the up-to-date default branch as `<ticket>-<slug>`, or `<slug>` without a ticket; otherwise keep the current branch. If the branch already has an open PR, go to **Pass the gates**.
 
