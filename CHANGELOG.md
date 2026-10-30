@@ -1,5 +1,13 @@
 # @ian-pascoe/skills
 
+## 0.4.0
+
+### Minor Changes
+
+- [#12](https://github.com/ian-pascoe/skills/pull/12) [`3850060`](https://github.com/ian-pascoe/skills/commit/3850060723c964c9f0cc48be99854b79d92d5612) Thanks [@ian-pascoe](https://github.com/ian-pascoe)! - New `addressing-pr-review` skill, with `address-pr-review` to run it yourself: addresses the unresolved review threads on the current branch's PR, plus changes a reviewer asked for outside any thread, then commits and pushes the fixes and resolves the threads. It fixes or dismisses a bot's findings, fixes another person's when it agrees and holds the rest for you, and reports every finding's outcome. It works on any code host `code-host` covers, so install `code-host` alongside it.
+
+- [#12](https://github.com/ian-pascoe/skills/pull/12) [`3850060`](https://github.com/ian-pascoe/skills/commit/3850060723c964c9f0cc48be99854b79d92d5612) Thanks [@ian-pascoe](https://github.com/ian-pascoe)! - New `code-host` skill: finds the repo's code host, checks your access, and holds each host's commands for PRs, reviews, checks, and merges. They moved out of `landing`, which now runs `code-host`, so install `code-host` alongside `landing` and `lane-landing`. The agent can also reach it on its own for ad-hoc PR work on any code host it covers.
+
 ## 0.3.2
 
 ### Patch Changes
