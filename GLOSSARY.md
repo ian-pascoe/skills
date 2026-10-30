@@ -73,5 +73,5 @@ The subagent that builds one ticket, opens its PR, and fixes its findings, but n
 _Avoid_: worker, agent, builder, coder
 
 **Orchestrator**:
-The agent that plans the lanes, dispatches implementers, and reviews, restacks, and merges every PR.
+The agent that plans the lanes, dispatches implementers, reviews every ticket's branch, and restacks and merges every PR.
 _Avoid_: coordinator, manager, lead
