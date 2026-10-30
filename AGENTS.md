@@ -112,6 +112,10 @@ bun --hot ./index.ts
 
 For more information, read the Bun API docs in `node_modules/bun-types/docs/**.mdx`.
 
+## Local skills
+
+Agents working in this repo load skills from `.agents/skills/`. Each skill in `skills/` is symlinked there, so adding, renaming, or removing a skill means updating its link too: `ln -s ../../skills/<name> .agents/skills/<name>`. Skills from other repos that these depend on are installed there with `npx skills add`, tracked in `skills-lock.json`.
+
 ## Changesets
 
 The repo is versioned as one private package with [Changesets](https://changesets.dev); releases are git tags and GitHub releases.
