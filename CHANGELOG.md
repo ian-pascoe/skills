@@ -1,5 +1,15 @@
 # @ian-pascoe/skills
 
+## 0.3.0
+
+### Minor Changes
+
+- [#6](https://github.com/ian-pascoe/skills/pull/6) [`d7a6080`](https://github.com/ian-pascoe/skills/commit/d7a608093060d0a4c45d65b6d8f2a45b770b1b2e) Thanks [@ian-pascoe](https://github.com/ian-pascoe)! - `internal-grilling` and `subagent-grilling` (and the `grill-yourself` and `grill-subagent` wrappers) now settle a load-bearing decision that rests on a public fact, like a library API, a vendor limit, or a spec, with mattpocock's `research` skill, and the ledger links the findings file it writes into your repo. Install `research` alongside `grilling`: `npx skills@latest add mattpocock/skills --skill research`.
+
+### Patch Changes
+
+- [#6](https://github.com/ian-pascoe/skills/pull/6) [`d7a6080`](https://github.com/ian-pascoe/skills/commit/d7a608093060d0a4c45d65b6d8f2a45b770b1b2e) Thanks [@ian-pascoe](https://github.com/ian-pascoe)! - `escalating-to-user` now looks up the facts it can find, public ones included (library APIs, vendor limits, specs), and decides on them instead of escalating them to you.
+
 ## 0.2.0
 
 ### Minor Changes
