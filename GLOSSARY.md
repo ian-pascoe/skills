@@ -57,7 +57,7 @@ A unit of work tracked on the repo's issue tracker.
 _Avoid_: issue (except for the tracker's own object), task
 
 **Land**:
-Take an approved change through building, a PR, review, and CI until it is landed.
+Take an approved change through building, a PR, review, and CI onto the default branch.
 _Avoid_: ship, release, deliver
 
 **Landed**:

@@ -31,7 +31,7 @@ Skills here may depend on each other; when installing single skills with `--skil
 Some skills build on skills from [mattpocock/skills](https://github.com/mattpocock/skills). Install them alongside this repo, leaving them model-invoked (the default) so other skills can reach them:
 
 ```bash
-npx skills@latest add mattpocock/skills --skill grilling domain-modeling tdd code-review pr
+npx skills@latest add mattpocock/skills --skill grilling domain-modeling tdd codebase-design code-review pr
 ```
 
 ### `grilling`
@@ -44,7 +44,7 @@ npx skills@latest add mattpocock/skills --skill grilling domain-modeling tdd cod
 
 ### `tdd`
 
-[Source](https://github.com/mattpocock/skills/tree/main/skills/engineering/tdd). The red-green-refactor loop `landing` builds a change with.
+[Source](https://github.com/mattpocock/skills/tree/main/skills/engineering/tdd). The red-green-refactor loop `landing` builds a change with. It consults [`codebase-design`](https://github.com/mattpocock/skills/tree/main/skills/engineering/codebase-design) for interface vocabulary, so install that too.
 
 ### `code-review`
 

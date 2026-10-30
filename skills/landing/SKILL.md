@@ -7,7 +7,7 @@ Land the **change** the user approved: a ticket they name, or the plan just sett
 
 ## Start
 
-If the user names a ticket, fetch it from the issue tracker and state its title. Otherwise the spec is the plan settled in the conversation.
+If the user names a ticket, fetch it from the issue tracker and state its title. Otherwise the spec is the plan settled in the conversation, which the PR body carries in place of a ticket.
 
 Work in the current checkout. If HEAD is detached or on the default branch, branch from the up-to-date default branch as `<ticket>-<slug>`, or `<slug>` without a ticket; otherwise keep the current branch. If the branch already has an open PR, go to **Pass the gates**.
 
@@ -25,18 +25,18 @@ Push and open a PR against the default branch, writing its body with `pr`. Add `
 
 The PR is ready to merge once its current diff has passed review and its current head has passed CI. Each round of fixes, for review or CI, is one cycle; after three cycles, hold the PR and escalate.
 
-**Review.** Run `code-review` with the PR's base as the fixed point and the ticket as the spec, or the plan in the PR body. Post its report as a plain PR comment (`gh pr comment`). Blocking findings are every Spec finding and every hard violation of a documented standard; baseline smells are advisory, so fix the ones you agree with and list the rest in the PR. Clear each blocker by fixing it, or by dismissing it with the reason posted on the PR and recorded as a decision, escalating a dismissal only the user can judge. Review again after fixes. A rebase that leaves the diff unchanged (`git range-diff` shows only `=`) keeps the review; one with hand-resolved conflicts needs a fresh review.
+**Review.** Run `code-review` with the PR's base as the fixed point and the ticket as the spec, or the plan in the PR body. Post its report as a plain PR comment (`gh pr comment`). Blocking findings are every Spec finding and every hard violation of a documented standard; baseline smells are advisory, so fix the ones you agree with and list the rest in the PR. Clear each blocker by fixing it, or by dismissing it with the reason posted on the PR and recorded as a decision, escalating a dismissal only the user can judge. Review again after fixes.
 
 **Review threads.** Treat every unresolved review thread as a finding: act on the user's, fix a bot's or dismiss it with a reply, and fix another person's when you agree. Resolve a thread (GraphQL `resolveReviewThread`) once it is fixed or a bot's is answered. Leave a person's thread you disagree with open, and escalate.
 
 **CI.** Wait with `gh pr checks --watch`. On a failure, read the logs: rerun once if it looks flaky, otherwise fix it. If the same check is red on the default branch too, it isn't this change's to fix: escalate. With no CI configured, treat it as green and say so.
 
-**Freshness.** If the default branch has moved since CI ran, rebase onto it, push with `--force-with-lease`, and wait for CI again.
+**Freshness.** If the default branch has moved since CI ran, rebase onto it, push with `--force-with-lease`, and wait for CI again; a rebase is not a fix cycle. A rebase that leaves the diff unchanged (`git range-diff` shows only `=`) keeps the review; one with hand-resolved conflicts needs a fresh review.
 
 ## Merge
 
-Merge with `gh pr merge --delete-branch` and the method the repo allows, preferring squash, so the repo's own rules gate it: never `--admin` or `--auto`. If anything other than pending checks blocks the merge, hold the PR and escalate. Merge only this run's PRs: those it opened or resumed.
+Hold a PR whose merge rests on a provisional answer until the user confirms that answer. Merge the rest with `gh pr merge --delete-branch` and the method the repo allows, preferring squash, so the repo's own rules gate it: never `--admin` or `--auto`. If anything other than pending checks blocks the merge, hold the PR and escalate. Merge only this run's PRs: those it opened or resumed.
 
-## Report
+## Present the ledger
 
-A merge resting on a provisional answer is durable work: hold that PR open. Present the ledger after acting rather than before: the PR landed or held with its escalations, every decision including dismissed findings, and any dirty files left out.
+Present the ledger after acting rather than before: the PR landed or held with its escalations, every decision including dismissed findings, and any dirty files left out.
