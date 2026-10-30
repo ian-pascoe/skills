@@ -107,7 +107,7 @@ A discussion on a PR that the code host can mark resolved, or that its merge rul
 _Avoid_: comment, conversation, discussion, task
 
 **Finding**:
-Something a review asks to change: a blocker from `code-review`, an unresolved review thread or blocking verdict, or a change a reviewer asked for outside any thread.
+Something a review asks to change: a blocker from `code-review`, an unresolved review thread, or a change a reviewer asked for outside any thread, such as in a blocking verdict.
 _Avoid_: issue, comment, feedback item
 
 **Review report**:
