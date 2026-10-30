@@ -40,9 +40,12 @@ const HEADER_FIELDS = ["Hosts", "Tool", "Exercised", "Sources", "Placeholders"];
 const MERGE_PATH_HOLDS: Record<string, number> = { "gitlab.md": 1 };
 const MERGE_PATH_MARKER = "**Unverified (merge path)**";
 
-/** A code host CLI running a subcommand, or GitHub-only API terms and merge flags. */
+/**
+ * A host CLI or curl command in backticks; outside backticks, a host CLI with
+ * a common subcommand; or GitHub-only API terms and merge flags.
+ */
 const HOST_COMMAND =
-  /\b(?:gh|glab|cafe|gt|tea|fj|az) (?:pr|mr|api|run|ci|repo|repos|devops|stack|issue|auth)\b|graphql|--admin\b|--auto\b/gi;
+  /`(?:gh|glab|cafe|gt|tea|fj|az|curl) [^`]*`|\b(?:gh|glab|cafe|gt|tea|fj|az) (?:pr|mr|api|run|ci|repo|repos|devops|stack|issue|auth)\b|graphql|--admin\b|--auto\b/gi;
 
 /** Repo-relative path → file content. Returns one line per problem. */
 export function checkReferences(files: Record<string, string>): string[] {

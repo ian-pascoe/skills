@@ -97,7 +97,7 @@ test("a dropped merge-path hold is reported", () => {
   ]);
 });
 
-test("a merge-path hold outside the expected references is reported", () => {
+test("a merge-path hold in a reference not allowed one is reported", () => {
   const content = reference("GitHub", TEMPLATE, MERGE_PATH);
   expect(checkReferences(repo({ "skills/landing/references/github.md": content }))).toEqual([
     "skills/landing/references/github.md: expected 0 **Unverified (merge path)** holds, found 1",
@@ -134,7 +134,7 @@ test("a host command in a skill outside the references is reported", () => {
     "skills/land/SKILL.md": "Post it with `gh pr comment`, then resolve it over GraphQL.\n",
   });
   expect(checkReferences(files)).toEqual([
-    "skills/land/SKILL.md: host command gh pr belongs in a code host reference",
+    "skills/land/SKILL.md: host command `gh pr comment` belongs in a code host reference",
     "skills/land/SKILL.md: host command GraphQL belongs in a code host reference",
   ]);
 });
@@ -185,4 +185,14 @@ test("bold labels after an unclosed parenthesis on an earlier line are not point
     "skills/lane-landing/SKILL.md": "A stray ( here.\n\n**Freshness.** Rebase (**Retarget**).\n",
   });
   expect(checkReferences(files)).toEqual([]);
+});
+
+test("any backticked host CLI command, curl included, is reported", () => {
+  const files = repo({
+    "skills/land/SKILL.md": "Use `gh workflow run ci` or `curl https://api.example`.\n",
+  });
+  expect(checkReferences(files)).toEqual([
+    "skills/land/SKILL.md: host command `gh workflow run ci` belongs in a code host reference",
+    "skills/land/SKILL.md: host command `curl https://api.example` belongs in a code host reference",
+  ]);
 });
