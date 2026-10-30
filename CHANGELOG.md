@@ -1,5 +1,11 @@
 # @ian-pascoe/skills
 
+## 0.3.2
+
+### Patch Changes
+
+- [#10](https://github.com/ian-pascoe/skills/pull/10) [`67fb2a1`](https://github.com/ian-pascoe/skills/commit/67fb2a1a2cb58224d90d11bac4714aa6fec26f09) Thanks [@ian-pascoe](https://github.com/ian-pascoe)! - `landing` now pushes the commit its review report names (`git push <remote> <sha>:refs/heads/<branch>`), not the branch tip, so a commit made after review can't reach the PR unreviewed, and `lane-landing` tells each implementer which head to push. `landing` also writes the diff under review to a file and hands it to both `code-review` reviewers, so they review the diff even when they have no shell.
+
 ## 0.3.1
 
 ### Patch Changes
