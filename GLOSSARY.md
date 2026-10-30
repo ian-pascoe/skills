@@ -45,3 +45,33 @@ _Avoid_: summary, report
 **Interviewee**:
 The subagent that answers a grilling in the user's place.
 _Avoid_: agent, grillee, answerer
+
+## Landing
+
+**Change**:
+The work one PR lands: a ticket, or a plan settled in the conversation.
+_Avoid_: task, feature, work item, slice, patch
+
+**Ticket**:
+A unit of work tracked on the repo's issue tracker.
+_Avoid_: issue (except for the tracker's own object), task
+
+**Land**:
+Take an approved change through building, a PR, review, and CI until it is landed.
+_Avoid_: ship, release, deliver
+
+**Landed**:
+A change whose PR is merged into the default branch and whose tickets are closed.
+_Avoid_: merged, shipped, done
+
+**Lane**:
+An ordered chain of tickets, linked by blocked-by edges, that land one after another; lanes land in parallel.
+_Avoid_: track, stream, workstream, queue, stack
+
+**Implementer**:
+The subagent that builds one ticket, opens its PR, and fixes its findings, but never merges.
+_Avoid_: worker, agent, builder, coder
+
+**Orchestrator**:
+The agent that plans the lanes, dispatches implementers, and reviews, restacks, and merges every PR.
+_Avoid_: coordinator, manager, lead
