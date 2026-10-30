@@ -82,6 +82,10 @@ _Avoid_: coordinator, manager, lead
 The service holding the repo's remote, its PRs, its checks, and the rules that gate a merge.
 _Avoid_: forge, git host, provider, platform
 
+**Code host reference**:
+One code host's commands, in `code-host`'s `references/`, under the same headings as every other host's.
+_Avoid_: host doc, adapter
+
 **PR**:
 A code host's request to merge one branch into another, whatever the host calls it.
 _Avoid_: merge request, MR (except in a host's own commands)
@@ -101,6 +105,10 @@ _Avoid_: merge train
 **Review thread**:
 A discussion on a PR that the code host can mark resolved, or that its merge rules can count against a merge.
 _Avoid_: comment, conversation, discussion, task
+
+**Finding**:
+Something a review asks to change: a blocker from `code-review`, an unresolved review thread, or a change a reviewer asked for outside any thread, such as in a blocking verdict.
+_Avoid_: issue, comment, feedback item
 
 **Review report**:
 The passing code-review result posted on a PR, naming the head commit it reviewed.

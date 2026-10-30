@@ -3,25 +3,13 @@ name: landing
 description: Land a change by building it, passing code-review, opening its PR, and merging it once its checks pass. Use when the user asks for a change to be landed or merged, not just implemented.
 ---
 
-Land the **change** the user approved: a ticket they name, or the plan just settled in the conversation. It is landed when its PR is merged into the default branch and its tickets are closed. Run the `tdd`, `code-review`, and `pr` skills where named, and decide along the way under `escalating-to-user`; each holds except where this skill overrides it. Each round of fixes, for review or checks, is one cycle; after three cycles, hold the change and escalate.
+Land the **change** the user approved: a ticket they name, or the plan just settled in the conversation. It is landed when its PR is merged into the default branch and its tickets are closed. Run the `code-host`, `tdd`, `code-review`, and `pr` skills where named, and decide along the way under `escalating-to-user`; each holds except where this skill overrides it. Each round of fixes, for review or checks, is one cycle; after three cycles, hold the change and escalate.
 
 ## Start
 
 If the user names a ticket, fetch it from the issue tracker and state its title. Otherwise the spec is the plan settled in the conversation, or the PR's `## Plan` on a resumed PR: land it without filing a ticket.
 
-Find the **code host**, the service holding the remote the branch pushes to (its push remote, else `origin`), and load its reference from `references/`; every host command below comes from the **code host's reference**, under the heading in parentheses, like (**Checks**). Take the code host the tracker doc (`docs/agents/issue-tracker.md`) names, if it names one, else the remote's hostname from this table:
-
-| Hostname                                                   | Reference         |
-| ---------------------------------------------------------- | ----------------- |
-| `github.com`, `*.ghe.com`                                  | `github.md`       |
-| `gitlab.com`                                               | `gitlab.md`       |
-| `bitbucket.org`                                            | `bitbucket.md`    |
-| `dev.azure.com`, `ssh.dev.azure.com`, `*.visualstudio.com` | `azure-devops.md` |
-| `codeberg.org`                                             | `forgejo.md`      |
-| `gitea.com`                                                | `gitea.md`        |
-| `git.cafe`                                                 | `gitcafe.md`      |
-
-For any other hostname, probe in order: `https://<host>/api/forgejo/v1/version` answers, Forgejo; `https://<host>/api/v1/version` answers, Gitea; otherwise the host whose CLI (`gh`, `glab`, `cafe`) recognises the repo. Escalate when none does, or more than one. Then check that the host's tool or token works and that you can push to the repo itself, or learn it from the first push where the host can't tell (**Detect & auth**); branches go there, never to a fork. With no remote, a host or edition the references don't cover, missing auth, or no push access, stop and say what's missing. Note in the ledger when the rules wouldn't bind you (**Bypass check**).
+Find the **code host** with `code-host`; every host command below comes from its **code host reference**, under the heading in parentheses, like (**Checks**). Escalate an ambiguous host; on anything else missing, stop and say what. Push branches to the repo itself, never to a fork. Note in the ledger when the rules wouldn't bind you (**Bypass check**).
 
 Work in the current checkout. If HEAD is detached or on the default branch, branch from the up-to-date default branch (**Default branch**) as `<ticket>-<slug>`, or `<slug>` without a ticket; otherwise keep the current branch. If the branch already has an open PR (**Find PRs**), go to **Pass checks** if the latest review report on the PR (**List comments**, or its body's `## Review`) covers its current diff (it names the current head, or `git range-diff` shows only `=` against the head it names), otherwise to **Review**.
 
