@@ -1,6 +1,6 @@
 # Bitbucket Cloud
 
-- **Hosts:** Bitbucket Cloud only (`bitbucket.org`). Bitbucket Data Center is not covered; `landing` stops at Start.
+- **Hosts:** Bitbucket Cloud only (`bitbucket.org`). Bitbucket Data Center is a host no reference covers.
 - **Tool:** REST via curl (no official Bitbucket CLI; `acli` has no Bitbucket commands), checked 2026-10-30
 - **Exercised:** not yet
 - **Sources:** https://api.bitbucket.org/swagger.json, https://developer.atlassian.com/cloud/bitbucket/oauth-2, https://developer.atlassian.com/cloud/bitbucket/rest/intro/#filtering, https://support.atlassian.com/bitbucket-cloud/docs/suggest-or-require-checks-before-a-merge/, https://support.atlassian.com/bitbucket-cloud/docs/enable-an-issue-tracker/, https://developer.atlassian.com/cloud/acli/reference/commands/

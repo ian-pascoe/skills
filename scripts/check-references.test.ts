@@ -129,6 +129,17 @@ test("a pointer to a heading the references don't have is reported", () => {
   ]);
 });
 
+test("pointers in code-host and addressing-pr-review are checked too", () => {
+  const files = repo({
+    "skills/code-host/SKILL.md": `${codeHost}\nCheck access (**Detect and auth**).\n`,
+    "skills/addressing-pr-review/SKILL.md": "List them (**Review threads**, **Threads**).\n",
+  });
+  expect(checkReferences(files)).toEqual([
+    "skills/code-host/SKILL.md: (**Detect and auth**) points to no reference heading",
+    "skills/addressing-pr-review/SKILL.md: (**Threads**) points to no reference heading",
+  ]);
+});
+
 test("a host command in a skill outside the references is reported", () => {
   const files = repo({
     "skills/land/SKILL.md": "Post it with `gh pr comment`, then resolve it over GraphQL.\n",

@@ -106,6 +106,10 @@ _Avoid_: merge train
 A discussion on a PR that the code host can mark resolved, or that its merge rules can count against a merge.
 _Avoid_: comment, conversation, discussion, task
 
+**Finding**:
+Something a review asks to change: a blocker from `code-review`, an unresolved review thread or blocking verdict, or a change a reviewer asked for outside any thread.
+_Avoid_: issue, comment, feedback item
+
 **Review report**:
 The passing code-review result posted on a PR, naming the head commit it reviewed.
 _Avoid_: review comment, review summary

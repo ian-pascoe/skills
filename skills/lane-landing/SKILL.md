@@ -3,7 +3,7 @@ name: lane-landing
 description: Land many tickets in parallel lanes of implementer subagents, reviewing each before its PR opens and merging it once its checks pass. Use when the user asks for a parent issue's tickets, or a list of tickets, to be landed or merged, not just implemented.
 ---
 
-Land a set of tickets as the **orchestrator**: plan them into **lanes**, have **implementer** subagents build them, and take each through the `landing` skill's review, checks, and merge yourself. A lane is an ordered chain of tickets, linked by blocked-by edges, that land one after another; lanes land in parallel. Each ticket lands on the default branch on its own, with no integration branch. Run `landing` and `escalating-to-user`; both hold except where this skill overrides them.
+Land a set of tickets as the **orchestrator**: plan them into **lanes**, have **implementer** subagents build them, and take each through the `landing` skill's review, checks, and merge yourself. A lane is an ordered chain of tickets, linked by blocked-by edges, that land one after another; lanes land in parallel. Each ticket lands on the default branch on its own, with no integration branch. Run `code-host`, `landing`, and `escalating-to-user`; each holds except where this skill overrides them.
 
 ## Gather the tickets
 

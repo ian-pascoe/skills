@@ -24,7 +24,7 @@ Skills here may depend on each other; when installing single skills with `--skil
 | [`code-host`](skills/code-host/SKILL.md)                               | agent or user | Finds the repo's code host and holds its commands for PRs, reviews, checks, and merges.                       | [a code host](#code-host)                                                                                             |
 | [`landing`](skills/landing/SKILL.md)                                   | agent or user | Builds a change, reviews it, opens its PR, and merges it once its checks pass.                                | [`tdd`](#tdd), [`code-review`](#code-review), [`pr`](#pr), `escalating-to-user`, `code-host`                          |
 | [`land`](skills/land/SKILL.md)                                         | user          | Runs `landing`.                                                                                               | `landing`                                                                                                             |
-| [`lane-landing`](skills/lane-landing/SKILL.md)                         | agent or user | Lands a parent issue's tickets, or a list, in parallel lanes of subagents, pausing once to approve the plan.  | `landing`, `escalating-to-user`, [persistent subagents](#persistent-subagents)                                        |
+| [`lane-landing`](skills/lane-landing/SKILL.md)                         | agent or user | Lands a parent issue's tickets, or a list, in parallel lanes of subagents, pausing once to approve the plan.  | `code-host`, `landing`, `escalating-to-user`, [persistent subagents](#persistent-subagents)                           |
 | [`land-tickets`](skills/land-tickets/SKILL.md)                         | user          | Runs `lane-landing`.                                                                                          | `lane-landing`                                                                                                        |
 | [`addressing-pr-review`](skills/addressing-pr-review/SKILL.md)         | agent or user | Addresses the unresolved review feedback on the current branch's PR, then commits and pushes the fixes.       | `code-host`                                                                                                           |
 | [`address-pr-review`](skills/address-pr-review/SKILL.md)               | user          | Runs `addressing-pr-review`.                                                                                  | `addressing-pr-review`                                                                                                |
@@ -63,7 +63,7 @@ npx skills@latest add mattpocock/skills --skill grilling research domain-modelin
 
 ### Code host
 
-`code-host` runs commands on the repo's code host for `landing` and `addressing-pr-review`, so they need a remote they can push to and, for that host, one of:
+`code-host` runs commands on the repo's code host for `landing`, `lane-landing`, and `addressing-pr-review`, so they need a remote they can push to and, for that host, one of:
 
 | Code host                      | Needs                                                                                                                  |
 | ------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |

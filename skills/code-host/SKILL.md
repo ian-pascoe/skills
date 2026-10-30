@@ -1,6 +1,6 @@
 ---
 name: code-host
-description: Find a repo's code host and the commands for its PRs, reviews, checks, and merges. Use when acting on a PR or merge request, or when another skill names it.
+description: Find a repo's code host and the commands for its PRs, reviews, checks, and merges. Use when acting on a PR, or when another skill names it.
 ---
 
 Find the repo's **code host** and load its **code host reference** from `references/`: that host's commands, under the same headings in every reference. A skill that runs this one points at a heading in parentheses, like (**Checks**), and takes the command from there.
@@ -23,6 +23,6 @@ For any other hostname, probe in order: `https://<host>/api/forgejo/v1/version` 
 
 ## Check access
 
-Check that the host's tool or token works and that you can push to the repo, or learn it from the first push where the host can't tell (**Detect & auth**).
+Check that the host's tool or token works and that you can push to that remote, or learn it from the first push where the host can't tell (**Detect & auth**).
 
 Done when you hold one reference whose tool works and can push, or can name what's missing: no remote, an ambiguous host, a host or edition no reference covers, missing auth, or no push access.
