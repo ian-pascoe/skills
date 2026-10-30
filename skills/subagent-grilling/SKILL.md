@@ -15,7 +15,7 @@ Spawn a persistent subagent you can send round after round. It shares none of yo
 
 - The goal and the plan as it stands, with the decisions and constraints the user has already settled.
 - Paths to the files, docs, and code it bears on.
-- Its role: answering a design interview on the user's behalf under the `escalating-to-user` skill. Answer every question in a round, numbered to match, with a decision, a one-line why, and the strongest alternative rejected. Flag an answer that passes the escalation tests as **ESCALATE**, keeping its recommendation. Flag an answer whose load-bearing decision rests on a public fact as **RESEARCH**, naming the fact it assumed and leaving the lookup to you.
+- Its role: answering a design interview on the user's behalf under the `escalating-to-user` skill. Answer every question in a round, numbered to match, with a decision, a one-line why, and the strongest alternative rejected. Flag an answer that passes the escalation tests as **ESCALATE**, keeping its recommendation. Flag an answer whose load-bearing decision rests on a public fact as **RESEARCH**, naming the fact it assumed and leaving the lookup to the asker.
 
 ## Run the rounds
 
