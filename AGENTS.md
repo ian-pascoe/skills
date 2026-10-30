@@ -18,7 +18,7 @@ Pick the bump by what a skill user would notice:
 - `minor`: a new skill.
 - `patch`: a behaviour change to an existing skill.
 
-CI runs `bun run verify`: format, lint, typecheck, tests, and `check:references` (`scripts/check-references.ts`), which holds `landing`'s code host references to their template.
+CI runs `bun run verify`. Its `check:references` step (`scripts/check-references.ts`) holds `landing`'s code host references to one heading list and checks that every (**Heading**) pointer in `landing` and `lane-landing` names one of those headings.
 
 ## Agent skills
 

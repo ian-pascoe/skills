@@ -33,13 +33,13 @@ Typecheck and run single test files as you go, and the full suite once at the en
 
 ## Review
 
-Review every diff before the push that carries it, so checks run only on reviewed code; every later fix comes back through this section. The PR's **target** is the default branch, or the branch a stacked change stacks on. Fetch, then run `code-review` with `origin/<target>` as the fixed point, writing `git diff origin/<target>...HEAD` to a file and giving its path to both reviewers, so they review the diff even without a shell. Blocking findings are every Spec finding and every hard violation of a documented standard; baseline smells are advisory, so fix the ones you agree with and list the rest in the PR. Clear each blocker by fixing it, or by dismissing it with a reason recorded as a decision, escalating a dismissal only the user can judge. Review again after fixes, until no blockers remain.
+Review every diff before the push that carries it, so checks run only on reviewed code; every later fix comes back through this section. The PR's **target** is the default branch, or the branch a stacked change stacks on. Fetch, then run `code-review` with `origin/<target>` as the fixed point, writing `git diff origin/<target>...HEAD` to a file named for the branch and giving its path to the reviewers, so they review the diff even without a shell. Blocking findings are every Spec finding and every hard violation of a documented standard; baseline smells are advisory, so fix the ones you agree with and list the rest in the PR. Clear each blocker by fixing it, or by dismissing it with a reason recorded as a decision, escalating a dismissal only the user can judge. Review again after fixes, until no blockers remain.
 
 Post each passing report as a **review report**: a top-level comment the host doesn't count as an open thread (**Comment**), or where the host has none, a `## Review` section of the PR body (**Edit PR body**), naming the head commit it reviewed, with its dismissals and their reasons, so a later run can tell which diff was reviewed; the first waits for **Open the PR**.
 
 ## Open the PR
 
-Push the head the review report names, not the branch: `git push origin <reviewed-sha>:refs/heads/<branch>`, with `--force-with-lease` after a rebase, so only reviewed commits go up. If the branch has no PR yet, open one against its target (**Open PR**), writing its body with `pr`. When the tracker is the code host, add its closing keyword for each ticket (**Closing tickets**); without a ticket, add the settled plan under `## Plan`. Then post the review report.
+Push the head the review report names to the branch's push remote: `git push <remote> <reviewed-sha>:refs/heads/<branch>`, with `--force-with-lease` after a rebase, so only reviewed commits go up. If the branch has no PR yet, open one against its target (**Open PR**), writing its body with `pr`. When the tracker is the code host, add its closing keyword for each ticket (**Closing tickets**); without a ticket, add the settled plan under `## Plan`. Then post the review report.
 
 ## Pass checks
 

@@ -1,5 +1,29 @@
 import { expect, test } from "bun:test";
-import { checkReferences, HEADINGS } from "./check-references.ts";
+import { checkReferences } from "./check-references.ts";
+
+// The reference template, written out independently of the checker's own list.
+const TEMPLATE = [
+  "Detect & auth",
+  "Who am I",
+  "Default branch",
+  "Find PRs",
+  "Open PR",
+  "Edit PR body",
+  "Comment",
+  "List comments",
+  "Checks",
+  "Review threads",
+  "Blocking verdicts",
+  "Approvals & readiness",
+  "Bypass check",
+  "Merge methods & merge queue",
+  "Merge",
+  "Read back",
+  "Delete branch",
+  "Retarget",
+  "Closing tickets",
+  "Quirks",
+];
 
 const header = [
   "- **Hosts:** example.com",
@@ -9,11 +33,11 @@ const header = [
   "- **Placeholders:** `<n>` PR number",
 ].join("\n");
 
-function reference(title: string, headings: readonly string[] = HEADINGS, extra = ""): string {
+function reference(title: string, headings: string[] = TEMPLATE, mergeExtra = ""): string {
   return [
     `# ${title}`,
     header,
-    ...headings.map((h) => `## ${h}\n\nText.${h === "Merge" ? extra : ""}`),
+    ...headings.map((h) => `## ${h}\n\nText.${h === "Merge" ? mergeExtra : ""}`),
   ].join("\n\n");
 }
 
@@ -26,7 +50,7 @@ const landing = `## Start
 | \`github.com\` | \`github.md\` |
 | \`gitlab.com\` | \`gitlab.md\` |
 
-Check auth under **Detect & auth**, then open it (**Open PR**).
+Check auth (**Detect & auth**), then open it (**Open PR**).
 `;
 
 const laneLanding = "Retarget the child's PR (**Retarget**).\n";
@@ -36,7 +60,7 @@ function repo(overrides: Record<string, string | undefined> = {}): Record<string
     "skills/landing/SKILL.md": landing,
     "skills/lane-landing/SKILL.md": laneLanding,
     "skills/landing/references/github.md": reference("GitHub"),
-    "skills/landing/references/gitlab.md": reference("GitLab", HEADINGS, MERGE_PATH),
+    "skills/landing/references/gitlab.md": reference("GitLab", TEMPLATE, MERGE_PATH),
     ...overrides,
   };
   return Object.fromEntries(
@@ -49,12 +73,12 @@ test("a repo whose references follow the template has no problems", () => {
 });
 
 test("a reference missing a heading is reported", () => {
-  const headings = HEADINGS.filter((h) => h !== "Retarget");
+  const headings = TEMPLATE.filter((h) => h !== "Retarget");
   const problems = checkReferences(
     repo({ "skills/landing/references/github.md": reference("GitHub", headings) }),
   );
   expect(problems).toEqual([
-    "skills/landing/references/github.md: headings must be, in order: " + HEADINGS.join(", "),
+    "skills/landing/references/github.md: headings must be, in order: Detect & auth, Who am I, Default branch, Find PRs, Open PR, Edit PR body, Comment, List comments, Checks, Review threads, Blocking verdicts, Approvals & readiness, Bypass check, Merge methods & merge queue, Merge, Read back, Delete branch, Retarget, Closing tickets, Quirks",
   ]);
 });
 
@@ -74,7 +98,7 @@ test("a dropped merge-path hold is reported", () => {
 });
 
 test("a merge-path hold outside the expected references is reported", () => {
-  const content = reference("GitHub", HEADINGS, MERGE_PATH);
+  const content = reference("GitHub", TEMPLATE, MERGE_PATH);
   expect(checkReferences(repo({ "skills/landing/references/github.md": content }))).toEqual([
     "skills/landing/references/github.md: expected 0 **Unverified (merge path)** holds, found 1",
   ]);
@@ -110,7 +134,7 @@ test("a host command in a skill outside the references is reported", () => {
     "skills/land/SKILL.md": "Post it with `gh pr comment`, then resolve it over GraphQL.\n",
   });
   expect(checkReferences(files)).toEqual([
-    "skills/land/SKILL.md: host command `gh pr comment` belongs in a code host reference",
+    "skills/land/SKILL.md: host command gh pr belongs in a code host reference",
     "skills/land/SKILL.md: host command GraphQL belongs in a code host reference",
   ]);
 });
@@ -118,6 +142,47 @@ test("a host command in a skill outside the references is reported", () => {
 test("naming a host's CLI without a command is fine", () => {
   const files = repo({
     "skills/land/SKILL.md": "Ask whichever CLI (`gh`, `glab`, `cafe`) knows the repo.\n",
+  });
+  expect(checkReferences(files)).toEqual([]);
+});
+
+test("a merge-path hold outside the references is reported", () => {
+  const files = repo({
+    "skills/land/SKILL.md": "**Unverified (merge path)**: hold before merging and escalate.\n",
+  });
+  expect(checkReferences(files)).toEqual([
+    "skills/land/SKILL.md: expected 0 **Unverified (merge path)** holds, found 1",
+  ]);
+});
+
+test("a reference listed twice in Start's hostname table is reported", () => {
+  const table = landing.replace(
+    "| `gitlab.com` | `gitlab.md` |",
+    "| `gitlab.com` | `gitlab.md` |\n| `gl.example` | `gitlab.md` |",
+  );
+  expect(checkReferences(repo({ "skills/landing/SKILL.md": table }))).toEqual([
+    "skills/landing/SKILL.md: Start's hostname table lists gitlab.md more than once",
+  ]);
+});
+
+test("a host command outside backticks, or lower-case graphql, is reported", () => {
+  const files = repo({ "skills/land/SKILL.md": "Run gh pr merge, then query graphql.\n" });
+  expect(checkReferences(files)).toEqual([
+    "skills/land/SKILL.md: host command gh pr belongs in a code host reference",
+    "skills/land/SKILL.md: host command graphql belongs in a code host reference",
+  ]);
+});
+
+test("a pointer written as under **Heading** is reported", () => {
+  const files = repo({ "skills/lane-landing/SKILL.md": "Retarget it, under **Retarget**.\n" });
+  expect(checkReferences(files)).toEqual([
+    "skills/lane-landing/SKILL.md: write the pointer under **Retarget** as (**Retarget**)",
+  ]);
+});
+
+test("bold labels after an unclosed parenthesis on an earlier line are not pointers", () => {
+  const files = repo({
+    "skills/lane-landing/SKILL.md": "A stray ( here.\n\n**Freshness.** Rebase (**Retarget**).\n",
   });
   expect(checkReferences(files)).toEqual([]);
 });
