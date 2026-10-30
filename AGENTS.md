@@ -114,7 +114,9 @@ For more information, read the Bun API docs in `node_modules/bun-types/docs/**.m
 
 ## Local skills
 
-Agents working in this repo load skills from `.agents/skills/`. Each skill in `skills/` is symlinked there, so adding, renaming, or removing a skill means updating its link too: `ln -s ../../skills/<name> .agents/skills/<name>`. Skills from other repos that these depend on are installed there with `npx skills add`, tracked in `skills-lock.json`.
+Agents working in this repo load skills from `.agents/skills/`. Each skill in `skills/` is symlinked there, so adding, renaming, or removing a skill means updating its link too: `ln -s ../../skills/<name> .agents/skills/<name>`. Skills from other repos that these depend on are installed there with `npx skills add`, tracked in `skills-lock.json`. Don't run `npx skills add` on this repo's own skills: it replaces the symlinks with copies that go stale.
+
+Claude Code loads skills from `.claude/skills/`, where every skill in `.agents/skills/` has a link: `ln -s ../../.agents/skills/<name> .claude/skills/<name>`.
 
 ## Changesets
 
