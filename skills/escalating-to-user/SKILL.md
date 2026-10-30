@@ -1,5 +1,5 @@
 ---
-name: escalate-to-user
+name: escalating-to-user
 description: Decide on the user's behalf, escalating only the decisions that need them and reporting the rest in a ledger. Use when the user asks you to decide for them and only ask what you must, or when another skill names it.
 ---
 

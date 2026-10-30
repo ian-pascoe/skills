@@ -111,3 +111,17 @@ bun --hot ./index.ts
 ```
 
 For more information, read the Bun API docs in `node_modules/bun-types/docs/**.mdx`.
+
+## Changesets
+
+The repo is versioned as one private package with [Changesets](https://changesets.dev); releases are git tags and GitHub releases.
+
+Every change a skill user would notice gets a changeset: run `bun changeset`. Write it for skill users, naming the skill that changed. A changeset that removes or renames a skill names what replaces it. Changes that only touch repo tooling, CI, or docs need none.
+
+Pick the bump by what a skill user would notice:
+
+- `major`: a skill is removed or renamed, or how it is invoked or what it requires changes incompatibly. While below 1.0, use `minor` instead.
+- `minor`: a new skill.
+- `patch`: a behaviour change to an existing skill.
+
+CI runs `bun run verify`. When the first TS/JS file lands, add `lint` and `typecheck` to it.

@@ -1,0 +1,42 @@
+name: release
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.4.4"
+
+      # @changesets/cli 3 needs Node ^22.11 || ^24 || >=26.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install
+        run: bun install --frozen-lockfile --ignore-scripts
+
+      # No npm publish: `changeset git-tag` tags the release, and the action
+      # pushes the tag and creates the GitHub release from CHANGESETS_OUTPUT.
+      - uses: changesets/action@v2
+        with:
+          version-script: bun run version
+          publish-script: bun changeset git-tag
+          create-github-releases: true
+          commit-message: "chore: version skills"
+          pr-title: "chore: version skills"

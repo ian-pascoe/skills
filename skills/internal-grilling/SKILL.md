@@ -3,7 +3,7 @@ name: internal-grilling
 description: Grill a plan internally, answering your own questions down its whole design tree and escalating only what needs the user. Use when the user wants a plan stress-tested without being interviewed.
 ---
 
-Run the `grilling` skill as an internal dialogue: answer your own questions, and put to the user only what the `escalate-to-user` skill escalates. Both skills hold except where this skill overrides them.
+Run the `grilling` skill as an internal dialogue: answer your own questions, and put to the user only what the `escalating-to-user` skill escalates. Both skills hold except where this skill overrides them.
 
 ## Answer your own questions
 

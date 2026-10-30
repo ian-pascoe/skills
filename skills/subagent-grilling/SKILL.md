@@ -3,7 +3,7 @@ name: subagent-grilling
 description: Grill a strong-model subagent down a plan's whole design tree in the user's place, escalating only what needs the user. Use when the user wants a stronger model to answer a plan's design questions.
 ---
 
-Run the `grilling` skill with a subagent, the **interviewee**, in the user's seat: you ask, it answers. A strong model makes the calls, you keep the interview relentless, and the user hears only what the `escalate-to-user` skill escalates. Both skills hold except where this skill overrides them.
+Run the `grilling` skill with a subagent, the **interviewee**, in the user's seat: you ask, it answers. A strong model makes the calls, you keep the interview relentless, and the user hears only what the `escalating-to-user` skill escalates. Both skills hold except where this skill overrides them.
 
 ## Confirm the interviewee's model
 
@@ -15,13 +15,13 @@ Spawn a persistent subagent you can send round after round. It shares none of yo
 
 - The goal and the plan as it stands, with the decisions and constraints the user has already settled.
 - Paths to the files, docs, and code it bears on.
-- Its role: answering a design interview on the user's behalf under the `escalate-to-user` skill. Answer every question in a round, numbered to match, with a decision, a one-line why, and the strongest alternative rejected. Flag an answer that passes the escalation tests as **ESCALATE**, keeping its recommendation.
+- Its role: answering a design interview on the user's behalf under the `escalating-to-user` skill. Answer every question in a round, numbered to match, with a decision, a one-line why, and the strongest alternative rejected. Flag an answer that passes the escalation tests as **ESCALATE**, keeping its recommendation.
 
 ## Run the rounds
 
 Send each round to the interviewee in place of the user. Challenge an answer that is thin or clashes with what the user has said; the challenge joins the next round.
 
-The escalation call is yours, since you hold the user's context: run each answer through `escalate-to-user`'s tests, whether flagged or not. An escalated answer becomes your provisional recommendation; tell the interviewee it is provisional.
+The escalation call is yours, since you hold the user's context: run each answer through `escalating-to-user`'s tests, whether flagged or not. An escalated answer becomes your provisional recommendation; tell the interviewee it is provisional.
 
 ## Present the ledger
 

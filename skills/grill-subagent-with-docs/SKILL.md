@@ -1,5 +1,5 @@
 ---
-name: grill-agent-with-docs
+name: grill-subagent-with-docs
 description: Grill a strong-model subagent down a plan's whole design tree in your place, writing the glossary and ADRs as decisions settle.
 disable-model-invocation: true
 ---
