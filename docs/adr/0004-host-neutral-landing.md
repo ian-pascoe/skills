@@ -1,5 +1,7 @@
 # Landing names host operations; each code host's commands live in a reference
 
+_The references and host detection have since moved to the `code-host` skill: see [ADR 0005](0005-code-host-skill.md)._
+
 `landing` and `lane-landing` describe what they do on the code host (post the review report, wait on checks, resolve a review thread, merge, retarget) and look up the commands in `skills/landing/references/<host>.md`, one file per code host with the same headings in the same order. The commands came from primary sources, recorded in [`docs/research/forge-clis.md`](../research/forge-clis.md). This replaced commands written for `gh`, so the skills land on GitHub, GitLab, Bitbucket Cloud, Azure DevOps Services, Gitea, Forgejo, and GitCafe alike.
 
 ## Considered Options

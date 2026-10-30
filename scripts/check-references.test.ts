@@ -43,7 +43,7 @@ function reference(title: string, headings: string[] = TEMPLATE, mergeExtra = ""
 
 const MERGE_PATH = "\n\n**Unverified (merge path)**: hold before merging and escalate.";
 
-const landing = `## Start
+const codeHost = `## Find the code host
 
 | Hostname     | Reference    |
 | ------------ | ------------ |
@@ -57,10 +57,10 @@ const laneLanding = "Retarget the child's PR (**Retarget**).\n";
 
 function repo(overrides: Record<string, string | undefined> = {}): Record<string, string> {
   const files: Record<string, string | undefined> = {
-    "skills/landing/SKILL.md": landing,
+    "skills/code-host/SKILL.md": codeHost,
     "skills/lane-landing/SKILL.md": laneLanding,
-    "skills/landing/references/github.md": reference("GitHub"),
-    "skills/landing/references/gitlab.md": reference("GitLab", TEMPLATE, MERGE_PATH),
+    "skills/code-host/references/github.md": reference("GitHub"),
+    "skills/code-host/references/gitlab.md": reference("GitLab", TEMPLATE, MERGE_PATH),
     ...overrides,
   };
   return Object.fromEntries(
@@ -75,46 +75,46 @@ test("a repo whose references follow the template has no problems", () => {
 test("a reference missing a heading is reported", () => {
   const headings = TEMPLATE.filter((h) => h !== "Retarget");
   const problems = checkReferences(
-    repo({ "skills/landing/references/github.md": reference("GitHub", headings) }),
+    repo({ "skills/code-host/references/github.md": reference("GitHub", headings) }),
   );
   expect(problems).toEqual([
-    "skills/landing/references/github.md: headings must be, in order: Detect & auth, Who am I, Default branch, Find PRs, Open PR, Edit PR body, Comment, List comments, Checks, Review threads, Blocking verdicts, Approvals & readiness, Bypass check, Merge methods & merge queue, Merge, Read back, Delete branch, Retarget, Closing tickets, Quirks",
+    "skills/code-host/references/github.md: headings must be, in order: Detect & auth, Who am I, Default branch, Find PRs, Open PR, Edit PR body, Comment, List comments, Checks, Review threads, Blocking verdicts, Approvals & readiness, Bypass check, Merge methods & merge queue, Merge, Read back, Delete branch, Retarget, Closing tickets, Quirks",
   ]);
 });
 
 test("a reference missing a header line is reported", () => {
   const content = reference("GitHub").replace("- **Exercised:** not yet\n", "");
-  expect(checkReferences(repo({ "skills/landing/references/github.md": content }))).toEqual([
-    "skills/landing/references/github.md: header is missing - **Exercised:**",
+  expect(checkReferences(repo({ "skills/code-host/references/github.md": content }))).toEqual([
+    "skills/code-host/references/github.md: header is missing - **Exercised:**",
   ]);
 });
 
 test("a dropped merge-path hold is reported", () => {
   expect(
-    checkReferences(repo({ "skills/landing/references/gitlab.md": reference("GitLab") })),
+    checkReferences(repo({ "skills/code-host/references/gitlab.md": reference("GitLab") })),
   ).toEqual([
-    "skills/landing/references/gitlab.md: expected 1 **Unverified (merge path)** hold, found 0",
+    "skills/code-host/references/gitlab.md: expected 1 **Unverified (merge path)** hold, found 0",
   ]);
 });
 
 test("a merge-path hold in a reference not allowed one is reported", () => {
   const content = reference("GitHub", TEMPLATE, MERGE_PATH);
-  expect(checkReferences(repo({ "skills/landing/references/github.md": content }))).toEqual([
-    "skills/landing/references/github.md: expected 0 **Unverified (merge path)** holds, found 1",
+  expect(checkReferences(repo({ "skills/code-host/references/github.md": content }))).toEqual([
+    "skills/code-host/references/github.md: expected 0 **Unverified (merge path)** holds, found 1",
   ]);
 });
 
-test("a reference missing from Start's hostname table is reported", () => {
-  const files = repo({ "skills/landing/references/gitea.md": reference("Gitea") });
+test("a reference missing from the hostname table is reported", () => {
+  const files = repo({ "skills/code-host/references/gitea.md": reference("Gitea") });
   expect(checkReferences(files)).toEqual([
-    "skills/landing/SKILL.md: Start's hostname table has no row for gitea.md",
+    "skills/code-host/SKILL.md: the hostname table has no row for gitea.md",
   ]);
 });
 
 test("a hostname table row naming no reference is reported", () => {
-  const files = repo({ "skills/landing/references/gitlab.md": undefined });
+  const files = repo({ "skills/code-host/references/gitlab.md": undefined });
   expect(checkReferences(files)).toEqual([
-    "skills/landing/SKILL.md: Start's hostname table names gitlab.md, which isn't in skills/landing/references/",
+    "skills/code-host/SKILL.md: the hostname table names gitlab.md, which isn't in skills/code-host/references/",
   ]);
 });
 
@@ -155,13 +155,13 @@ test("a merge-path hold outside the references is reported", () => {
   ]);
 });
 
-test("a reference listed twice in Start's hostname table is reported", () => {
-  const table = landing.replace(
+test("a reference listed twice in the hostname table is reported", () => {
+  const table = codeHost.replace(
     "| `gitlab.com` | `gitlab.md` |",
     "| `gitlab.com` | `gitlab.md` |\n| `gl.example` | `gitlab.md` |",
   );
-  expect(checkReferences(repo({ "skills/landing/SKILL.md": table }))).toEqual([
-    "skills/landing/SKILL.md: Start's hostname table lists gitlab.md more than once",
+  expect(checkReferences(repo({ "skills/code-host/SKILL.md": table }))).toEqual([
+    "skills/code-host/SKILL.md: the hostname table lists gitlab.md more than once",
   ]);
 });
 

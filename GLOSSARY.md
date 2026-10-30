@@ -82,6 +82,10 @@ _Avoid_: coordinator, manager, lead
 The service holding the repo's remote, its PRs, its checks, and the rules that gate a merge.
 _Avoid_: forge, git host, provider, platform
 
+**Code host reference**:
+One code host's commands, in `code-host`'s `references/`, under the same headings as every other host's.
+_Avoid_: host doc, adapter
+
 **PR**:
 A code host's request to merge one branch into another, whatever the host calls it.
 _Avoid_: merge request, MR (except in a host's own commands)

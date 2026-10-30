@@ -1,11 +1,16 @@
-// Checks that landing's code host references follow their heading template and
-// that the skills pointing into them stay in step. `bun run check:references`.
+// Checks that code-host's references follow their heading template and that the
+// skills pointing into them stay in step. `bun run check:references`.
 
-const REFERENCES_DIR = "skills/landing/references/";
-const LANDING = "skills/landing/SKILL.md";
+const REFERENCES_DIR = "skills/code-host/references/";
+const CODE_HOST = "skills/code-host/SKILL.md";
 
 /** Skills whose parenthesised bold spans, like (**Checks**), point to reference headings. */
-const POINTING_SKILLS = [LANDING, "skills/lane-landing/SKILL.md"];
+const POINTING_SKILLS = [
+  CODE_HOST,
+  "skills/landing/SKILL.md",
+  "skills/lane-landing/SKILL.md",
+  "skills/addressing-pr-review/SKILL.md",
+];
 
 const HEADINGS = [
   "Detect & auth",
@@ -114,23 +119,23 @@ function checkPointers(path: string, content: string): string[] {
 
 function checkHostnameTable(files: Record<string, string>): string[] {
   const references = new Set(Object.keys(files).flatMap((path) => referenceName(path) ?? []));
-  const rows = (files[LANDING] ?? "")
+  const rows = (files[CODE_HOST] ?? "")
     .split("\n")
     .filter((line) => line.startsWith("|"))
     .flatMap((line) => [...line.matchAll(/`([\w-]+\.md)`/g)].map((m) => m[1] ?? ""));
   const problems: string[] = [];
   for (const name of references) {
     if (!rows.includes(name)) {
-      problems.push(`${LANDING}: Start's hostname table has no row for ${name}`);
+      problems.push(`${CODE_HOST}: the hostname table has no row for ${name}`);
     }
   }
   for (const name of new Set(rows)) {
     if (!references.has(name)) {
       problems.push(
-        `${LANDING}: Start's hostname table names ${name}, which isn't in ${REFERENCES_DIR}`,
+        `${CODE_HOST}: the hostname table names ${name}, which isn't in ${REFERENCES_DIR}`,
       );
     } else if (rows.indexOf(name) !== rows.lastIndexOf(name)) {
-      problems.push(`${LANDING}: Start's hostname table lists ${name} more than once`);
+      problems.push(`${CODE_HOST}: the hostname table lists ${name} more than once`);
     }
   }
   return problems;

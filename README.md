@@ -21,10 +21,13 @@ Skills here may depend on each other; when installing single skills with `--skil
 | [`subagent-grilling`](skills/subagent-grilling/SKILL.md)               | agent or user | Grills a strong-model subagent down the whole design tree in your place, after confirming its model with you. | [`grilling`](#grilling), [`research`](#research), `escalating-to-user`, [persistent subagents](#persistent-subagents) |
 | [`grill-subagent`](skills/grill-subagent/SKILL.md)                     | user          | Runs `subagent-grilling`.                                                                                     | `subagent-grilling`                                                                                                   |
 | [`grill-subagent-with-docs`](skills/grill-subagent-with-docs/SKILL.md) | user          | `subagent-grilling`, writing the glossary and ADRs as decisions settle.                                       | `subagent-grilling`, [`domain-modeling`](#domain-modeling)                                                            |
-| [`landing`](skills/landing/SKILL.md)                                   | agent or user | Builds a change, reviews it, opens its PR, and merges it once its checks pass.                                | [`tdd`](#tdd), [`code-review`](#code-review), [`pr`](#pr), `escalating-to-user`, [a code host](#code-host)            |
+| [`code-host`](skills/code-host/SKILL.md)                               | agent or user | Finds the repo's code host and holds its commands for PRs, reviews, checks, and merges.                       | [a code host](#code-host)                                                                                             |
+| [`landing`](skills/landing/SKILL.md)                                   | agent or user | Builds a change, reviews it, opens its PR, and merges it once its checks pass.                                | [`tdd`](#tdd), [`code-review`](#code-review), [`pr`](#pr), `escalating-to-user`, `code-host`                          |
 | [`land`](skills/land/SKILL.md)                                         | user          | Runs `landing`.                                                                                               | `landing`                                                                                                             |
 | [`lane-landing`](skills/lane-landing/SKILL.md)                         | agent or user | Lands a parent issue's tickets, or a list, in parallel lanes of subagents, pausing once to approve the plan.  | `landing`, `escalating-to-user`, [persistent subagents](#persistent-subagents)                                        |
 | [`land-tickets`](skills/land-tickets/SKILL.md)                         | user          | Runs `lane-landing`.                                                                                          | `lane-landing`                                                                                                        |
+| [`addressing-pr-review`](skills/addressing-pr-review/SKILL.md)         | agent or user | Addresses the unresolved review feedback on the current branch's PR, then commits and pushes the fixes.       | `code-host`                                                                                                           |
+| [`address-pr-review`](skills/address-pr-review/SKILL.md)               | user          | Runs `addressing-pr-review`.                                                                                  | `addressing-pr-review`                                                                                                |
 
 ## Prerequisites
 
@@ -60,7 +63,7 @@ npx skills@latest add mattpocock/skills --skill grilling research domain-modelin
 
 ### Code host
 
-`landing` opens, reviews, and merges PRs on the repo's code host, so it needs a remote it can push to and, for that host, one of:
+`code-host` runs commands on the repo's code host for `landing` and `addressing-pr-review`, so they need a remote they can push to and, for that host, one of:
 
 | Code host                      | Needs                                                                                                                  |
 | ------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
@@ -72,7 +75,7 @@ npx skills@latest add mattpocock/skills --skill grilling research domain-modelin
 | Forgejo, Codeberg              | `curl`, `jq`, and `FORGEJO_TOKEN`                                                                                      |
 | [GitCafe](https://git.cafe)    | an authenticated `cafe` ([`@gitcafe/cli`](https://git.cafe/docs/getting-started/cli.md))                               |
 
-Each host's commands live in [`skills/landing/references/`](skills/landing/references). They were researched from primary sources ([findings](docs/research/forge-clis.md)), and only GitHub's have been exercised so far. Bitbucket Data Center and Azure DevOps Server aren't covered.
+Each host's commands live in [`skills/code-host/references/`](skills/code-host/references). They were researched from primary sources ([findings](docs/research/forge-clis.md)), and only GitHub's have been exercised so far. Bitbucket Data Center and Azure DevOps Server aren't covered.
 
 ### Persistent subagents
 

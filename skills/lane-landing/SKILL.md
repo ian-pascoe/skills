@@ -15,7 +15,7 @@ The code host and the tracker are the run's only state, so a rerun resumes: clos
 
 ## Plan the lanes
 
-Find the code host once, as `landing`'s **Start** does; host commands here come from its reference, under the heading in parentheses, and each implementer's brief names the host so it skips detection.
+Find the code host once with `code-host`, as `landing`'s **Start** does; host commands here come from its reference, under the heading in parentheses, and each implementer's brief names the host so it skips detection.
 
 Group the tickets into lanes along their blocked-by edges. A ticket blocked from another lane waits for that blocker to land. Propose seams for each ticket.
 
