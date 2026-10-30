@@ -1,5 +1,19 @@
 # @ian-pascoe/skills
 
+## 0.3.1
+
+### Patch Changes
+
+- [#8](https://github.com/ian-pascoe/skills/pull/8) [`577ea60`](https://github.com/ian-pascoe/skills/commit/577ea60a05792ca7ce54e932b688c21b4fdaf267) Thanks [@ian-pascoe](https://github.com/ian-pascoe)! - `landing` and `lane-landing` (and the `land` and `land-tickets` wrappers) now land on GitLab, Bitbucket Cloud, Azure DevOps Services, Gitea, Forgejo and Codeberg, and GitCafe as well as GitHub. Each code host's commands live in `landing`'s references, and the README lists the CLI or token each host needs. On every host, GitHub included, `landing` now:
+
+  - checks that it can push to the repo, at Start where the host can tell;
+  - escalates checks that haven't moved for an hour, and keeps waiting;
+  - gates each merge on the approvals the rules require and on its own review and checks, even where the host wouldn't;
+  - confirms each merge happened and merged the reviewed head;
+  - closes any ticket the host left open.
+
+  It prefers squash, then a merge commit, then rebase. Bitbucket Data Center and Azure DevOps Server aren't covered yet; `landing` stops at Start on them.
+
 ## 0.3.0
 
 ### Minor Changes
