@@ -1,6 +1,6 @@
 ---
 name: land
-description: Land the change just settled by building it, opening a PR, and merging it once code-review and CI pass.
+description: Land the change just settled by building it, reviewing it, opening a PR, and merging it once CI passes.
 disable-model-invocation: true
 ---
 

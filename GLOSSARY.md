@@ -57,7 +57,7 @@ A unit of work tracked on the repo's issue tracker.
 _Avoid_: issue (except for the tracker's own object), task
 
 **Land**:
-Take an approved change through building, a PR, review, and CI onto the default branch.
+Take an approved change through building, review, a PR, and CI onto the default branch.
 _Avoid_: ship, release, deliver
 
 **Landed**:
@@ -73,5 +73,5 @@ The subagent that builds one ticket, opens its PR, and fixes its findings, but n
 _Avoid_: worker, agent, builder, coder
 
 **Orchestrator**:
-The agent that plans the lanes, dispatches implementers, and reviews, restacks, and merges every PR.
+The agent that plans the lanes, dispatches implementers, reviews every ticket's branch, and restacks and merges every PR.
 _Avoid_: coordinator, manager, lead
