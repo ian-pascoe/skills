@@ -90,6 +90,10 @@ _Avoid_: forge, git host, provider, platform
 One code host's commands, in `code-host`'s `references/`, under the same headings as every other host's.
 _Avoid_: host doc, adapter
 
+**Code host config**:
+A repo's record of its code host, push remote, and merge method, written by the setup skill.
+_Avoid_: code host doc, host doc
+
 **PR**:
 A code host's request to merge one branch into another, whatever the host calls it.
 _Avoid_: merge request, MR (except in a host's own commands)

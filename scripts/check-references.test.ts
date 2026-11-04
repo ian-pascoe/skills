@@ -129,7 +129,7 @@ test("a pointer to a heading the references don't have is reported", () => {
   ]);
 });
 
-test("pointers in code-host, addressing-pr-review, and setup-ian-pascoe-skills are checked too", () => {
+test("pointers in every pointing skill are checked", () => {
   const files = repo({
     "skills/code-host/SKILL.md": `${codeHost}\nCheck access (**Detect and auth**).\n`,
     "skills/addressing-pr-review/SKILL.md": "List them (**Review threads**, **Threads**).\n",
