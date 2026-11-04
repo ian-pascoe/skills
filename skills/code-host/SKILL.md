@@ -21,7 +21,7 @@ The code host is the service holding the remote the branch pushes to: its push r
 
 For any other hostname, probe in order: `https://<host>/api/forgejo/v1/version` answers, Forgejo; `https://<host>/api/v1/version` answers, Gitea; otherwise the host whose CLI (`gh`, `glab`, `cafe`) recognises the repo. When none does, or more than one, the host is **ambiguous**.
 
-A code host config naming a remote this repo doesn't have is **stale**: report it rather than detecting past it.
+Take the merge method the code host config names, if any, for the skill that ran this one. A code host config naming a remote this repo doesn't have is **stale**: report it rather than detecting past it.
 
 ## Check access
 

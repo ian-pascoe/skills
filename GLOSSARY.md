@@ -91,7 +91,7 @@ One code host's commands, in `code-host`'s `references/`, under the same heading
 _Avoid_: host doc, adapter
 
 **Code host config**:
-A repo's record of its code host, push remote, and merge method, written by the setup skill.
+A repo's record of its code host, code host reference, push remote, and merge method, written by the setup skill.
 _Avoid_: code host doc, host doc
 
 **PR**:

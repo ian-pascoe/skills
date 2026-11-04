@@ -38,6 +38,8 @@ Some skills build on skills from [mattpocock/skills](https://github.com/mattpoco
 npx skills@latest add mattpocock/skills --skill grilling research domain-modeling tdd codebase-design code-review pr
 ```
 
+Then set up each repo you use them in: see [Setup](#setup).
+
 ### `grilling`
 
 [Source](https://github.com/mattpocock/skills/tree/main/skills/productivity/grilling). The design-tree interview that `internal-grilling` runs as an internal dialogue and `subagent-grilling` runs against a subagent.

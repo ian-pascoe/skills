@@ -24,7 +24,7 @@ Done when every prerequisite is installed or its command is with the user, and t
 
 Run `code-host`, setting aside any existing code host config so it detects the host afresh. Ask the user about an ambiguous host, recommending the one the existing config names, if any. When the result differs from the existing config, say so. Stop on no remote or a host no reference covers. Missing auth or push access belongs to this machine, not the repo: note it for the report and carry on.
 
-Read which merge methods the repo allows (**Merge methods & merge queue**) and recommend the one `landing` would pick without a config. The user may pick another, or none to leave the choice to each run.
+Read which merge methods the repo allows (**Merge methods & merge queue**) and recommend the first it allows of squash, merge commit, and rebase: the order `landing` falls back to without a config. The user may pick another, or none to leave the choice to each run.
 
 Done when you hold the host, its code host reference, its push remote, and a recommended merge method.
 
