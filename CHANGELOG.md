@@ -1,5 +1,11 @@
 # @ian-pascoe/skills
 
+## 0.5.1
+
+### Patch Changes
+
+- [#16](https://github.com/ian-pascoe/skills/pull/16) [`3d527ca`](https://github.com/ian-pascoe/skills/commit/3d527caad3b2e03816324824c8dcf4e52126b03c) Thanks [@ian-pascoe](https://github.com/ian-pascoe)! - `setup-ian-pascoe-skills` now installs: `npx skills add` skipped it because its description didn't parse as YAML.
+
 ## 0.5.0
 
 ### Minor Changes
