@@ -12,22 +12,23 @@ Skills here may depend on each other; when installing single skills with `--skil
 
 ## Skills
 
-| Skill                                                                  | Invoked by    | What it does                                                                                                  | Requires                                                                                                              |
-| ---------------------------------------------------------------------- | ------------- | ------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| [`escalating-to-user`](skills/escalating-to-user/SKILL.md)             | agent or user | Decides on your behalf, escalating only what needs you and reporting the rest in a ledger.                    | —                                                                                                                     |
-| [`internal-grilling`](skills/internal-grilling/SKILL.md)               | agent or user | Grills a plan internally, answering its own questions down the whole design tree.                             | [`grilling`](#grilling), [`research`](#research), `escalating-to-user`                                                |
-| [`grill-yourself`](skills/grill-yourself/SKILL.md)                     | user          | Runs `internal-grilling`.                                                                                     | `internal-grilling`                                                                                                   |
-| [`grill-yourself-with-docs`](skills/grill-yourself-with-docs/SKILL.md) | user          | `internal-grilling`, writing the glossary and ADRs as decisions settle.                                       | `internal-grilling`, [`domain-modeling`](#domain-modeling)                                                            |
-| [`subagent-grilling`](skills/subagent-grilling/SKILL.md)               | agent or user | Grills a strong-model subagent down the whole design tree in your place, after confirming its model with you. | [`grilling`](#grilling), [`research`](#research), `escalating-to-user`, [persistent subagents](#persistent-subagents) |
-| [`grill-subagent`](skills/grill-subagent/SKILL.md)                     | user          | Runs `subagent-grilling`.                                                                                     | `subagent-grilling`                                                                                                   |
-| [`grill-subagent-with-docs`](skills/grill-subagent-with-docs/SKILL.md) | user          | `subagent-grilling`, writing the glossary and ADRs as decisions settle.                                       | `subagent-grilling`, [`domain-modeling`](#domain-modeling)                                                            |
-| [`code-host`](skills/code-host/SKILL.md)                               | agent or user | Finds the repo's code host and holds its commands for PRs, reviews, checks, and merges.                       | [a code host](#code-host)                                                                                             |
-| [`landing`](skills/landing/SKILL.md)                                   | agent or user | Builds a change, reviews it, opens its PR, and merges it once its checks pass.                                | [`tdd`](#tdd), [`code-review`](#code-review), [`pr`](#pr), `escalating-to-user`, `code-host`                          |
-| [`land`](skills/land/SKILL.md)                                         | user          | Runs `landing`.                                                                                               | `landing`                                                                                                             |
-| [`lane-landing`](skills/lane-landing/SKILL.md)                         | agent or user | Lands a parent issue's tickets, or a list, in parallel lanes of subagents, pausing once to approve the plan.  | `code-host`, `landing`, `escalating-to-user`, [persistent subagents](#persistent-subagents)                           |
-| [`land-tickets`](skills/land-tickets/SKILL.md)                         | user          | Runs `lane-landing`.                                                                                          | `lane-landing`                                                                                                        |
-| [`addressing-pr-review`](skills/addressing-pr-review/SKILL.md)         | agent or user | Addresses the unresolved review feedback on the current branch's PR, then commits and pushes the fixes.       | `code-host`                                                                                                           |
-| [`address-pr-review`](skills/address-pr-review/SKILL.md)               | user          | Runs `addressing-pr-review`.                                                                                  | `addressing-pr-review`                                                                                                |
+| Skill                                                                  | Invoked by    | What it does                                                                                                       | Requires                                                                                                              |
+| ---------------------------------------------------------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------- |
+| [`escalating-to-user`](skills/escalating-to-user/SKILL.md)             | agent or user | Decides on your behalf, escalating only what needs you and reporting the rest in a ledger.                         | —                                                                                                                     |
+| [`internal-grilling`](skills/internal-grilling/SKILL.md)               | agent or user | Grills a plan internally, answering its own questions down the whole design tree.                                  | [`grilling`](#grilling), [`research`](#research), `escalating-to-user`                                                |
+| [`grill-yourself`](skills/grill-yourself/SKILL.md)                     | user          | Runs `internal-grilling`.                                                                                          | `internal-grilling`                                                                                                   |
+| [`grill-yourself-with-docs`](skills/grill-yourself-with-docs/SKILL.md) | user          | `internal-grilling`, writing the glossary and ADRs as decisions settle.                                            | `internal-grilling`, [`domain-modeling`](#domain-modeling)                                                            |
+| [`subagent-grilling`](skills/subagent-grilling/SKILL.md)               | agent or user | Grills a strong-model subagent down the whole design tree in your place, after confirming its model with you.      | [`grilling`](#grilling), [`research`](#research), `escalating-to-user`, [persistent subagents](#persistent-subagents) |
+| [`grill-subagent`](skills/grill-subagent/SKILL.md)                     | user          | Runs `subagent-grilling`.                                                                                          | `subagent-grilling`                                                                                                   |
+| [`grill-subagent-with-docs`](skills/grill-subagent-with-docs/SKILL.md) | user          | `subagent-grilling`, writing the glossary and ADRs as decisions settle.                                            | `subagent-grilling`, [`domain-modeling`](#domain-modeling)                                                            |
+| [`code-host`](skills/code-host/SKILL.md)                               | agent or user | Finds the repo's code host and holds its commands for PRs, reviews, checks, and merges.                            | [a code host](#code-host)                                                                                             |
+| [`landing`](skills/landing/SKILL.md)                                   | agent or user | Builds a change, reviews it, opens its PR, and merges it once its checks pass.                                     | [`tdd`](#tdd), [`code-review`](#code-review), [`pr`](#pr), `escalating-to-user`, `code-host`                          |
+| [`land`](skills/land/SKILL.md)                                         | user          | Runs `landing`.                                                                                                    | `landing`                                                                                                             |
+| [`lane-landing`](skills/lane-landing/SKILL.md)                         | agent or user | Lands a parent issue's tickets, or a list, in parallel lanes of subagents, pausing once to approve the plan.       | `code-host`, `landing`, `escalating-to-user`, [persistent subagents](#persistent-subagents)                           |
+| [`land-tickets`](skills/land-tickets/SKILL.md)                         | user          | Runs `lane-landing`.                                                                                               | `lane-landing`                                                                                                        |
+| [`addressing-pr-review`](skills/addressing-pr-review/SKILL.md)         | agent or user | Addresses the unresolved review feedback on the current branch's PR, then commits and pushes the fixes.            | `code-host`                                                                                                           |
+| [`address-pr-review`](skills/address-pr-review/SKILL.md)               | user          | Runs `addressing-pr-review`.                                                                                       | `addressing-pr-review`                                                                                                |
+| [`setup-ian-pascoe-skills`](skills/setup-ian-pascoe-skills/SKILL.md)   | user          | Checks the prerequisites and records the repo's code host and merge method for `code-host` and the landing skills. | [`setup-matt-pocock-skills`](#setup), `code-host`                                                                     |
 
 ## Prerequisites
 
@@ -36,6 +37,8 @@ Some skills build on skills from [mattpocock/skills](https://github.com/mattpoco
 ```bash
 npx skills@latest add mattpocock/skills --skill grilling research domain-modeling tdd codebase-design code-review pr
 ```
+
+Then set up each repo you use them in: see [Setup](#setup).
 
 ### `grilling`
 
@@ -55,7 +58,7 @@ npx skills@latest add mattpocock/skills --skill grilling research domain-modelin
 
 ### `code-review`
 
-[Source](https://github.com/mattpocock/skills/tree/main/skills/engineering/code-review). The Standards and Spec review a PR must pass before `landing` merges it. It reads the issue tracker config that `/setup-matt-pocock-skills` writes, so run that once in each repo you land in.
+[Source](https://github.com/mattpocock/skills/tree/main/skills/engineering/code-review). The Standards and Spec review a PR must pass before `landing` merges it. It reads the issue tracker config that `/setup-matt-pocock-skills` writes (see [Setup](#setup)).
 
 ### `pr`
 
@@ -80,6 +83,16 @@ Each host's commands live in [`skills/code-host/references/`](skills/code-host/r
 ### Persistent subagents
 
 `subagent-grilling` and `lane-landing` need a harness that can spawn subagents and keep messaging them across turns, such as pi's subagent tools. The subagents load this repo's skills (`escalating-to-user`, `landing`), so install them where the subagents can see them too.
+
+## Setup
+
+In each repo you use these skills in, run [`/setup-matt-pocock-skills`](https://github.com/mattpocock/skills/tree/main/skills/engineering/setup-matt-pocock-skills), then `/setup-ian-pascoe-skills`. The first writes the issue tracker and domain doc config that `code-review` and the landing skills read; install it like the prerequisites:
+
+```bash
+npx skills@latest add mattpocock/skills --skill setup-matt-pocock-skills
+```
+
+The second checks the prerequisites and records the repo's code host config, `docs/agents/code-host.md`. Without it the skills still work, detecting the code host on every run.
 
 ## License
 
