@@ -2,6 +2,7 @@
   "name": "@ian-pascoe/skills",
   "version": "0.4.0",
   "private": true,
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "changeset": "changeset",

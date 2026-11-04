@@ -80,3 +80,7 @@ Each host's commands live in [`skills/code-host/references/`](skills/code-host/r
 ### Persistent subagents
 
 `subagent-grilling` and `lane-landing` need a harness that can spawn subagents and keep messaging them across turns, such as pi's subagent tools. The subagents load this repo's skills (`escalating-to-user`, `landing`), so install them where the subagents can see them too.
+
+## License
+
+[MIT](LICENSE). The skills from [mattpocock/skills](https://github.com/mattpocock/skills) installed under `.agents/skills/` are Copyright (c) 2026 Matt Pocock, under [the MIT License](https://github.com/mattpocock/skills/blob/main/LICENSE).
