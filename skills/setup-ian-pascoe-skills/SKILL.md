@@ -1,6 +1,6 @@
 ---
 name: setup-ian-pascoe-skills
-description: Configure this repo for Ian Pascoe's skills: check their prerequisites and record its code host. Run once per repo, after setup-matt-pocock-skills.
+description: Configure this repo for Ian Pascoe's skills, checking their prerequisites and recording its code host. Run once per repo, after setup-matt-pocock-skills.
 disable-model-invocation: true
 ---
 
