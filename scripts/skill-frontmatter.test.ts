@@ -1,14 +1,17 @@
-// Every skill's frontmatter must parse with `yaml`, the parser the `skills`
-// installer uses; Bun's own YAML parser accepts some frontmatter it rejects.
+// Every skill's frontmatter must parse with `yaml`, the parser `npx skills add`
+// uses, which skips a skill whose frontmatter fails or has a blank name or
+// description. Bun's own YAML parser accepts some frontmatter `yaml` rejects.
+import { basename, dirname } from "node:path";
 import { expect, test } from "bun:test";
 import { parse } from "yaml";
 
-const skills = await Array.fromAsync(new Bun.Glob("skills/*/SKILL.md").scan());
+const skillFiles = await Array.fromAsync(new Bun.Glob("skills/*/SKILL.md").scan());
 
-test.each(skills)("%s has frontmatter the installer can parse", async (path) => {
+test.each(skillFiles)("%s has frontmatter `npx skills add` can parse", async (path) => {
   const frontmatter = (await Bun.file(path).text()).match(/^---\n([\s\S]*?)\n---\n/)?.[1];
-  expect(frontmatter).toBeDefined();
-  const { name, description } = parse(frontmatter ?? "");
-  expect(name).toBe(path.split("/")[1]);
-  expect(typeof description).toBe("string");
+  if (frontmatter === undefined) throw new Error(`${path} has no frontmatter`);
+  const { name, description } = parse(frontmatter);
+  expect(name).toBe(basename(dirname(path)));
+  expect(description).toBeString();
+  expect(description.trim()).not.toBe("");
 });
