@@ -28,14 +28,21 @@ Skills here may depend on each other; when installing single skills with `--skil
 | [`land-tickets`](skills/land-tickets/SKILL.md)                         | user          | Runs `lane-landing`.                                                                                          | `lane-landing`                                                                                                        |
 | [`addressing-pr-review`](skills/addressing-pr-review/SKILL.md)         | agent or user | Addresses the unresolved review feedback on the current branch's PR, then commits and pushes the fixes.       | `code-host`                                                                                                           |
 | [`address-pr-review`](skills/address-pr-review/SKILL.md)               | user          | Runs `addressing-pr-review`.                                                                                  | `addressing-pr-review`                                                                                                |
+| [`setup-ian-pascoe-skills`](skills/setup-ian-pascoe-skills/SKILL.md)   | user          | Checks the prerequisites and records the repo's code host and merge method for `code-host` and `landing`.     | [`setup-matt-pocock-skills`](#setup-matt-pocock-skills), `code-host`                                                  |
 
 ## Prerequisites
 
 Some skills build on skills from [mattpocock/skills](https://github.com/mattpocock/skills). Install them alongside this repo, leaving them model-invoked (the default) so other skills can reach them:
 
 ```bash
-npx skills@latest add mattpocock/skills --skill grilling research domain-modeling tdd codebase-design code-review pr
+npx skills@latest add mattpocock/skills --skill setup-matt-pocock-skills grilling research domain-modeling tdd codebase-design code-review pr
 ```
+
+Then, in each repo you use them in, run `/setup-matt-pocock-skills` and then `/setup-ian-pascoe-skills`. The skills work without `/setup-ian-pascoe-skills`, detecting the code host on every run.
+
+### `setup-matt-pocock-skills`
+
+[Source](https://github.com/mattpocock/skills/tree/main/skills/engineering/setup-matt-pocock-skills). Writes the repo's issue tracker, triage label, and domain doc config that `code-review` and the landing skills read. `setup-ian-pascoe-skills` builds on its output.
 
 ### `grilling`
 
@@ -55,7 +62,7 @@ npx skills@latest add mattpocock/skills --skill grilling research domain-modelin
 
 ### `code-review`
 
-[Source](https://github.com/mattpocock/skills/tree/main/skills/engineering/code-review). The Standards and Spec review a PR must pass before `landing` merges it. It reads the issue tracker config that `/setup-matt-pocock-skills` writes, so run that once in each repo you land in.
+[Source](https://github.com/mattpocock/skills/tree/main/skills/engineering/code-review). The Standards and Spec review a PR must pass before `landing` merges it. It reads the issue tracker config that `/setup-matt-pocock-skills` writes.
 
 ### `pr`
 

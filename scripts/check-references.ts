@@ -10,6 +10,7 @@ const POINTING_SKILLS = [
   "skills/landing/SKILL.md",
   "skills/lane-landing/SKILL.md",
   "skills/addressing-pr-review/SKILL.md",
+  "skills/setup-ian-pascoe-skills/SKILL.md",
 ];
 
 const HEADINGS = [

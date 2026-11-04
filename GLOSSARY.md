@@ -12,6 +12,10 @@ _Avoid_: base skill
 A skill only the user can start, which just runs one or more core skills under a short command.
 _Avoid_: alias, shortcut, command
 
+**Setup skill**:
+A skill only the user can start, which writes a repo's configuration for the other skills.
+_Avoid_: init, bootstrap, installer
+
 **Prerequisite**:
 A skill from another repo that this repo's skills run by name without bundling it.
 _Avoid_: vendored skill, dependency

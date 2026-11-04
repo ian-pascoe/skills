@@ -129,14 +129,16 @@ test("a pointer to a heading the references don't have is reported", () => {
   ]);
 });
 
-test("pointers in code-host and addressing-pr-review are checked too", () => {
+test("pointers in code-host, addressing-pr-review, and setup-ian-pascoe-skills are checked too", () => {
   const files = repo({
     "skills/code-host/SKILL.md": `${codeHost}\nCheck access (**Detect and auth**).\n`,
     "skills/addressing-pr-review/SKILL.md": "List them (**Review threads**, **Threads**).\n",
+    "skills/setup-ian-pascoe-skills/SKILL.md": "Read the methods (**Merge methods**).\n",
   });
   expect(checkReferences(files)).toEqual([
     "skills/code-host/SKILL.md: (**Detect and auth**) points to no reference heading",
     "skills/addressing-pr-review/SKILL.md: (**Threads**) points to no reference heading",
+    "skills/setup-ian-pascoe-skills/SKILL.md: (**Merge methods**) points to no reference heading",
   ]);
 });
 

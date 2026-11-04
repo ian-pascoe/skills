@@ -26,6 +26,10 @@ CI runs `bun run verify`. When you edit a skill or a code host reference, its `c
 
 Issues live in GitHub Issues on `ian-pascoe/skills`, managed with the `gh` CLI. See `docs/agents/issue-tracker.md`.
 
+### Code host
+
+GitHub, via `origin`. See `docs/agents/code-host.md`.
+
 ### Triage labels
 
 The five default labels are used as-is: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. See `docs/agents/triage-labels.md`.
