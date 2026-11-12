@@ -10,7 +10,7 @@ Claude Code loads skills from `.claude/skills/`, where every skill in `.agents/s
 
 The repo is versioned as one private package with [Changesets](https://changesets.dev); releases are git tags and GitHub releases.
 
-Every change a skill user would notice gets a changeset: run `bun changeset`. Write it for skill users, naming the skill that changed. A changeset that removes or renames a skill names what replaces it. Changes that only touch repo tooling, CI, or docs need none.
+Every change a skill user would notice gets a changeset: run `vp exec changeset`. Write it for skill users, naming the skill that changed. A changeset that removes or renames a skill names what replaces it. Changes that only touch repo tooling, CI, or docs need none.
 
 Pick the bump by what a skill user would notice:
 

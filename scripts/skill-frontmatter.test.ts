@@ -1,6 +1,6 @@
 // Every skill's frontmatter must parse with `yaml`, the parser `npx skills add`
 // uses, which skips a skill whose frontmatter fails or has a blank name or
-// description. Some other YAML parsers, like Bun's, accept frontmatter `yaml` rejects.
+// description. Some lenient YAML parsers accept frontmatter `yaml` rejects.
 import { glob, readFile } from "node:fs/promises";
 import { basename, dirname } from "node:path";
 import { expect, test } from "vite-plus/test";

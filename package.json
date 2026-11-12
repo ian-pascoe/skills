@@ -6,9 +6,6 @@
   "type": "module",
   "scripts": {
     "changeset": "changeset",
-    "check": "vp check",
-    "check:fix": "vp check --fix",
-    "test": "vp test",
     "verify": "vp check && vp test && vp run check:references",
     "version": "changeset version && vp fmt",
     "check:references": "node scripts/check-references.ts",
@@ -21,6 +18,9 @@
     "skills": "^1.7.4",
     "vite-plus": "catalog:",
     "yaml": "^2.9.1"
+  },
+  "engines": {
+    "node": ">=24.2"
   },
   "packageManager": "pnpm@12.18.0"
 }

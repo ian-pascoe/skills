@@ -31,7 +31,7 @@ jobs:
       - uses: changesets/action@v2
         with:
           version-script: vp run version
-          publish-script: pnpm changeset git-tag
+          publish-script: vp exec changeset git-tag
           create-github-releases: true
           commit-message: "chore: version skills"
           pr-title: "chore: version skills"
