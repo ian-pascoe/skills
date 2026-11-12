@@ -19,12 +19,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: oven-sh/setup-bun@v2
+      - uses: voidzero-dev/setup-vp@v1.22.0
         with:
-          bun-version: "1.4.4"
-
-      - name: Install
-        run: bun install --frozen-lockfile --ignore-scripts
+          node-version: "24"
+          cache: true
+          run-install: |
+            args: ["--frozen-lockfile", "--ignore-scripts"]
 
       - name: Verify
-        run: bun run verify
+        run: vp run verify

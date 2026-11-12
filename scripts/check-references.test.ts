@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vite-plus/test";
 import { checkReferences } from "./check-references.ts";
 
 // The reference template, written out independently of the checker's own list.

@@ -1,5 +1,6 @@
 // Checks that code-host's references follow their heading template and that the
-// skills pointing into them stay in step. `bun run check:references`.
+// skills pointing into them stay in step. `vp run check:references`.
+import { glob, readFile } from "node:fs/promises";
 
 const REFERENCES_DIR = "skills/code-host/references/";
 const CODE_HOST = "skills/code-host/SKILL.md";
@@ -144,8 +145,8 @@ function checkHostnameTable(files: Record<string, string>): string[] {
 
 if (import.meta.main) {
   const files: Record<string, string> = {};
-  for await (const path of new Bun.Glob("skills/**/*.md").scan()) {
-    files[path] = await Bun.file(path).text();
+  for await (const path of glob("skills/**/*.md")) {
+    files[path] = await readFile(path, "utf8");
   }
   const problems = checkReferences(files);
   for (const problem of problems) console.error(problem);

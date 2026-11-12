@@ -1,4 +1,4 @@
-Use Bun, not Node: `bun <file>`, `bun test`, `bun run <script>`, `bunx <package>`, `bun install`.
+Use [Vite+](https://viteplus.dev) (`vp`) with pnpm, not Bun: `vp install`, `vp check`, `vp test`, `vp run <script>`, `vp exec <bin>`. Scripts run on Node: `node <file>.ts`.
 
 ## Local skills
 
@@ -18,7 +18,7 @@ Pick the bump by what a skill user would notice:
 - `minor`: a new skill.
 - `patch`: a behaviour change to an existing skill.
 
-CI runs `bun run verify`. When you edit a skill or a code host reference, its `check:references` step enforces the rules in `scripts/check-references.ts`.
+CI runs `vp run verify`. When you edit a skill or a code host reference, its `check:references` step enforces the rules in `scripts/check-references.ts`.
 
 ## Agent skills
 
