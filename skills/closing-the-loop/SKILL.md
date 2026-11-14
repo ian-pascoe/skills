@@ -12,7 +12,7 @@ Close the loop on a coding run: look back at what in the agent's **environment**
 
 ## Friction log
 
-The **friction log** records each moment a run fought its environment rather than the work: a file or fact that took a long search, a mistake a check or the reviewer should have caught, a red check, a fix cycle, a flaky rerun, an escalation, or information the agent couldn't reach. Each entry names its moment, such as the commit, check, finding, or tool call, and what it cost.
+The **friction log** records each moment a run fought its environment rather than the work: a file or fact that took a long search, a mistake a check or the reviewer should have caught, a tool call that cost more than it returned, a red check, a fix cycle, a flaky rerun, an escalation, or information the agent couldn't reach. Each entry names its moment, such as the commit, check, finding, or tool call, and what it cost.
 
 A skill that runs this one keeps the log from the start of its run and passes it in. Run on your own, build the log from the current session's record, or the session the user names.
 
@@ -22,7 +22,7 @@ A skill that runs this one keeps the log from the start of its run and passes it
 
 2. Run `writing-for-agents` for the reference behind steering files and skills.
 
-3. **Diagnose.** For each entry, find the cause in the environment and the change that would have prevented it, in one of the **categories** below. Done when every entry has a candidate fix or a reason it has none.
+3. **Diagnose.** For each entry, find the cause in the environment and the change that would have prevented it, in one of the **categories** below, placed as **Where changes go** says. Done when every entry has a candidate fix or a reason it has none.
 
 4. **Triage.** Hold each candidate to **the bar**. Record each one that misses as a decision naming the test it failed. Done when every candidate is kept or dropped.
 
@@ -44,7 +44,7 @@ A skill that runs this one keeps the log from the start of its run and passes it
 Standards belong to the **reviewer**, not the implementer. The implementer carries the most context pressure: it explores, writes code, and debugs. The reviewer gets a diff, so it has room to apply rules.
 
 - `AGENTS.md` / `CLAUDE.md`: loaded into every session, so they hold navigation pointers and little else.
-- `CODING_STANDARDS.md`: read during review. Propose creating it on the first judgement-call rule. Past 1,000 lines, point from it into a docs folder.
+- `CODING_STANDARDS.md`: read during review. Create it with the first judgement-call rule. Past 1,000 lines, point from it into a docs folder.
 - Docs: reference files reached by pointers. Extend an existing doc before writing a new one.
 - Skills: for reference whose description should reach the agent, or for commands the user types.
 
@@ -63,14 +63,14 @@ When a test is in doubt, drop the candidate. Dropping costs little: friction tha
 
 The route follows where the fix lives and whether the current work already covers it:
 
-- **Current scope**: the work the friction came from is still open, and its spec already covers the fix. Hand it back to the skill that ran this one, to make as part of that work; run on your own, make it yourself. Every other fix in this repo is a follow-up ticket.
-- **Follow-up ticket**: the fix lives in this repo. File it on the issue tracker, as `docs/agents/issue-tracker.md` says, with the `needs-triage` role's label from `docs/agents/triage-labels.md`. If an open ticket covers the same cause, comment the new moment on it instead.
+- **Current scope**: the work the friction came from is still open, and its spec already covers the fix. Hand it back to the skill that ran this one, to make as part of that work; run on your own, make it yourself.
+- **Follow-up ticket**: the fix lives in this repo, or another repo the user owns, outside the current scope. File it on that repo's tracker: this repo's as `docs/agents/issue-tracker.md` says, with the `needs-triage` role's label from `docs/agents/triage-labels.md`. If an open ticket covers the same cause, comment the new moment on it instead.
 - **Outside issue**: the fix lives in a repo the user doesn't own, such as a skill installed from elsewhere, a CLI, a library, or an MCP server. Draft the issue, and ready it for filing only when all of these hold; otherwise it stays a draft in the report:
   - the cause is in that repo's code or docs, not in how this repo uses it;
   - you can give steps that reproduce it, which a maintainer can follow without this repo;
   - no open issue covers it, after a search; when one does, report its link instead;
   - the repo accepts issues, and the draft follows its contributing guide and templates.
 
-  Write it for the maintainer: what happened, how to reproduce it, and what you expected, with no private repo names, paths, or secrets. The tracker doc holds filing to the user's own repos, so escalate each ready draft, worded so "yes" files it, and file it on that yes. A draft for a repo the tracker doc names as never to file into stays in the report, for the user to file.
+  Write it for the maintainer: what happened, how to reproduce it, and what you expected, with no private repo names, paths, or secrets. The tracker doc holds filing to the user's own repos, so filing elsewhere takes the user's yes, overriding it for that issue: escalate each ready draft, worded so "yes" files it, and file it on that yes. A draft for a repo the tracker doc names as never to file into stays in the report, for the user to file.
 
 - **Proposal**: the fix lives somewhere with no tracker, such as the user's global `AGENTS.md`, dotfiles, or harness config. Draft the change in the report for the user to pick.

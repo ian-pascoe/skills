@@ -87,7 +87,7 @@ Each host's commands live in [`skills/code-host/references/`](skills/code-host/r
 
 ### Persistent subagents
 
-`subagent-grilling` and `lane-landing` need a harness that can spawn subagents and keep messaging them across turns, such as pi's subagent tools. The subagents load this repo's skills (`escalating-to-user`, `landing`), so install them where the subagents can see them too.
+`subagent-grilling` and `lane-landing` need a harness that can spawn subagents and keep messaging them across turns, such as pi's subagent tools. The subagents load this repo's skills (`escalating-to-user`, `landing`, `closing-the-loop`), so install them where the subagents can see them too.
 
 ## Setup
 
