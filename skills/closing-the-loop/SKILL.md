@@ -14,7 +14,7 @@ Close the loop on a coding run: look back at what in the agent's **environment**
 
 The **friction log** records each moment a run fought its environment rather than the work: a file or fact that took a long search, a mistake a check or the reviewer should have caught, a tool call that cost more than it returned, a red check, a fix cycle, a flaky rerun, an escalation, or information the agent couldn't reach. Each entry names its moment, such as the commit, check, finding, or tool call, and what it cost.
 
-A skill that runs this one keeps the log from the start of its run and passes it in, with the **current scope**: open work it can still take fixes into, or none. Run on your own, build the log from the current session's record, or the session the user names.
+A skill that runs this one keeps the log from the start of its run and passes it in, with the **current scope**: open work it can still take fixes into, or none. Run on your own, build the log from the current session's record, or the session the user names, and take that session's open work as the current scope.
 
 ## Steps
 
@@ -61,9 +61,9 @@ When a test is in doubt, drop the candidate. Dropping costs little: friction tha
 
 ## Routes
 
-The route follows where the fix lives and whether the current work already covers it:
+The route follows where the fix lives and whether the current scope already covers it:
 
-- **Current scope**: there is a current scope, and its spec already covers the fix. Hand it back to the skill that ran this one, to make as part of that work; run on your own, where the current scope is the session's open work, make it yourself.
+- **Current scope**: there is a current scope, and its spec already covers the fix. Hand it back to the skill that ran this one, to make as part of that work; run on your own, make it yourself.
 - **Follow-up ticket**: the fix lives in this repo, or another project repo the user owns, outside the current scope. File it as that repo's `docs/agents/issue-tracker.md` says, or on its code host's issues where it has none, with the `needs-triage` role's label from its `docs/agents/triage-labels.md` where it has one. If an open ticket covers the same cause, comment the new moment on it instead.
 - **Outside issue**: the fix lives in a repo the user doesn't own, such as a skill installed from elsewhere, a CLI, a library, or an MCP server. Draft the issue, and ready it for filing only when all of these hold; otherwise it stays a draft in the report:
   - the cause is in that repo's code or docs, not in how this repo uses it;

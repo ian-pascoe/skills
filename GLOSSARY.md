@@ -84,6 +84,10 @@ _Avoid_: coordinator, manager, lead
 The record a run keeps of each moment it fought its environment rather than the work, which `closing-the-loop` turns into fixes, tickets, and issues.
 _Avoid_: retro notes, struggle log, incident log
 
+**Current scope**:
+The open work that the skill running `closing-the-loop` can still take fixes into, or none; `landing` passes none.
+_Avoid_: current work, in-scope work
+
 ## Code hosts
 
 **Code host**:
