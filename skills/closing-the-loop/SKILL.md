@@ -71,6 +71,8 @@ The route follows where the fix lives and whether the current work already cover
   - no open issue covers it, after a search; when one does, report its link instead;
   - the repo accepts issues, and the draft follows its contributing guide and templates.
 
-  Write it for the maintainer: what happened, how to reproduce it, and what you expected, with no private repo names, paths, or secrets. The tracker doc holds filing to the user's own repos, so filing elsewhere takes the user's yes, overriding the tracker doc for that issue: escalate each ready draft, worded so "yes" files it, and file it on that yes. A draft for a repo the tracker doc names as never to file into stays in the report, for the user to file.
+  Write it for the maintainer: what happened, how to reproduce it, and what you expected. The tracker doc holds filing to the user's own repos, so filing elsewhere takes the user's yes, overriding the tracker doc for that issue: escalate each ready draft, worded so "yes" files it, and file it on that yes. A draft for a repo the tracker doc names as never to file into stays in the report, for the user to file.
 
 - **Proposal**: the fix lives in the user's own setup, such as their global `AGENTS.md`, dotfiles, or harness config, even where a repo holds it. Draft the change in the report for the user to pick.
+
+Anything filed outside the repo the run worked in leaves out that repo's private names, paths, and secrets.
