@@ -80,6 +80,14 @@ _Avoid_: worker, agent, builder, coder
 The agent that plans the lanes, dispatches implementers, reviews every ticket's branch, and restacks and merges every PR.
 _Avoid_: coordinator, manager, lead
 
+**Friction log**:
+The record a run keeps of each moment it fought its environment rather than the work, which `closing-the-loop` turns into fixes, tickets, and issues.
+_Avoid_: retro notes, struggle log, incident log
+
+**Current scope**:
+The open work that the skill running `closing-the-loop` can still take fixes into, or none; `landing` passes none.
+_Avoid_: current work, in-scope work
+
 ## Code hosts
 
 **Code host**:
