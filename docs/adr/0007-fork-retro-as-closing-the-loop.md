@@ -1,6 +1,6 @@
 # Fork `retro` as `closing-the-loop` so landing can run it
 
-The landing skills end each run with a retrospective: they keep a friction log as they go, then run `closing-the-loop` on it, which files the fixes worth making and reports them in the ledger. `closing-the-loop` is a deliberate fork of mattpocock's `retro`, the exception [ADR 0001](0001-build-on-mattpocock-skills-by-name.md) allows when upstream doesn't fit. `retro` is user-invoked, so no skill can start it, as with `implement` in [ADR 0003](0003-land-each-ticket-on-tdd-code-review-and-pr.md). It also only proposes, leaving the user to decide what is worth fixing. The fork decides that itself, against a fixed bar (traced, environmental, recurring, cheaper than the friction), and routes each fix it keeps: into the current work only when its spec already covers the fix, otherwise to a follow-up ticket, an issue on the outside repo that owns the cause, or a drafted proposal where nothing tracks it.
+The landing skills end each run with a retrospective: they keep a friction log as they go, then run `closing-the-loop` on it, which files the fixes worth making and reports them in the ledger. `closing-the-loop` is a deliberate fork of mattpocock's `retro`, the exception [ADR 0001](0001-build-on-mattpocock-skills-by-name.md) allows when upstream doesn't fit. `retro` is user-invoked, so no skill can start it, as with `implement` in [ADR 0003](0003-land-each-ticket-on-tdd-code-review-and-pr.md). It also only proposes, leaving the user to decide what is worth fixing. The fork decides that itself, against a fixed bar (traced, environmental, recurring, cheaper than the friction), and routes each fix it keeps: into the current work only when its spec already covers the fix, otherwise to a follow-up ticket in a repo the user owns, an issue on the outside repo that owns the cause, or a drafted proposal where nothing tracks it.
 
 ## Considered Options
 
@@ -11,7 +11,7 @@ The landing skills end each run with a retrospective: they keep a friction log a
 
 ## Consequences
 
-- Tickets filed here land as `needs-triage`, so `lane-landing` won't pick them up until a person triages them.
+- Tickets filed in this repo land as `needs-triage`, so `lane-landing` won't pick them up until a person triages them.
 - Outside issues post publicly in the user's name, and the tracker doc that `setup-matt-pocock-skills` writes holds filing to the user's own repos. So an outside issue has a stricter bar (the cause is upstream's, reproducible without this repo, no existing issue, the repo accepts issues), is escalated as a draft that the user's yes files, overriding the doc for that issue, and stays a draft for a repo the tracker doc rules out, such as `mattpocock/skills`.
 - A fix in this repo's current scope is made only when the open work's spec already covers it; landing runs the retro after the change lands or is held, so there it applies only to a held change.
 - A doubtful candidate is dropped, on the bet that friction which recurs reaches a later run's log.

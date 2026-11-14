@@ -11,7 +11,7 @@ If the user names a ticket, fetch it from the issue tracker and state its title.
 
 Find the **code host** with `code-host`; every host command below comes from its **code host reference**, under the heading in parentheses, like (**Checks**). Escalate an ambiguous host; on anything else missing, stop and say what. Push branches to the repo itself, never to a fork. Note in the ledger when the rules wouldn't bind you (**Bypass check**).
 
-Work in the current checkout. If HEAD is detached or on the default branch, branch from the up-to-date default branch (**Default branch**) as `<ticket>-<slug>`, or `<slug>` without a ticket; otherwise keep the current branch. If the branch already has an open PR (**Find PRs**), go to **Build** for any fix a **Retro** commented on it that no later commit made; with none, go to **Pass checks** if the latest review report on the PR (**List comments**, or its body's `## Review`) covers its current diff (it names the current head, or `git range-diff` shows only `=` against the head it names), otherwise to **Review**.
+Work in the current checkout. If HEAD is detached or on the default branch, branch from the up-to-date default branch (**Default branch**) as `<ticket>-<slug>`, or `<slug>` without a ticket; otherwise keep the current branch. If the branch already has an open PR (**Find PRs**), go to **Build** for any `## Retro fix` comment on it, or its ticket, naming its current head; with none, go to **Pass checks** if the latest review report on the PR (**List comments**, or its body's `## Review`) covers its current diff (it names the current head, or `git range-diff` shows only `=` against the head it names), otherwise to **Review**.
 
 ## Build
 
@@ -62,7 +62,7 @@ Then read the PR back (**Read back**):
 
 ## Retro
 
-Run `closing-the-loop` on the friction log, once the change has landed or is held. A fix it hands back for a held change's scope goes in the ledger beside the hold, and in a comment on its PR (**Comment**), for the run that resumes it.
+Run `closing-the-loop` on the friction log, once the change has landed or is held. A fix it hands back for a held change's scope goes in the ledger beside the hold, and, for the run that resumes it, in a comment headed `## Retro fix` naming the head it was found at: on the PR (**Comment**), or on the ticket before the PR opens.
 
 ## Present the ledger
 

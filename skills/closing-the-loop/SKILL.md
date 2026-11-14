@@ -64,13 +64,13 @@ When a test is in doubt, drop the candidate. Dropping costs little: friction tha
 The route follows where the fix lives and whether the current work already covers it:
 
 - **Current scope**: the work the friction came from is still open, and its spec already covers the fix. Hand it back to the skill that ran this one, to make as part of that work; run on your own, make it yourself.
-- **Follow-up ticket**: the fix lives in this repo, or another repo the user owns, outside the current scope. File it on that repo's tracker: this repo's as `docs/agents/issue-tracker.md` says, with the `needs-triage` role's label from `docs/agents/triage-labels.md`. If an open ticket covers the same cause, comment the new moment on it instead.
+- **Follow-up ticket**: the fix lives in this repo, or another project repo the user owns, outside the current scope. File it as that repo's `docs/agents/issue-tracker.md` says, or on its code host's issues where it has none, with the `needs-triage` role's label from its `docs/agents/triage-labels.md` where it has one. If an open ticket covers the same cause, comment the new moment on it instead.
 - **Outside issue**: the fix lives in a repo the user doesn't own, such as a skill installed from elsewhere, a CLI, a library, or an MCP server. Draft the issue, and ready it for filing only when all of these hold; otherwise it stays a draft in the report:
   - the cause is in that repo's code or docs, not in how this repo uses it;
   - you can give steps that reproduce it, which a maintainer can follow without this repo;
   - no open issue covers it, after a search; when one does, report its link instead;
   - the repo accepts issues, and the draft follows its contributing guide and templates.
 
-  Write it for the maintainer: what happened, how to reproduce it, and what you expected, with no private repo names, paths, or secrets. The tracker doc holds filing to the user's own repos, so filing elsewhere takes the user's yes, overriding it for that issue: escalate each ready draft, worded so "yes" files it, and file it on that yes. A draft for a repo the tracker doc names as never to file into stays in the report, for the user to file.
+  Write it for the maintainer: what happened, how to reproduce it, and what you expected, with no private repo names, paths, or secrets. The tracker doc holds filing to the user's own repos, so filing elsewhere takes the user's yes, overriding the tracker doc for that issue: escalate each ready draft, worded so "yes" files it, and file it on that yes. A draft for a repo the tracker doc names as never to file into stays in the report, for the user to file.
 
-- **Proposal**: the fix lives somewhere with no tracker, such as the user's global `AGENTS.md`, dotfiles, or harness config. Draft the change in the report for the user to pick.
+- **Proposal**: the fix lives in the user's own setup, such as their global `AGENTS.md`, dotfiles, or harness config, even where a repo holds it. Draft the change in the report for the user to pick.

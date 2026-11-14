@@ -11,7 +11,7 @@ Take a parent issue (its open children, as the tracker doc defines them, recursi
 
 From a parent, leave out children triaged as `needs-triage`, `needs-info`, `ready-for-human`, or `wontfix`, children with an open PR authored by an account other than yours (**Who am I**), and children blocked by tickets outside the run.
 
-The code host and the tracker are the run's only state, so a rerun resumes: closed tickets have landed, open PRs of yours that close in-scope tickets (**Find PRs**) resume at **Review** or **Pass checks**, as `landing`'s **Start** sends them, once the plan lists them, and the rerun removes worktrees left by landed tickets.
+The code host and the tracker are the run's only state, so a rerun resumes: closed tickets have landed, open PRs of yours that close in-scope tickets (**Find PRs**) resume where `landing`'s **Start** sends them, once the plan lists them, and the rerun removes worktrees left by landed tickets.
 
 ## Plan the lanes
 
