@@ -62,7 +62,7 @@ Then read the PR back (**Read back**):
 
 ## Retro
 
-Run `closing-the-loop` on the friction log, once the change has landed or is held. It files the follow-up tickets and outside issues itself; its report ends the ledger. A fix it routes to a held change's scope joins that change's escalations, for the run that resumes it.
+Run `closing-the-loop` on the friction log, once the change has landed or is held. A fix it hands back for a held change's scope goes in the ledger beside the hold, for the run that resumes it.
 
 ## Present the ledger
 
