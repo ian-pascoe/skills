@@ -1,0 +1,18 @@
+# Fork `retro` as `closing-the-loop` so landing can run it
+
+The landing skills end each run with a retrospective: they keep a friction log as they go, then run `closing-the-loop` on it, which files the fixes worth making and reports them in the ledger. `closing-the-loop` is a deliberate fork of mattpocock's `retro`, the exception [ADR 0001](0001-build-on-mattpocock-skills-by-name.md) allows when upstream doesn't fit. `retro` is user-invoked, so no skill can start it, as with `implement` in [ADR 0003](0003-land-each-ticket-on-tdd-code-review-and-pr.md). It also only proposes, leaving the user to decide what is worth fixing. The fork decides that itself, against a fixed bar (traced, environmental, recurring, cheaper than the friction), and routes each fix it keeps: into the current work only when its spec already covers the fix, otherwise to a follow-up ticket, an issue on the outside repo that owns the cause, or a drafted proposal where nothing tracks it.
+
+## Considered Options
+
+- **Recommend `/retro` in the ledger**: no fork, but the user has to remember to run it after every hard run, and the retro runs late, when context is fullest.
+- **Run `closing-the-loop` without a log**: upstream warns that by the end of a session the agent forgets the struggles from mid-run and invents generic advice. Logging each moment as it happens ties every candidate to a commit, check, or finding.
+- **Only propose, as `retro` does**: safe, but the decision of what's worth fixing goes back to the user on every run. Filing tickets with the `needs-triage` role keeps that decision reviewable without blocking on it.
+- **Fix kept candidates in the current change**: widens a reviewed change after the fact. Only fixes its spec already covers go in.
+
+## Consequences
+
+- Tickets filed here land as `needs-triage`, so `lane-landing` won't pick them up until a person triages them.
+- Outside issues post publicly in the user's name, so they have their own stricter bar (the cause is upstream's, reproducible without this repo, no existing issue, the repo accepts issues), and anything short of it is drafted in the ledger.
+- A doubtful candidate is dropped, on the bet that friction which recurs reaches a later run's log.
+- The fork won't receive upstream fixes to `retro`'s categories. Compare the two when upstream changes `retro`.
+- `lane-landing`'s implementers send their log entries with each report, so one `closing-the-loop` run on the orchestrator's log covers every lane.
