@@ -62,7 +62,7 @@ Then read the PR back (**Read back**):
 
 ## Retro
 
-Run `closing-the-loop` on the friction log, once the change has landed or is held. Pass it no current scope, so every fix it keeps for this repo becomes a follow-up ticket, a held change's included.
+Run `closing-the-loop` on the friction log, once the change has landed or is held. Pass it no current scope, so every fix it keeps for this repo, a held change's included, becomes a follow-up ticket.
 
 ## Present the ledger
 
