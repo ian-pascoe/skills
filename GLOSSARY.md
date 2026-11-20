@@ -23,7 +23,7 @@ _Avoid_: vendored skill, dependency
 ## Escalation
 
 **Escalation**:
-A decision handed to the user because it passes both escalation tests, or in a split grilling because it is architecture.
+A decision handed to the user because it passes both escalation tests, or in a split grilling because it is architecture that turned up after the user's rounds.
 _Avoid_: question, ask
 
 **Escalation tests**:
@@ -41,17 +41,17 @@ _Avoid_: default, placeholder
 Work that outlives the session (docs, commits, published changes), held while it rests on a provisional answer.
 
 **Ledger**:
-The single report a user reviews in place of answering every question: escalations, the calls worth a glance, and every decision, plus in a split grilling the user's architecture answers.
+The single report a user reviews in place of answering every question: escalations, the calls worth a glance, and every decision, plus in a split grilling the user's own answers.
 _Avoid_: summary, report
 
 ## Split grilling
 
 **Architecture**:
-The questions on a design tree that reach past one module's implementation, which the user owns in a split grilling.
+The part of a design tree that reaches past one module's implementation, which the user owns in a split grilling.
 _Avoid_: high level, big picture
 
 **Detail**:
-The questions on a design tree inside one module's implementation, which the agent owns in a split grilling.
+The part of a design tree inside one module's implementation, which the agent owns in a split grilling.
 _Avoid_: weeds, low level
 
 ## Subagent grilling

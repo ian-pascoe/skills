@@ -16,7 +16,7 @@ A decision that straddles the line is architecture.
 
 ## Grill the user on the architecture
 
-Run `grilling` rounds with the user, asking only the architecture on the frontier. When an architecture question waits on a detail, decide that detail yourself, state it in the round, and carry it into the ledger as a decision, or as an escalation if it passes the escalation tests.
+Run `grilling` rounds with the user, asking only the architecture on the frontier. When an architecture question waits on a detail, decide that detail yourself, state it in the round, and carry it into the ledger as a decision; if it passes the `escalating-to-user` skill's escalation tests, ask it in the round instead.
 
 The phase is done when every architecture question on the tree is answered.
 
@@ -31,8 +31,8 @@ The user can move a decision across the line at any point:
 - A question they hand back ("you decide") is yours: decide it and record it as a decision, which stays out of escalation.
 - A decision they ask to weigh in on, a detail in a round or a `D` in the ledger, is theirs: ask it in the next `grilling` round, then redo the work resting on it.
 
-Once the user answers, an escalated architecture question joins their answers. A revised answer reopens the subtree resting on it: ask its architecture in `grilling` rounds, then redo its detail, and present only what changed.
+Every answer the user gives, in a round or to an escalation, joins their answers. A revised answer reopens the subtree resting on it: ask its architecture in `grilling` rounds, redo its detail, and present only what changed. An answer of theirs the redo would change goes back to them.
 
 ## Present the ledger
 
-Present `internal-grilling`'s ledger with a `## 🗣️ Settled with you` section just before its `## 🌳 Decisions`: the user's architecture answers, numbered by path like the decisions (**A1**, **A1.1**), so they can revise one by ID.
+Present `internal-grilling`'s ledger with a `## 🗣️ Settled with you` section just before its `## 🌳 Decisions`: the user's answers, numbered by path like the decisions (**A1**, **A1.1**), so they can revise one by ID.
