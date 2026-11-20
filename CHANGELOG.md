@@ -1,5 +1,11 @@
 # @ian-pascoe/skills
 
+## 0.7.0
+
+### Minor Changes
+
+- [#22](https://github.com/ian-pascoe/skills/pull/22) [`e0500e8`](https://github.com/ian-pascoe/skills/commit/e0500e86c486041dcc053fc73578e1c7743aaab3) Thanks [@ian-pascoe](https://github.com/ian-pascoe)! - New `split-grilling` skill, with `grill-us` and `grill-us-with-docs` to run it yourself. It splits a plan's design tree between you and the agent. First it grills you, round by round, on the architecture: anything reaching past one module's implementation, like module seams and interfaces, the data model, external contracts, domain terms, and technology choices. Once the architecture is settled, it grills itself on the implementation detail inside each module, escalating only the detail that needs you and any architecture that turns up late, and presents a single ledger with your answers in it. Tell it "you decide" to hand a question back, or ask to weigh in on any detail, in a round or in the ledger. `grill-us-with-docs` also writes the glossary and ADRs as decisions settle. It requires mattpocock's `codebase-design`: `npx skills@latest add mattpocock/skills --skill codebase-design`.
+
 ## 0.6.0
 
 ### Minor Changes
