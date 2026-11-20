@@ -21,6 +21,9 @@ Skills here may depend on each other; when installing single skills with `--skil
 | [`subagent-grilling`](skills/subagent-grilling/SKILL.md)               | agent or user | Grills a strong-model subagent down the whole design tree in your place, after confirming its model with you.                                                                    | [`grilling`](#grilling), [`research`](#research), `escalating-to-user`, [persistent subagents](#persistent-subagents) |
 | [`grill-subagent`](skills/grill-subagent/SKILL.md)                     | user          | Runs `subagent-grilling`.                                                                                                                                                        | `subagent-grilling`                                                                                                   |
 | [`grill-subagent-with-docs`](skills/grill-subagent-with-docs/SKILL.md) | user          | `subagent-grilling`, writing the glossary and ADRs as decisions settle.                                                                                                          | `subagent-grilling`, [`domain-modeling`](#domain-modeling)                                                            |
+| [`split-grilling`](skills/split-grilling/SKILL.md)                     | agent or user | Grills you on a plan's architecture and itself on the implementation detail, escalating only what needs you.                                                                     | [`grilling`](#grilling), [`codebase-design`](#codebase-design), `internal-grilling`, `escalating-to-user`             |
+| [`grill-us`](skills/grill-us/SKILL.md)                                 | user          | Runs `split-grilling`.                                                                                                                                                           | `split-grilling`                                                                                                      |
+| [`grill-us-with-docs`](skills/grill-us-with-docs/SKILL.md)             | user          | `split-grilling`, writing the glossary and ADRs as decisions settle.                                                                                                             | `split-grilling`, [`domain-modeling`](#domain-modeling)                                                               |
 | [`code-host`](skills/code-host/SKILL.md)                               | agent or user | Finds the repo's code host and holds its commands for PRs, reviews, checks, and merges.                                                                                          | [a code host](#code-host)                                                                                             |
 | [`closing-the-loop`](skills/closing-the-loop/SKILL.md)                 | agent or user | Closes the loop on a run: looks back at its friction, decides which environment fixes are worth making, and makes or files them. Forked from `retro` so other skills can run it. | [`writing-for-agents`](#writing-for-agents), `escalating-to-user`, [the tracker config](#setup)                       |
 | [`landing`](skills/landing/SKILL.md)                                   | agent or user | Builds a change, reviews it, opens its PR, and merges it once its checks pass.                                                                                                   | [`tdd`](#tdd), [`code-review`](#code-review), [`pr`](#pr), `escalating-to-user`, `code-host`, `closing-the-loop`      |
@@ -43,7 +46,7 @@ Then set up each repo you use them in: see [Setup](#setup).
 
 ### `grilling`
 
-[Source](https://github.com/mattpocock/skills/tree/main/skills/productivity/grilling). The design-tree interview that `internal-grilling` runs as an internal dialogue and `subagent-grilling` runs against a subagent.
+[Source](https://github.com/mattpocock/skills/tree/main/skills/productivity/grilling). The design-tree interview that `internal-grilling` runs as an internal dialogue, `subagent-grilling` runs against a subagent, and `split-grilling` runs with you on the architecture only.
 
 ### `research`
 
@@ -53,9 +56,13 @@ Then set up each repo you use them in: see [Setup](#setup).
 
 [Source](https://github.com/mattpocock/skills/tree/main/skills/engineering/domain-modeling). Builds `GLOSSARY.md` and ADRs as a design is discussed.
 
+### `codebase-design`
+
+[Source](https://github.com/mattpocock/skills/tree/main/skills/engineering/codebase-design). The deep-module vocabulary (module, interface, implementation, seam) that `split-grilling` draws its line between architecture and detail with.
+
 ### `tdd`
 
-[Source](https://github.com/mattpocock/skills/tree/main/skills/engineering/tdd). The red-green-refactor loop `landing` builds a change with. It consults [`codebase-design`](https://github.com/mattpocock/skills/tree/main/skills/engineering/codebase-design) for interface vocabulary, so install that too.
+[Source](https://github.com/mattpocock/skills/tree/main/skills/engineering/tdd). The red-green-refactor loop `landing` builds a change with. It consults [`codebase-design`](#codebase-design) for interface vocabulary, so install that too.
 
 ### `code-review`
 
