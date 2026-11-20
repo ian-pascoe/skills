@@ -1,6 +1,6 @@
 ---
 name: split-grilling
-description: Grill the user on a plan's architecture and yourself on its implementation detail, escalating only the detail that needs the user. Use when the user wants to settle a plan's architecture together and leave the detail to you.
+description: Grill the user on a plan's architecture and yourself on its implementation detail, escalating only what needs the user. Use when the user wants to settle a plan's architecture together and leave the detail to you.
 ---
 
 Split the `grilling` skill's design tree in two: the user owns the **architecture**, you own the **detail**. `grilling` and `internal-grilling` hold except where this skill overrides them.
@@ -16,9 +16,9 @@ A decision that straddles the line is architecture.
 
 ## Grill the user on the architecture
 
-Run `grilling` rounds with the user, asking only the architecture on the frontier. When an architecture question waits on a detail, decide that detail yourself, state it in the round, and carry it into the ledger as a decision.
+Run `grilling` rounds with the user, asking only the architecture on the frontier. When an architecture question waits on a detail, decide that detail yourself, state it in the round, and carry it into the ledger as a decision, or as an escalation if it passes the escalation tests.
 
-The phase is done when no architecture is left on the frontier.
+The phase is done when every architecture question on the tree is answered.
 
 ## Grill yourself on the detail
 
@@ -31,6 +31,8 @@ The user can move a decision across the line at any point:
 - A question they hand back ("you decide") is yours: decide it and record it as a decision, which stays out of escalation.
 - A decision they ask to weigh in on, a detail in a round or a `D` in the ledger, is theirs: ask it in the next `grilling` round, then redo the work resting on it.
 
+Once the user answers, an escalated architecture question joins their answers. A revised answer reopens the subtree resting on it: ask its architecture in `grilling` rounds, then redo its detail, and present only what changed.
+
 ## Present the ledger
 
-Present `internal-grilling`'s ledger with a `## 🗣️ Settled with you` section before its decisions: the user's architecture answers, numbered by path like the decisions (**A1**, **A1.1**), so they can revise one by ID. A revised answer reopens the subtree resting on it.
+Present `internal-grilling`'s ledger with a `## 🗣️ Settled with you` section just before its `## 🌳 Decisions`: the user's architecture answers, numbered by path like the decisions (**A1**, **A1.1**), so they can revise one by ID.
