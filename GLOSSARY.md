@@ -47,12 +47,12 @@ _Avoid_: summary, report
 ## Split grilling
 
 **Architecture**:
-The decisions on a design tree that a caller or user sees across a seam, which the user answers in a split grilling.
+The decisions on a design tree that reach past one module's implementation, which the user owns in a split grilling.
 _Avoid_: high level, big picture, design
 
 **Detail**:
-The decisions on a design tree inside one module's implementation, which the agent answers in a split grilling.
-_Avoid_: weeds, low level, implementation details
+The decisions on a design tree inside one module's implementation, which the agent owns in a split grilling.
+_Avoid_: weeds, low level
 
 ## Subagent grilling
 
