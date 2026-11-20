@@ -44,6 +44,16 @@ Work that outlives the session (docs, commits, published changes), held while it
 The single report a user reviews in place of answering every question: escalations, the calls worth a glance, and every decision.
 _Avoid_: summary, report
 
+## Split grilling
+
+**Architecture**:
+The decisions on a design tree that a caller or user sees across a seam, which the user answers in a split grilling.
+_Avoid_: high level, big picture, design
+
+**Detail**:
+The decisions on a design tree inside one module's implementation, which the agent answers in a split grilling.
+_Avoid_: weeds, low level, implementation details
+
 ## Subagent grilling
 
 **Interviewee**:
