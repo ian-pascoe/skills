@@ -18,8 +18,10 @@ Done when every changed file that renders maps to a surface, or to a reason it s
 Pick a **driver** for each surface, loading its guide from its CLI before its first command:
 
 - a web page, or a desktop app on Electron: `agent-browser` (`agent-browser skills get core`, and `agent-browser skills get electron` for Electron).
-- a native desktop app: `agent-desktop` (`agent-desktop skills get platform`).
+- a native desktop app: `agent-desktop` (`agent-desktop skills get platform`). `impeccable` reaches a desktop window only over CDP, so it reviews a native app from source.
 - a native mobile app: no driver; `impeccable` reviews it from source, on its native path.
+
+A missing prerequisite skips only the part that needs it: without `impeccable`, step 3; without a surface's driver, that surface runs as unrendered; without `ffmpeg`, the demos. Name each in the hand back with its install command from the `ian-pascoe/skills` README's UI validation section, and log it.
 
 Run the head in the current checkout and the base in a temporary worktree at the merge base with the fixed point, each started the way the repo starts it (its scripts, README, or `AGENTS.md`): in the background, its log teed to a file, with a recorded way to stop it. Take a free port and your own driver session, since other runs may share the machine. Seed the same state in both. A surface the change adds has no base.
 
@@ -29,7 +31,7 @@ Done when each surface runs at its head, and at its base unless it is new, or is
 
 ## 3. Audit and critique
 
-Run `impeccable`'s `audit`, then its `critique`, each in a fresh subagent, so neither sees the other's findings. Brief each with the working directory, the `impeccable` skill's path and the command to run, each surface's source paths and its live URL or window at the head, and the sizes it ships at. Each runs as a delegated, read-only run: it writes nothing in the repo and asks nothing, so `audit` skips Save the Report and Recommended Actions, and `critique` takes its read-only or delegated path. Each returns its full report, with every finding's severity, location, and evidence. Both read the repo's `PRODUCT.md`; without one, they review without product context, and the hand back says so, pointing at `setup-ian-pascoe-skills`, which writes it with `impeccable`'s `init`. A desktop app has one window, so each subagent leaves it as it found it. Without a subagent tool, run each in turn yourself and say so in the hand back.
+Run `impeccable`'s `audit`, then its `critique`, each in a fresh subagent, so neither sees the other's findings. Brief each with the working directory, the `impeccable` skill's path and the command to run, each surface's source paths and, where `impeccable` can reach it, its live URL or CDP target at the head, and the sizes it ships at. Neither saves a report or asks the user anything: `audit` skips Save the Report and Recommended Actions; `critique` skips Persist the Snapshot and Ask the User, ending with `Questions skipped: run by validating-ui`, and spawns its own two assessments where the subagent can, taking its read-only or delegated path only where it can't. Each returns its full report, with every finding's severity, location, and evidence. Both read the repo's `PRODUCT.md`; without one, they review without product context, and the hand back says so, pointing at `setup-ian-pascoe-skills`, which writes it with `impeccable`'s `init`. A desktop app has one window, so each subagent leaves it as it found it. Without a subagent tool, run each in turn yourself and say so in the hand back.
 
 Done when both reports are back, or a failed run is noted with the reason.
 
@@ -48,7 +50,7 @@ These UI findings block:
 - each introduced P0 or P1;
 - each introduced render failure: a console error, a failed request, broken layout, overflow, or clipped text at a size the surface ships at.
 
-The rest are advisory: introduced P2 and P3, and every baseline finding. A finding is **worth fixing** when it blocks, or when it is advisory, you agree with it, and its fix stays inside the change's spec. A blocker whose fix would reach past the spec, such as a redesign or restyling a surface the change doesn't touch, is dismissed as a decision and listed with the advisory ones.
+The rest are advisory: introduced P2 and P3, and every baseline finding. A finding is **worth fixing** when it blocks, or when it is advisory, you agree with it, and its fix stays inside the change's spec. A blocker whose fix would reach past the spec, such as a redesign or restyling a surface the change doesn't touch, stays open with that reason, for the caller to fix or for the user to dismiss.
 
 Done when every finding is classified as blocking or advisory, and marked worth fixing or not with the reason.
 
@@ -56,18 +58,18 @@ Done when every finding is classified as blocking or advisory, and marked worth 
 
 Fix each finding worth fixing, reading `impeccable`'s craft floor before the first edit and the playbook of the command its report suggests. Typecheck and run the tests covering the code you changed, then commit only the paths the fixes touch.
 
-Done when each finding worth fixing is fixed in a commit, or dismissed as a decision because its fix failed or reached past the spec.
+Done when each finding worth fixing is fixed in a commit, or, where its fix failed, is an open blocker or a dropped advisory finding with the reason.
 
 ## 6. Capture screenshots and a demo
 
-Capture from the head with the fixes, restarting it if it doesn't reload them. A capture that shows a blocker still present leaves that blocker open.
+Capture from the head with the fixes, restarting it if it doesn't reload them. Evidence that shows a blocker still present leaves that blocker open.
 
 **Screenshots.** For each rendered surface, screenshot the base and the head in the same state at each size it ships at: by default 1440×900 and 390×844 for a responsive web page, and the app's default window for a desktop app. Write them outside the repo, in a directory named for the branch under the system temp directory, as `<surface>-<size>-<base|head>.png`, so they stay out of the change's commits.
 
 **Demo.** Record one short video of the change working at the head: its main flow, as the spec describes it, from the state a user starts in to the result they came for, at the surface's main size. Walk it once unrecorded to find the steps, then take it in one go, paced for a person watching: wait for each step to settle and hold on the result. Keep it under 30 seconds; a change with several independent flows gets one demo each. Save each beside the screenshots as `<flow>-demo.mp4`.
 
 - `agent-browser`: `record start` with an `.mp4` path and `--cursor`, then `record stop`. It needs `ffmpeg`.
-- `agent-desktop` has no recorder: screenshot the window after each step, and stitch the frames with `ffmpeg` into an `.mp4` at one frame per second.
+- `agent-desktop` has no recorder: record the window's bounds (`get --property bounds`) with `ffmpeg`'s screen grabber for the OS: `avfoundation` on macOS, `gdigrab` on Windows, `x11grab` on Linux under X11. Where screen recording is denied or unavailable, such as under Wayland, screenshot the window after each step and stitch the frames into an `.mp4` at one frame per second, and say the demo is a slideshow.
 
 A demo that shows a failure, such as an error, a stuck state, or a step that does nothing, is an open blocker, not a demo; the rerun after its fix records the demo.
 
@@ -81,9 +83,11 @@ Stop every app you started, remove the base worktree, and close your driver sess
 - each surface's audit and critique scores;
 - each UI finding with its class, its severity, whether it blocks, and its outcome: fixed with the commit, dismissed with the reason, open, or advisory;
 - each unrendered surface and why;
-- a **UI report** for the caller to post: a `## UI` section naming the surfaces, sizes, and scores, the findings fixed or dismissed, any open blocker, and the advisory findings, with each surface's base and head screenshots side by side as Markdown images, and each demo, by their local paths.
+- a **UI report** for the caller to post: the items above as a `## UI` section, with each surface's base and head screenshots side by side as Markdown images, and each demo, by their local paths.
 
 The caller treats an open blocker as a blocking finding, and can rerun this skill on just the surfaces its later fixes touch. Run alone, show the user each surface's head beside its base and each demo, as media where the harness can display them, otherwise by path, and offer to post the UI report on the branch's open PR.
+
+Done when every app you started is stopped and every item above is with the caller, or with the user run alone.
 
 ## Post the UI report
 

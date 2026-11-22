@@ -19,9 +19,11 @@ Screenshots and demos reach the PR through the code host: each code host referen
 ## Consequences
 
 - In a repo with a UI, `setup-ian-pascoe-skills` checks for `impeccable` and runs its `init`, so `audit` and `critique` read a `PRODUCT.md` the user confirmed rather than guessing the product from the code.
+- A native desktop app is reviewed from source, since `impeccable` reaches desktop windows only over CDP; `agent-desktop` still drives its walk, screenshots, and demo.
+- A missing prerequisite skips only the part that needs it, and the hand back names it.
 - Landing needs `impeccable`, a driver (`agent-browser` or `agent-desktop`), and `ffmpeg` only in repos whose changes touch UI.
 - In `lane-landing`, each implementer runs `validating-ui` after Build, since its fixes belong in the implementer's worktree, and the orchestrator's review takes its results.
-- `critique` in a subagent usually can't spawn its own two assessors, so it runs its delegated, single-context path.
+- `critique` spawns its own two assessments where its subagent can; where it can't, it runs its delegated, single-context path and says so.
 - Validation starts the app twice, so it needs a free port and its own driver session when lanes run in parallel.
 - A surface that won't run is reviewed from source and logged as friction, which `closing-the-loop` can turn into a fix to how the repo runs.
 - Evidence branches outlive their PRs, since the links point into them, and a plain clone fetches them; prune them when old PRs no longer need their screenshots.

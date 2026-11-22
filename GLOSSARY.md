@@ -128,6 +128,10 @@ _Avoid_: recording, walkthrough, screencast
 A problem `validating-ui` finds on a surface, from impeccable's audit or critique or from running it; blocking or advisory.
 _Avoid_: design issue, visual bug
 
+**UI report**:
+The `## UI` section `validating-ui` hands back for the PR: its findings, scores, and each surface's screenshots and demos.
+_Avoid_: UI summary, visual report
+
 **Introduced finding**:
 A UI finding present at the head and absent at the base, so the change caused it; only these, and failed acceptance criteria, can block.
 _Avoid_: regression, new issue
