@@ -9,6 +9,7 @@ const CODE_HOST = "skills/code-host/SKILL.md";
 const POINTING_SKILLS = [
   CODE_HOST,
   "skills/landing/SKILL.md",
+  "skills/approaching/SKILL.md",
   "skills/lane-landing/SKILL.md",
   "skills/addressing-pr-review/SKILL.md",
   "skills/setup-ian-pascoe-skills/SKILL.md",

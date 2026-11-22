@@ -78,6 +78,18 @@ _Avoid_: ship, release, deliver
 A change whose PR is merged into the default branch and whose tickets are closed.
 _Avoid_: merged, shipped, done
 
+**Approach**:
+Take an approved change through building, review, a PR, and checks, stopping short of the merge for a person's sign-off.
+_Avoid_: ready, stage, propose
+
+**On approach**:
+A change whose PR's current diff has passed review and whose current head has passed its checks, waiting only on sign-off to merge.
+_Avoid_: ready, pending merge, staged
+
+**Sign-off**:
+A person's approval that clears a change on approach to land, given on the PR or by landing it themselves.
+_Avoid_: approval (except the host's own), go-ahead
+
 **Lane**:
 An ordered chain of tickets, linked by blocked-by edges, that land one after another; lanes land in parallel.
 _Avoid_: track, stream, workstream, queue, stack
