@@ -9,9 +9,11 @@ const CODE_HOST = "skills/code-host/SKILL.md";
 const POINTING_SKILLS = [
   CODE_HOST,
   "skills/landing/SKILL.md",
+  "skills/approaching/SKILL.md",
   "skills/lane-landing/SKILL.md",
   "skills/addressing-pr-review/SKILL.md",
   "skills/setup-ian-pascoe-skills/SKILL.md",
+  "skills/validating-ui/SKILL.md",
 ];
 
 const HEADINGS = [
@@ -23,6 +25,7 @@ const HEADINGS = [
   "Edit PR body",
   "Comment",
   "List comments",
+  "Attach media",
   "Checks",
   "Review threads",
   "Blocking verdicts",

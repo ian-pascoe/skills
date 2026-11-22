@@ -78,6 +78,18 @@ _Avoid_: ship, release, deliver
 A change whose PR is merged into the default branch and whose tickets are closed.
 _Avoid_: merged, shipped, done
 
+**Approach**:
+Take an approved change through building, review, a PR, and checks, stopping short of the merge for a person's sign-off.
+_Avoid_: ready, stage, propose
+
+**On approach**:
+A change whose PR's current diff has passed review and whose current head has passed its checks, waiting only on sign-off to merge.
+_Avoid_: ready, pending merge, staged
+
+**Sign-off**:
+A person's approval that clears a change on approach to land, given on the PR or by landing it themselves.
+_Avoid_: approval (except the host's own), go-ahead
+
 **Lane**:
 An ordered chain of tickets, linked by blocked-by edges, that land one after another; lanes land in parallel.
 _Avoid_: track, stream, workstream, queue, stack
@@ -97,6 +109,36 @@ _Avoid_: retro notes, struggle log, incident log
 **Current scope**:
 The open work that the skill running `closing-the-loop` can still take fixes into, or none; `landing` passes none.
 _Avoid_: current work, in-scope work
+
+## UI validation
+
+**Surface**:
+One place a user sees, such as a page, screen, window, or component, in the state that shows it.
+_Avoid_: view, screen (for the general term), page
+
+**Evidence**:
+The screenshots and demos `validating-ui` captures of each surface at the base and the head, kept out of the change's commits and posted to its PR.
+_Avoid_: artifacts, proof, captures
+
+**Demo**:
+A short video `validating-ui` records of the change's main flow working at the head, posted to the PR as video or a GIF.
+_Avoid_: recording, walkthrough, screencast
+
+**UI finding**:
+A problem `validating-ui` finds on a surface, from impeccable's audit or critique or from running it; blocking or advisory.
+_Avoid_: design issue, visual bug
+
+**UI report**:
+The `## UI` section `validating-ui` hands back for the PR: its findings, scores, and each surface's screenshots and demos.
+_Avoid_: UI summary, visual report
+
+**Introduced finding**:
+A UI finding present at the head and absent at the base, so the change caused it; only these, and failed acceptance criteria, can block.
+_Avoid_: regression, new issue
+
+**Baseline finding**:
+A UI finding present at the base too, which stays advisory.
+_Avoid_: existing issue, legacy issue
 
 ## Code hosts
 

@@ -11,6 +11,7 @@ const TEMPLATE = [
   "Edit PR body",
   "Comment",
   "List comments",
+  "Attach media",
   "Checks",
   "Review threads",
   "Blocking verdicts",
@@ -78,7 +79,7 @@ test("a reference missing a heading is reported", () => {
     repo({ "skills/code-host/references/github.md": reference("GitHub", headings) }),
   );
   expect(problems).toEqual([
-    "skills/code-host/references/github.md: headings must be, in order: Detect & auth, Who am I, Default branch, Find PRs, Open PR, Edit PR body, Comment, List comments, Checks, Review threads, Blocking verdicts, Approvals & readiness, Bypass check, Merge methods & merge queue, Merge, Read back, Delete branch, Retarget, Closing tickets, Quirks",
+    "skills/code-host/references/github.md: headings must be, in order: Detect & auth, Who am I, Default branch, Find PRs, Open PR, Edit PR body, Comment, List comments, Attach media, Checks, Review threads, Blocking verdicts, Approvals & readiness, Bypass check, Merge methods & merge queue, Merge, Read back, Delete branch, Retarget, Closing tickets, Quirks",
   ]);
 });
 
