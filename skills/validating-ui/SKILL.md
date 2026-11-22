@@ -18,7 +18,7 @@ Done when every changed file that renders maps to a surface, or to a reason it s
 Pick a **driver** for each surface, loading its guide from its CLI before its first command:
 
 - a web page, or a desktop app on Electron: `agent-browser` (`agent-browser skills get core`, and `agent-browser skills get electron` for Electron).
-- a native desktop app: `agent-desktop` (`agent-desktop skills get platform`). `impeccable` has no path for a native desktop app, which it reaches neither over CDP nor on its native mobile path, so such a surface skips step 3; the hand back names the skip.
+- a native desktop app: `agent-desktop` (`agent-desktop skills get platform`). One that renders through a web view without CDP, such as Tauri on macOS or Linux, `impeccable` reviews from source only, as its `audit` and `critique` say. One built on a non-web toolkit, such as AppKit, WPF, GTK, or Qt, `impeccable` has no path for: it skips step 3, and the hand back names the skip.
 - a native mobile app: no driver; `impeccable` reviews it from source, on its native path.
 
 A missing prerequisite skips only the part that needs it: without `impeccable`, step 3; without a surface's driver, that surface runs as unrendered; without `ffmpeg`, the demos. Name each in the hand back with its install command from the `ian-pascoe/skills` README's UI validation section, and log it.
@@ -33,7 +33,7 @@ Done when each surface runs at its head, and at its base unless it is new, or is
 
 Run `impeccable`'s `audit`, then its `critique`, each in a fresh subagent, so neither sees the other's findings. Brief each with the working directory, the `impeccable` skill's path and the command to run, each surface's source paths and, where `impeccable` can reach it, its live URL or CDP target at the head, and the sizes it ships at. Neither saves a report or asks the user anything: `audit` skips Save the Report and Recommended Actions; `critique` skips Persist the Snapshot and Ask the User, ending with `Questions skipped: run by validating-ui`, and spawns its own two assessments where the subagent can, taking its read-only or delegated path only where it can't. Each returns its full report, with every finding's severity, location, and evidence. Both read the repo's `PRODUCT.md`; without one, they review without product context, and the hand back says so, pointing at `setup-ian-pascoe-skills`, which writes it with `impeccable`'s `init`. A desktop app has one window, so each subagent leaves it as it found it. Without a subagent tool, run each in turn yourself and say so in the hand back.
 
-Done when both reports are back, or a failed run is noted with the reason.
+Done when both reports are back for every surface that takes this step, or a failed or skipped run is noted with the reason.
 
 ## 4. Triage
 
@@ -50,7 +50,7 @@ These UI findings block:
 - each introduced P0 or P1;
 - each introduced render failure: a console error, a failed request, broken layout, overflow, or clipped text at a size the surface ships at.
 
-The rest are advisory: introduced P2 and P3, and every baseline finding. A finding is **worth fixing** when its fix stays inside the change's spec and it blocks, or it is advisory and you agree with it. A blocker whose fix would reach past the spec, such as a redesign or restyling a surface the change doesn't touch, isn't: it stays open with that reason, for the caller to fix or for the user to dismiss.
+The rest are advisory: introduced P2 and P3, and every baseline finding. A finding is **worth fixing** when its fix stays inside the change's spec and either it blocks, or it is advisory and you agree with it. A blocker whose fix would reach past the spec, such as a redesign or restyling a surface the change doesn't touch, isn't: it stays open with that reason, for the caller to fix or for the user to dismiss.
 
 Done when every finding is classified as blocking or advisory, and marked worth fixing or not with the reason.
 
@@ -80,7 +80,7 @@ Done when every rendered surface has a base and a head screenshot at every size,
 Stop every app you started, remove the base worktree, and close your driver sessions, keeping the evidence directory. Then return:
 
 - the evidence directory, with each surface's base and head screenshots by size, and each demo;
-- each surface's audit and critique scores;
+- each surface's audit and critique scores, or why it has none;
 - each UI finding with its class, its severity, whether it blocks, and its outcome: fixed with the commit, or left with the reason, open if it blocks and unfixed if it is advisory;
 - each unrendered surface and why;
 - a **UI report** for the caller to post: the items above as a `## UI` section, with each surface's base and head screenshots side by side as Markdown images, and each demo, by their local paths.
