@@ -98,6 +98,32 @@ _Avoid_: retro notes, struggle log, incident log
 The open work that the skill running `closing-the-loop` can still take fixes into, or none; `landing` passes none.
 _Avoid_: current work, in-scope work
 
+## UI validation
+
+**Surface**:
+One place a user sees, such as a page, screen, window, or component, in the state that shows it.
+_Avoid_: view, screen (for the general term), page
+
+**Evidence**:
+The screenshots and demos `validating-ui` captures of each surface at the base and the head, kept out of the change's commits and posted to its PR.
+_Avoid_: artifacts, proof, captures
+
+**Demo**:
+A short video `validating-ui` records of the change's main flow working at the head, posted to the PR as video or a GIF.
+_Avoid_: recording, walkthrough, screencast
+
+**UI finding**:
+A problem `validating-ui` finds on a surface, from impeccable's audit or critique or from running it; blocking or advisory.
+_Avoid_: design issue, visual bug
+
+**Introduced finding**:
+A UI finding present at the head and absent at the base, so the change caused it; only these, and failed acceptance criteria, can block.
+_Avoid_: regression, new issue
+
+**Baseline finding**:
+A UI finding present at the base too, which stays advisory.
+_Avoid_: existing issue, legacy issue
+
 ## Code hosts
 
 **Code host**:

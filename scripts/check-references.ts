@@ -12,6 +12,7 @@ const POINTING_SKILLS = [
   "skills/lane-landing/SKILL.md",
   "skills/addressing-pr-review/SKILL.md",
   "skills/setup-ian-pascoe-skills/SKILL.md",
+  "skills/validating-ui/SKILL.md",
 ];
 
 const HEADINGS = [
@@ -23,6 +24,7 @@ const HEADINGS = [
   "Edit PR body",
   "Comment",
   "List comments",
+  "Attach media",
   "Checks",
   "Review threads",
   "Blocking verdicts",
