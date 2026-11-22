@@ -19,7 +19,7 @@ Screenshots and demos reach the PR through the code host: each code host referen
 ## Consequences
 
 - In a repo with a UI, `setup-ian-pascoe-skills` checks for `impeccable` and runs its `init`, so `audit` and `critique` read a `PRODUCT.md` the user confirmed rather than guessing the product from the code.
-- A native desktop app is reviewed from source, since `impeccable` reaches desktop windows only over CDP; `agent-desktop` still drives its walk, screenshots, and demo.
+- A native desktop app skips `audit` and `critique`, since `impeccable` reaches desktop windows only over CDP and its native path covers only mobile platforms; `agent-desktop` still drives its walk, screenshots, and demo, and the hand back names the skip.
 - A missing prerequisite skips only the part that needs it, and the hand back names it.
 - Landing needs `impeccable`, a driver (`agent-browser` or `agent-desktop`), and `ffmpeg` only in repos whose changes touch UI.
 - In `lane-landing`, each implementer runs `validating-ui` after Build, since its fixes belong in the implementer's worktree, and the orchestrator's review takes its results.

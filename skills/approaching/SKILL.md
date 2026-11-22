@@ -7,7 +7,7 @@ Bring the **change** the user approved onto **approach**: built, its PR open, it
 
 ## Stop at sign-off
 
-Once the PR has passed **Pass checks**, re-read it and confirm the gates landing's **Merge** confirms just before merging, all but the approvals: missing approvals are the sign-off this skill stops for, so they don't hold the change. Anything else blocking, such as a conflict, holds it: escalate.
+Once the PR has passed **Pass checks**, re-read it and confirm the gates landing's **Merge** confirms just before merging, all but the approvals: missing approvals, and the block the host's readiness check shows for them, are the sign-off this skill stops for, so they don't hold the change. Anything else blocking, such as a conflict, holds it: escalate.
 
 Leave the PR open with auto-merge off, and its tickets open for the merge to close. Done when every gate but approvals holds, or the change is held with its escalations.
 

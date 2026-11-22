@@ -18,7 +18,7 @@ Done when every changed file that renders maps to a surface, or to a reason it s
 Pick a **driver** for each surface, loading its guide from its CLI before its first command:
 
 - a web page, or a desktop app on Electron: `agent-browser` (`agent-browser skills get core`, and `agent-browser skills get electron` for Electron).
-- a native desktop app: `agent-desktop` (`agent-desktop skills get platform`). `impeccable` reaches a desktop window only over CDP, so it reviews a native app from source.
+- a native desktop app: `agent-desktop` (`agent-desktop skills get platform`). `impeccable` has no path for a native desktop app, which it reaches neither over CDP nor on its native mobile path, so such a surface skips step 3; the hand back names the skip.
 - a native mobile app: no driver; `impeccable` reviews it from source, on its native path.
 
 A missing prerequisite skips only the part that needs it: without `impeccable`, step 3; without a surface's driver, that surface runs as unrendered; without `ffmpeg`, the demos. Name each in the hand back with its install command from the `ian-pascoe/skills` README's UI validation section, and log it.
@@ -50,7 +50,7 @@ These UI findings block:
 - each introduced P0 or P1;
 - each introduced render failure: a console error, a failed request, broken layout, overflow, or clipped text at a size the surface ships at.
 
-The rest are advisory: introduced P2 and P3, and every baseline finding. A finding is **worth fixing** when it blocks, or when it is advisory, you agree with it, and its fix stays inside the change's spec. A blocker whose fix would reach past the spec, such as a redesign or restyling a surface the change doesn't touch, stays open with that reason, for the caller to fix or for the user to dismiss.
+The rest are advisory: introduced P2 and P3, and every baseline finding. A finding is **worth fixing** when its fix stays inside the change's spec and it blocks, or it is advisory and you agree with it. A blocker whose fix would reach past the spec, such as a redesign or restyling a surface the change doesn't touch, isn't: it stays open with that reason, for the caller to fix or for the user to dismiss.
 
 Done when every finding is classified as blocking or advisory, and marked worth fixing or not with the reason.
 
@@ -58,7 +58,7 @@ Done when every finding is classified as blocking or advisory, and marked worth 
 
 Fix each finding worth fixing, reading `impeccable`'s craft floor before the first edit and the playbook of the command its report suggests. Typecheck and run the tests covering the code you changed, then commit only the paths the fixes touch.
 
-Done when each finding worth fixing is fixed in a commit, or, where its fix failed, is an open blocker or a dropped advisory finding with the reason.
+Done when each finding worth fixing is fixed in a commit, or its fix failed and it is left with the reason: open if it blocks, unfixed if it is advisory.
 
 ## 6. Capture screenshots and a demo
 
@@ -69,7 +69,7 @@ Capture from the head with the fixes, restarting it if it doesn't reload them. E
 **Demo.** Record one short video of the change working at the head: its main flow, as the spec describes it, from the state a user starts in to the result they came for, at the surface's main size. Walk it once unrecorded to find the steps, then take it in one go, paced for a person watching: wait for each step to settle and hold on the result. Keep it under 30 seconds; a change with several independent flows gets one demo each. Save each beside the screenshots as `<flow>-demo.mp4`.
 
 - `agent-browser`: `record start` with an `.mp4` path and `--cursor`, then `record stop`. It needs `ffmpeg`.
-- `agent-desktop` has no recorder: record the window's bounds (`get --property bounds`) with `ffmpeg`'s screen grabber for the OS: `avfoundation` on macOS, `gdigrab` on Windows, `x11grab` on Linux under X11. Where screen recording is denied or unavailable, such as under Wayland, screenshot the window after each step and stitch the frames into an `.mp4` at one frame per second, and say the demo is a slideshow.
+- `agent-desktop` has no recorder: record the window's bounds (`get --property bounds`) with `ffmpeg`'s screen grabber for the OS: `avfoundation` on macOS, which grabs the whole display, so crop it to the bounds at the display's scale (`list-displays`); `gdigrab` on Windows; `x11grab` on Linux under X11. Where screen recording is denied or unavailable, such as under Wayland, screenshot the window after each step and stitch the frames into an `.mp4` at one frame per second, and say the demo is a slideshow.
 
 A demo that shows a failure, such as an error, a stuck state, or a step that does nothing, is an open blocker, not a demo; the rerun after its fix records the demo.
 
@@ -81,7 +81,7 @@ Stop every app you started, remove the base worktree, and close your driver sess
 
 - the evidence directory, with each surface's base and head screenshots by size, and each demo;
 - each surface's audit and critique scores;
-- each UI finding with its class, its severity, whether it blocks, and its outcome: fixed with the commit, dismissed with the reason, open, or advisory;
+- each UI finding with its class, its severity, whether it blocks, and its outcome: fixed with the commit, or left with the reason, open if it blocks and unfixed if it is advisory;
 - each unrendered surface and why;
 - a **UI report** for the caller to post: the items above as a `## UI` section, with each surface's base and head screenshots side by side as Markdown images, and each demo, by their local paths.
 
