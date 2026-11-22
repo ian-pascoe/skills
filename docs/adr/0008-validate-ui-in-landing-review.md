@@ -2,7 +2,7 @@
 
 When a change touches UI, `landing`'s **Review** first runs `validating-ui`, then `code-review` on the diff with its fixes. `validating-ui` runs each touched surface at the fixed point and the head; has impeccable's `audit` and then its `critique` review the head, each in its own subagent so neither anchors the other; fixes the findings worth fixing; and only then captures base and head screenshots and a short demo of the change's main flow working, so the evidence shows the fixed head. A UI finding blocks only when the change introduced it (present at the head, absent at the base) at P0 or P1, when it is a render failure the change introduced, or when the head fails an acceptance criterion the spec sets for the UI; the rest are advisory, fixed when they stay inside the spec. Blockers it leaves open join `code-review`'s, and its UI report rides in the review report naming the head it validated, with the screenshots and demo on the PR.
 
-Screenshots and demos reach the PR through the code host: each code host reference has an **Attach media** heading with the host's upload, where it has one, whether it plays video, and its URL for a committed file. A demo goes up as video where the host plays it (GitHub, GitLab, Gitea, Forgejo), otherwise as a GIF. Where a host can't upload, the evidence is committed to a `ui-evidence/<branch>` branch with no shared history and linked at that commit.
+Screenshots and demos reach the PR through the code host: each code host reference has an **Attach media** heading with the host's upload, where it has one, whether it plays video, and its URL for a committed file. A demo goes up as video where the host plays it (GitHub, GitLab, Gitea, Forgejo), otherwise as a GIF. Where a host can't upload, the evidence is committed under `<branch>/<head>/` on the repo's one `ui-evidence` branch, which shares no history with the code, and linked at that commit.
 
 ## Considered Options
 
@@ -14,7 +14,7 @@ Screenshots and demos reach the PR through the code host: each code host referen
 - **Run `audit` and `critique` in the validating agent**: their findings would anchor each other and the fixes, and their reports would crowd its context. Subagents keep them independent.
 - **Keep the evidence local, shown only in the ledger**: reviewers on the PR would never see it.
 - **Commit the evidence to the change's branch**: it would enter the diff, its review, and the default branch.
-- **One shared evidence branch**: parallel lanes would race to push it. A branch per PR branch never conflicts.
+- **A branch per PR branch**: never races, but leaves a branch behind for every PR that needs it. One `ui-evidence` branch keeps the branch list clean; parallel lanes that race to push it rebase and retry, which never conflicts, since each writes only its own directory.
 
 ## Consequences
 
@@ -26,5 +26,5 @@ Screenshots and demos reach the PR through the code host: each code host referen
 - `critique` spawns its own two assessments where its subagent can; where it can't, it runs its delegated, single-context path and says so.
 - Validation starts the app twice, so it needs a free port and its own driver session when lanes run in parallel.
 - A surface that won't run is reviewed from source and logged as friction, which `closing-the-loop` can turn into a fix to how the repo runs.
-- Evidence branches outlive their PRs, since the links point into them, and a plain clone fetches them; prune them when old PRs no longer need their screenshots.
+- The `ui-evidence` branch outlives every PR it serves, since the links point into it, and a plain clone fetches it; prune its old directories when their PRs no longer need them, keeping the commits the links name.
 - Only GitHub's `--attach` and GitLab's upload are documented end to end; the other hosts' uploads and committed-file rendering carry **Unverified** marks until a run exercises them.
