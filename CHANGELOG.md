@@ -1,5 +1,11 @@
 # @ian-pascoe/skills
 
+## 0.8.1
+
+### Patch Changes
+
+- [#26](https://github.com/ian-pascoe/skills/pull/26) [`e037e46`](https://github.com/ian-pascoe/skills/commit/e037e46e3f973c9dd7305fdb3177f70008fb925e) Thanks [@ian-pascoe](https://github.com/ian-pascoe)! - `lane-landing`: each implementer's branch is cut from the default branch's freshly fetched remote head, so a worktree copied from a stale orchestrator checkout no longer starts on old code.
+
 ## 0.8.0
 
 ### Minor Changes
