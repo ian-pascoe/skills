@@ -1,5 +1,11 @@
 # @ian-pascoe/skills
 
+## 0.8.2
+
+### Patch Changes
+
+- [#28](https://github.com/ian-pascoe/skills/pull/28) [`d2aa4fb`](https://github.com/ian-pascoe/skills/commit/d2aa4fb7ffe91b16e356b27da797694992f0c049) Thanks [@ian-pascoe](https://github.com/ian-pascoe)! - `lane-landing`: when the orchestrator can't read an implementer's worktree, such as one in another container, the implementer pushes each head for review to `wip/<ticket>` for the orchestrator to fetch, instead of pasting its patch into the report. The PR still opens only after review.
+
 ## 0.8.1
 
 ### Patch Changes
